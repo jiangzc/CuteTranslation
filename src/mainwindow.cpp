@@ -4,6 +4,7 @@
 #include <QtMath>
 #include <QColor>
 #include <QDebug>
+#include "xdotool.h"
 
 
 
@@ -29,6 +30,9 @@ bool MainWindow::event(QEvent *e)
     if (e->type() == QEvent::WindowDeactivate)
     {
             qDebug() << "aaa";
+            int x,y;
+            getMousePosition(x, y);
+            qDebug() << x << y;
             this->hide();
     }
     return QMainWindow::event(e);

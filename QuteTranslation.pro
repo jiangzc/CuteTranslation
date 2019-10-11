@@ -22,20 +22,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++11 x11
 
 SOURCES += \
+        src/floatbutton.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
         src/xdotool.cpp
 
 HEADERS += \
-        src/mainwindow.h
+        src/floatbutton.h \
+        src/mainwindow.h \
+        src/xdotool.h
 
 FORMS += \
+        src/floatbutton.ui \
         src/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
