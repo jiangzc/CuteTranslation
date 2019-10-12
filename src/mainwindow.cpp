@@ -30,10 +30,11 @@ bool MainWindow::event(QEvent *e)
     if (e->type() == QEvent::WindowDeactivate)
     {
             qDebug() << "aaa";
-            int x,y;
-            getMousePosition(x, y);
-            qDebug() << x << y;
-            this->hide();
+            //int x,y;
+            //xdotool.getMousePosition(x, y);
+            qDebug() << xdotool.getActiveWindowName();
+            //qDebug() << x << y;
+            // this->hide();
     }
     return QMainWindow::event(e);
 
