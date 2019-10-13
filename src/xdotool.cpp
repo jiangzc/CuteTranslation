@@ -38,7 +38,7 @@ int Xdotool::getMousePosition (int &root_x, int &root_y)
     */
     Window return_window;
     XQueryPointer(display, root_window, &return_window, &return_window, &root_x, &root_y, &root_x, &root_y, &mask);
-    XCloseDisplay(display);
+    // XCloseDisplay(display);
     return 0;
 }
 

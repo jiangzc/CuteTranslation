@@ -21,30 +21,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    picker = new Picker();
-    picker->buttonPressed();
-    connect(picker, &Picker::wordsPicked,
-            this, [=] {qDebug() << "dd" ;this->show(); this->activateWindow();});
+
+    connect(&(xdotool.eventMonitor), &EventMonitor::buttonPress , this, &MainWindow::onMouseButtonPressed ,Qt::QueuedConnection );
+    xdotool.eventMonitor.start();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-bool MainWindow::event(QEvent *e)
-{
-    if (e->type() == QEvent::WindowDeactivate)
-    {
-            qDebug() << "aaa";
-            //int x,y;
-            //xdotool.getMousePosition(x, y);
-            // qDebug() << xdotool.getActiveWindowName();
-            //qDebug() << x << y;
-            this->hide();
-    }
-    return QMainWindow::event(e);
-
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -88,7 +72,13 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 
     painter.drawPolygon(polygon, Qt::WindingFill);
+}
 
-
-
+void MainWindow::onMouseButtonPressed(int x, int y)
+{
+    qDebug() << "cc";
+    if (x < this->x() || x > this->x() + width())
+        hide();
+    if (y < this->y() || y > this->y() + height())
+        hide();
 }

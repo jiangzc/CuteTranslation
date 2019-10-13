@@ -19,8 +19,10 @@ public:
 private:
     Ui::MainWindow *ui;
     void paintEvent(QPaintEvent * event);
-    bool event(QEvent* e);
     Picker *picker;
+
+public slots:
+    void onMouseButtonPressed(int x, int y);
 };
 
 #endif // MAINWINDOW_H

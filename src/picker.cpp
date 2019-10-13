@@ -9,7 +9,7 @@ Picker::Picker(QObject *parent) : QObject(parent)
             this, [=] {
         // do not emit the signal right now, for browser
         text = clipboard->text(QClipboard::Selection);
-        if (isPressed) {emit wordsPicked(text); qDebug() << "bb";}
+        if (!isPressed) {emit wordsPicked(text); qDebug() << "bb";}
     });
 }
 

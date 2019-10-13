@@ -3,6 +3,8 @@
 #include <QLabel>
 #include <QStyleOption>
 #include <QPainter>
+#include "xdotool.h"
+
 
 FloatButton::FloatButton(QWidget *parent) :
     QWidget(parent),
@@ -19,7 +21,18 @@ FloatButton::FloatButton(QWidget *parent) :
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(*pic);
 
-
+    picker = new Picker();
+    picker->buttonReleased();
+    connect(picker, &Picker::wordsPicked,
+            this, [=]
+    {
+        int x, y;
+        xdotool.getMousePosition(x, y);
+        this->move(x - 10, y + 15);
+        this->show(); this->activateWindow();
+    });
+    connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &FloatButton::onMouseButtonPressed ,Qt::QueuedConnection );
+    connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease , this, &FloatButton::onMouseButtonReleased ,Qt::QueuedConnection );
 }
 
 FloatButton::~FloatButton()
@@ -27,5 +40,17 @@ FloatButton::~FloatButton()
     delete ui;
 }
 
+void FloatButton::onMouseButtonPressed(int x, int y)
+{
+    picker->buttonPressed();
 
+    if (x < this->x() || x > this->x() + width())
+        hide();
+    if (y < this->y() || y > this->y() + height())
+        hide();
+}
 
+void FloatButton::onMouseButtonReleased(int x, int y)
+{
+    picker->buttonReleased();
+}

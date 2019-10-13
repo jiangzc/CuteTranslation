@@ -2,7 +2,7 @@
 #define FLOATBUTTON_H
 
 #include <QWidget>
-
+#include "picker.h"
 namespace Ui {
 class FloatButton;
 }
@@ -18,6 +18,9 @@ public:
 
 private:
     Ui::FloatButton *ui;
+    Picker *picker;
+    void onMouseButtonPressed(int x, int y);
+    void onMouseButtonReleased(int x, int y);
 };
 
 #endif // FLOATBUTTON_H
