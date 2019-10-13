@@ -28,11 +28,13 @@ SOURCES += \
         src/floatbutton.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
+        src/picker.cpp \
         src/xdotool.cpp
 
 HEADERS += \
         src/floatbutton.h \
         src/mainwindow.h \
+        src/picker.h \
         src/xdotool.h
 
 FORMS += \
