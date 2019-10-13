@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     this->setAttribute(Qt::WA_TranslucentBackground);
     picker = new Picker();
     picker->buttonPressed();
@@ -39,7 +39,7 @@ bool MainWindow::event(QEvent *e)
             qDebug() << "aaa";
             //int x,y;
             //xdotool.getMousePosition(x, y);
-            qDebug() << xdotool.getActiveWindowName();
+            // qDebug() << xdotool.getActiveWindowName();
             //qDebug() << x << y;
             this->hide();
     }

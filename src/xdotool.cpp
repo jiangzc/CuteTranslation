@@ -1,6 +1,5 @@
-#include <X11/Xlib.h>
-#include <stdio.h>
 #include "xdotool.h"
+#include <stdio.h>
 
 #define MAXSTR 1000
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui x11extras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,8 +23,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++11 x11
+PKGCONFIG += xcb xcb-util
+LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
+        src/event_monitor.cpp \
         src/floatbutton.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
@@ -32,6 +35,7 @@ SOURCES += \
         src/xdotool.cpp
 
 HEADERS += \
+        src/event_monitor.h \
         src/floatbutton.h \
         src/mainwindow.h \
         src/picker.h \

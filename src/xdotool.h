@@ -1,7 +1,7 @@
-
 #ifndef XDOTOOL_H
 #define XDOTOOL_H
-#include <X11/Xlib.h>
+#include <QPoint>
+#include "event_monitor.h"
 
 
 class Xdotool
@@ -12,10 +12,14 @@ public:
     Display *display;
     int screen;
     Window root_window;
-
+    bool isRecording;
+    QPoint leftButtonPressedPosition;
+    QPoint leftButtonReleasedPosition;
     int getMousePosition (int &root_x, int &root_y);
     unsigned long getActiveWindowPID();
     char* getActiveWindowName();
+    EventMonitor eventMonitor;
+
 private:
     unsigned char *prop;
     void check_status(int status, unsigned long window);
