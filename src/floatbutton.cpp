@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QStyleOption>
 #include <QPainter>
+#include <QMouseEvent>
 #include "xdotool.h"
 
 
@@ -23,8 +24,7 @@ FloatButton::FloatButton(QWidget *parent) :
 
     picker = new Picker();
     picker->buttonReleased();
-    connect(picker, &Picker::wordsPicked,
-            this, [=]
+    connect(picker, &Picker::wordsPicked, this, [=]
     {
         int x, y;
         xdotool.getMousePosition(x, y);
@@ -33,6 +33,7 @@ FloatButton::FloatButton(QWidget *parent) :
     });
     connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &FloatButton::onMouseButtonPressed ,Qt::QueuedConnection );
     connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease , this, &FloatButton::onMouseButtonReleased ,Qt::QueuedConnection );
+
 }
 
 FloatButton::~FloatButton()
@@ -44,13 +45,35 @@ void FloatButton::onMouseButtonPressed(int x, int y)
 {
     picker->buttonPressed();
 
-    if (x < this->x() || x > this->x() + width())
+    if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
         hide();
-    if (y < this->y() || y > this->y() + height())
-        hide();
+    else
+    {
+        mousePressPosition.setX(x);
+        mousePressPosition.setY(y);
+    }
+
+
 }
 
 void FloatButton::onMouseButtonReleased(int x, int y)
 {
     picker->buttonReleased();
+    if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
+        ;
+    else
+    {
+        mouseReleasedPosition.setX(x);
+        mouseReleasedPosition.setY(y);
+    }
+}
+
+void FloatButton::mousePressEvent(QMouseEvent *event)
+{
+//    重写窗口鼠标按下事件
+    if (event->button() == Qt::LeftButton)
+    {
+        emit pressed();
+        this->hide();
+    }
 }

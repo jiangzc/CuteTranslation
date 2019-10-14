@@ -16,11 +16,21 @@ public:
 
     ~FloatButton();
 
+protected:
+    void mousePressEvent(QMouseEvent *);
+
+signals:
+    void pressed();
+
 private:
     Ui::FloatButton *ui;
     Picker *picker;
-    void onMouseButtonPressed(int x, int y);
-    void onMouseButtonReleased(int x, int y);
+    QPoint mousePressPosition;
+    QPoint mouseReleasedPosition;
+    void onMouseButtonPressed(int x, int y); // global listen
+    void onMouseButtonReleased(int x, int y); // global listen
+
+
 };
 
 #endif // FLOATBUTTON_H

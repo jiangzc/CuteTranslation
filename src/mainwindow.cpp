@@ -21,8 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     this->setAttribute(Qt::WA_TranslucentBackground);
-
-    connect(&(xdotool.eventMonitor), &EventMonitor::buttonPress , this, &MainWindow::onMouseButtonPressed ,Qt::QueuedConnection );
+    connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &MainWindow::onMouseButtonPressed ,Qt::QueuedConnection );
     xdotool.eventMonitor.start();
 }
 
@@ -81,4 +80,9 @@ void MainWindow::onMouseButtonPressed(int x, int y)
         hide();
     if (y < this->y() || y > this->y() + height())
         hide();
+}
+
+void MainWindow::onFloatButtonPressed()
+{
+    this->show();
 }

@@ -23,6 +23,7 @@ private:
 
 public slots:
     void onMouseButtonPressed(int x, int y);
+    void onFloatButtonPressed();
 };
 
 #endif // MAINWINDOW_H

@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     w.show();
 
     w.activateWindow();
+    QObject::connect(&f, &FloatButton::pressed, &w, &MainWindow::onFloatButtonPressed);
 
 
     return a.exec();
