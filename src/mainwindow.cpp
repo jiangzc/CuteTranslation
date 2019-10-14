@@ -7,7 +7,7 @@
 #include "xdotool.h"
 
 // TODO:
-// 四种选择方向，mainWin出现的位置相应变化
+
 // 根据鼠标位置和屏幕大小，设置mainWin方向
 
 const int Triangle_Height = 15;
