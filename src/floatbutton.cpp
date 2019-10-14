@@ -4,6 +4,7 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QDebug>
 #include "xdotool.h"
 
 
@@ -46,11 +47,18 @@ void FloatButton::onMouseButtonPressed(int x, int y)
     picker->buttonPressed();
 
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
-        hide();
-    else
     {
+        hide();
         mousePressPosition.setX(x);
         mousePressPosition.setY(y);
+        qDebug() << "press:" << mousePressPosition;
+    }
+
+    else
+    {
+        //mousePressPosition.setX(x);
+       // mousePressPosition.setY(y);
+        //qDebug() << "press:" << mousePressPosition;
     }
 
 
@@ -60,20 +68,26 @@ void FloatButton::onMouseButtonReleased(int x, int y)
 {
     picker->buttonReleased();
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
-        ;
-    else
     {
         mouseReleasedPosition.setX(x);
         mouseReleasedPosition.setY(y);
+         qDebug() << "release:" << mouseReleasedPosition;
+    }
+    else
+    {
+        //mouseReleasedPosition.setX(x);
+       // mouseReleasedPosition.setY(y);
+        // qDebug() << "release:" << mouseReleasedPosition;
     }
 }
 
 void FloatButton::mousePressEvent(QMouseEvent *event)
 {
-//    重写窗口鼠标按下事件
+    // 重写窗口鼠标按下事件
     if (event->button() == Qt::LeftButton)
     {
-        emit pressed();
+        QPoint mid = QPoint((mousePressPosition.x() + mouseReleasedPosition.x()) / 2, mouseReleasedPosition.y());
+        emit pressed(mid);
         this->hide();
     }
 }

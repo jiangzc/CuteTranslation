@@ -82,7 +82,10 @@ void MainWindow::onMouseButtonPressed(int x, int y)
         hide();
 }
 
-void MainWindow::onFloatButtonPressed()
+void MainWindow::onFloatButtonPressed(QPoint mid)
 {
+    mid.rx() -= this->width() / 2;
+    qDebug() << mid;
+    move(mid);
     this->show();
 }

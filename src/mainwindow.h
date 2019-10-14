@@ -23,7 +23,7 @@ private:
 
 public slots:
     void onMouseButtonPressed(int x, int y);
-    void onFloatButtonPressed();
+    void onFloatButtonPressed(QPoint mid);
 };
 
 #endif // MAINWINDOW_H
