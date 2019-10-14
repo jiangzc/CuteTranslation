@@ -22,7 +22,7 @@ private:
     Picker *picker;
     const int Triangle_Height = 15;
     const int Triangle_Width = 15;
-    int Triangle_offset = 0;
+    int Triangle_Offset = 0;
     const int Direction_Up = 0;
     const int Direction_Down = 1;
     int Direction = Direction_Up;
