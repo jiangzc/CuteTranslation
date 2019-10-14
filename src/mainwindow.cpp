@@ -4,6 +4,7 @@
 #include <QtMath>
 #include <QColor>
 #include <QDebug>
+#include <algorithm>
 #include "xdotool.h"
 
 // TODO:
@@ -79,11 +80,20 @@ void MainWindow::onMouseButtonPressed(int x, int y)
         hide();
 }
 
-void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint onMouseButtonReleased)
+void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-
     // 默认方向向上
+    Direction = Direction_Up;
+    QPoint mid = QPoint((mousePressPosition.x() + mouseReleasedPosition.x()) / 2,
+                         std::max(mousePressPosition.y(), mouseReleasedPosition.y()));
+    mid.rx() -= this->width() / 2;
+    mid.ry() += 15;
+    // 判断是否超出屏幕边界
+    if (mid.y() + this->height() > xdotool.screenHeight)
+    {
+        Direction = Direction_Down;
 
+    }
     move(mid);
     this->show();
 }

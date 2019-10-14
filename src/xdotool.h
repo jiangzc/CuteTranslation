@@ -19,6 +19,8 @@ public:
     unsigned long getActiveWindowPID();
     char* getActiveWindowName();
     EventMonitor eventMonitor;
+    int screenWidth;
+    int screenHeight;
 
 private:
     unsigned char *prop;

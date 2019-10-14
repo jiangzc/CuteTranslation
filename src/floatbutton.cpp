@@ -5,8 +5,6 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
-#include <QtMath>
-#include <algorithm>
 #include "xdotool.h"
 
 
@@ -84,9 +82,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     // 重写窗口鼠标按下事件
     if (event->button() == Qt::LeftButton)
     {
-        QPoint mid = QPoint((mousePressPosition.x() + mouseReleasedPosition.x()) / 2,
-                            std::max(mousePressPosition.y(), mouseReleasedPosition.y()));
-        emit pressed(mid);
+        emit pressed(mousePressPosition, mouseReleasedPosition);
         this->hide();
     }
 }

@@ -20,8 +20,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
 
 signals:
-    void pressed(QPoint mid); // QPoint mid is mid-down-point of mousePressPosition and onMouseButtonReleased
-
+    void pressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
 private:
     Ui::FloatButton *ui;
     Picker *picker;
