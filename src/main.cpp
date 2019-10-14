@@ -2,7 +2,10 @@
 #include "floatbutton.h"
 #include <QApplication>
 #include <QDebug>
+#include <QGuiApplication>
+#include <QScreen>
 #include "event_monitor.h"
+#include "xdotool.h"
 
 
 
@@ -10,8 +13,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-
-
+    // QGuiApplication::screens().
+    xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
+    xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
     FloatButton f;
     // f.show();
     f.move(800,500);

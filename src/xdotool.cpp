@@ -1,6 +1,7 @@
 #include "xdotool.h"
 #include <stdio.h>
 
+
 #define MAXSTR 1000
 
 Xdotool xdotool;
@@ -14,9 +15,9 @@ Xdotool::Xdotool()
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
-    Screen*  s = DefaultScreenOfDisplay(display);
-    screenWidth = s->width;
-    screenHeight = s->height;
+
+
+
 }
 
 Xdotool::~Xdotool()

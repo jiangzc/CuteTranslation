@@ -92,7 +92,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     if (mid.y() + this->height() > xdotool.screenHeight)
     {
         Direction = Direction_Down;
-
+        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
     }
     move(mid);
     this->show();
