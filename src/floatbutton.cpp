@@ -53,12 +53,9 @@ void FloatButton::onMouseButtonPressed(int x, int y)
         mousePressPosition.setY(y);
         qDebug() << "press:" << mousePressPosition;
     }
-
     else
     {
-        //mousePressPosition.setX(x);
-       // mousePressPosition.setY(y);
-        //qDebug() << "press:" << mousePressPosition;
+
     }
 
 
@@ -71,13 +68,11 @@ void FloatButton::onMouseButtonReleased(int x, int y)
     {
         mouseReleasedPosition.setX(x);
         mouseReleasedPosition.setY(y);
-         qDebug() << "release:" << mouseReleasedPosition;
+        qDebug() << "release:" << mouseReleasedPosition;
     }
     else
     {
-        //mouseReleasedPosition.setX(x);
-       // mouseReleasedPosition.setY(y);
-        // qDebug() << "release:" << mouseReleasedPosition;
+
     }
 }
 

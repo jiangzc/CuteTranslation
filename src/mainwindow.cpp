@@ -6,7 +6,9 @@
 #include <QDebug>
 #include "xdotool.h"
 
-
+// TODO:
+// 四种选择方向，mainWin出现的位置相应变化
+// 根据鼠标位置和屏幕大小，设置mainWin方向
 
 const int Triangle_Height = 15;
 const int Triangle_Width = 15;
@@ -85,7 +87,8 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 void MainWindow::onFloatButtonPressed(QPoint mid)
 {
     mid.rx() -= this->width() / 2;
-    qDebug() << mid;
+    mid.ry() += 10;
+    qDebug() << "mid" << mid;
     move(mid);
     this->show();
 }
