@@ -10,11 +10,6 @@
 
 // 根据鼠标位置和屏幕大小，设置mainWin方向
 
-const int Triangle_Height = 15;
-const int Triangle_Width = 15;
-const int Direction_Up = 0;
-const int Direction_Down = 1;
-int Direction = Direction_Up;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -84,11 +79,11 @@ void MainWindow::onMouseButtonPressed(int x, int y)
         hide();
 }
 
-void MainWindow::onFloatButtonPressed(QPoint mid)
+void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint onMouseButtonReleased)
 {
-    mid.rx() -= this->width() / 2;
-    mid.ry() += 10;
-    qDebug() << "mid" << mid;
+
+    // 默认方向向上
+
     move(mid);
     this->show();
 }
