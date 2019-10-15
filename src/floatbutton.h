@@ -18,7 +18,7 @@ public:
     ~FloatButton();
 
 protected:
-    void _mousePressEvent();
+    void mousePressEvent(QMouseEvent *event);
 
 signals:
     void floatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
