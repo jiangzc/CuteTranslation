@@ -1,7 +1,6 @@
 #include "xdotool.h"
 #include <stdio.h>
 
-
 #define MAXSTR 1000
 
 Xdotool xdotool;
@@ -11,13 +10,10 @@ Xdotool::Xdotool()
     this->display = XOpenDisplay(nullptr);
     if (this->display == nullptr)
     {
-        fprintf (stderr, "xdotool: fail to open display\n");
+        fprintf(stderr, "xdotool: fail to open display\n");
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
-
-
-
 }
 
 Xdotool::~Xdotool()
@@ -25,8 +21,7 @@ Xdotool::~Xdotool()
     XCloseDisplay(display);
 }
 
-
-int Xdotool::getMousePosition (int &root_x, int &root_y)
+int Xdotool::getMousePosition(int &root_x, int &root_y)
 {
     unsigned int mask;
 
@@ -48,16 +43,18 @@ int Xdotool::getMousePosition (int &root_x, int &root_y)
 
 void Xdotool::check_status(int status, Window window)
 {
-    if (status == BadWindow) {
+    if (status == BadWindow)
+    {
         printf("window id # 0x%lx does not exists!", window);
     }
 
-    if (status != Success) {
+    if (status != Success)
+    {
         printf("XGetWindowProperty failed!");
     }
 }
 
-unsigned char* Xdotool::get_string_property(const char* property_name, Window window)
+unsigned char *Xdotool::get_string_property(const char *property_name, Window window)
 {
     Atom actual_type, filter_atom;
     int actual_format, status;
@@ -70,10 +67,10 @@ unsigned char* Xdotool::get_string_property(const char* property_name, Window wi
     return prop;
 }
 
-unsigned long Xdotool::get_long_property(const char* property_name, Window window)
+unsigned long Xdotool::get_long_property(const char *property_name, Window window)
 {
     get_string_property(property_name, window);
-    unsigned long long_property = static_cast<unsigned long>(prop[0] + (prop[1]<<8) + (prop[2]<<16) + (prop[3]<<24));
+    unsigned long long_property = static_cast<unsigned long>(prop[0] + (prop[1] << 8) + (prop[2] << 16) + (prop[3] << 24));
     return long_property;
 }
 
@@ -84,11 +81,10 @@ unsigned long Xdotool::getActiveWindowPID()
     return get_long_property(("_NET_WM_PID"), window);
 }
 
-char* Xdotool::getActiveWindowName()
+char *Xdotool::getActiveWindowName()
 {
     unsigned long window;
     window = get_long_property("_NET_ACTIVE_WINDOW", root_window);
     get_string_property("_NET_WM_NAME", window);
-    return reinterpret_cast<char *>(prop) ;
-
+    return reinterpret_cast<char *>(prop);
 }

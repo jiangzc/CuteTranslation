@@ -1,10 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include "picker.h"
+#include <QMainWindow>
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -12,13 +13,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
+  private:
     Ui::MainWindow *ui;
-    void paintEvent(QPaintEvent * event);
+    void paintEvent(QPaintEvent *event);
     Picker *picker;
     const int Triangle_Height = 15;
     const int Triangle_Width = 15;
@@ -27,7 +28,7 @@ private:
     const int Direction_Down = 1;
     int Direction = Direction_Up;
 
-public slots:
+  public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
 };

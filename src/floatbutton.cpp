@@ -1,17 +1,15 @@
+#include <QDebug>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QStyleOption>
+
 #include "floatbutton.h"
 #include "ui_floatbutton.h"
-#include <QLabel>
-#include <QStyleOption>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QDebug>
 #include "xdotool.h"
 
-
-
-FloatButton::FloatButton(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::FloatButton)
+FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
+                                            ui(new Ui::FloatButton)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
@@ -26,17 +24,16 @@ FloatButton::FloatButton(QWidget *parent) :
 
     picker = new Picker();
     picker->buttonReleased();
-    connect(picker, &Picker::wordsPicked, this, [=](QString text)
-    {
+    connect(picker, &Picker::wordsPicked, this, [=](QString text) {
         qDebug() << "Text from picker" << text;
         int x, y;
         xdotool.getMousePosition(x, y);
         this->move(x - 10, y + 15);
-        this->show(); this->activateWindow();
+        this->show();
+        this->activateWindow();
     });
-    connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &FloatButton::onMouseButtonPressed ,Qt::QueuedConnection );
-    connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease , this, &FloatButton::onMouseButtonReleased ,Qt::QueuedConnection );
-
+    connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
+    connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
 }
 
 FloatButton::~FloatButton()
@@ -62,13 +59,9 @@ void FloatButton::onMouseButtonPressed(int x, int y)
         }
         else
         {
-             // go to mousePressEvent
+            // go to mousePressEvent
         }
     }
-
-
-
-
 }
 
 void FloatButton::onMouseButtonReleased(int x, int y)
@@ -82,7 +75,6 @@ void FloatButton::onMouseButtonReleased(int x, int y)
     }
     else
     {
-
     }
 }
 
@@ -93,6 +85,5 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     {
         this->hide();
         emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
-
     }
 }

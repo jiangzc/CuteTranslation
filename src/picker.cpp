@@ -1,12 +1,12 @@
-#include "picker.h"
 #include <QApplication>
 #include <QDebug>
+#include "picker.h"
+
 
 Picker::Picker(QObject *parent) : QObject(parent)
 {
     clipboard = QApplication::clipboard();
-    connect(clipboard, &QClipboard::selectionChanged, this, [=]
-    {
+    connect(clipboard, &QClipboard::selectionChanged, this, [=] {
         // do not emit the signal right now, for browser
         text = clipboard->text(QClipboard::Selection);
         if (!isPressed)
@@ -34,5 +34,5 @@ void Picker::buttonReleased()
 QString Picker::getSelectedText()
 {
     return clipboard->text(QClipboard::Selection);
-//    return "Picker";
+    //    return "Picker";
 }

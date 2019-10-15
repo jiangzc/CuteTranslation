@@ -1,20 +1,19 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QPainter>
-#include <QtMath>
 #include <QColor>
 #include <QDebug>
+#include <QPainter>
+#include <QtMath>
 #include <algorithm>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "xdotool.h"
 
 // TODO:
 
 // 根据鼠标位置和屏幕大小，设置mainWin方向
 
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
+                                          ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
@@ -50,22 +49,22 @@ void MainWindow::paintEvent(QPaintEvent *event)
     {
         polygon << QPoint(0, 0);
         polygon << QPoint(this->width(), 0);
-        polygon << QPoint(this->width() ,this->height() - Triangle_Height);
+        polygon << QPoint(this->width(), this->height() - Triangle_Height);
         polygon << QPoint(this->width() / 2 + Triangle_Width + Triangle_Offset, this->height() - Triangle_Height);
-        polygon << QPoint(this->width() / 2 + Triangle_Offset , this->height());
+        polygon << QPoint(this->width() / 2 + Triangle_Offset, this->height());
         polygon << QPoint(this->width() / 2 - Triangle_Width + Triangle_Offset, this->height() - Triangle_Height);
-        polygon << QPoint(0 ,this->height() - Triangle_Height);
+        polygon << QPoint(0, this->height() - Triangle_Height);
     }
     else if (Direction == Direction_Up)
     {
         centralWidget()->move(centralWidget()->x(), Triangle_Height);
         polygon << QPoint(0, Triangle_Height);
         polygon << QPoint(this->width() / 2 - Triangle_Width + Triangle_Offset, Triangle_Height);
-        polygon << QPoint(this->width() / 2 + Triangle_Offset , 0);
+        polygon << QPoint(this->width() / 2 + Triangle_Offset, 0);
         polygon << QPoint(this->width() / 2 + Triangle_Width + Triangle_Offset, Triangle_Height);
         polygon << QPoint(this->width(), Triangle_Height);
-        polygon << QPoint(this->width() ,this->height());
-        polygon << QPoint(0 ,this->height());
+        polygon << QPoint(this->width(), this->height());
+        polygon << QPoint(0, this->height());
     }
 
     painter.drawPolygon(polygon, Qt::WindingFill);
@@ -85,7 +84,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     Direction = Direction_Up;
     Triangle_Offset = 0;
     QPoint mid = QPoint((mousePressPosition.x() + mouseReleasedPosition.x()) / 2,
-                         std::max(mousePressPosition.y(), mouseReleasedPosition.y()));
+                        std::max(mousePressPosition.y(), mouseReleasedPosition.y()));
     mid.rx() -= this->width() / 2;
     mid.ry() += 15;
     // 判断是否超出屏幕下边界
