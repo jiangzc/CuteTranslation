@@ -73,7 +73,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::onMouseButtonPressed(int x, int y)
 {
-    qDebug() << "cc";
     if (x < this->x() || x > this->x() + width())
         hide();
     if (y < this->y() || y > this->y() + height())
@@ -114,6 +113,5 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         // Triangle_Offset = -Triangle_Offset;
     }
     move(mid);
-    qDebug() << "geo" << this->geometry();
     this->show();
 }

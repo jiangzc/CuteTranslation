@@ -45,13 +45,13 @@ FloatButton::~FloatButton()
 
 void FloatButton::onMouseButtonPressed(int x, int y)
 {
+    qDebug() << "FloatButton::onMouseButtonPressed, press at :" << mousePressPosition;
     picker->buttonPressed();
     mainWindow->onMouseButtonPressed(x, y);
     if (this->isHidden())
     {
         mousePressPosition.setX(x);
         mousePressPosition.setY(y);
-        qDebug() << "press:" << mousePressPosition;
     }
     else
     {
@@ -72,12 +72,12 @@ void FloatButton::onMouseButtonPressed(int x, int y)
 
 void FloatButton::onMouseButtonReleased(int x, int y)
 {
+    qDebug() << "FloatButton::onMouseButtonReleased, release at " << mouseReleasedPosition;
     picker->buttonReleased();
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
     {
         mouseReleasedPosition.setX(x);
         mouseReleasedPosition.setY(y);
-        qDebug() << "release:" << mouseReleasedPosition;
     }
     else
     {
