@@ -24,8 +24,11 @@ void Picker::buttonReleased()
 {
     this->isPressed = false;
     // to get the selected text
-    qDebug() << "Text from picker" << text;
-    if (text != "") emit wordsPicked(text);
+    if (text != "")
+    {
+        // qDebug() << "Text from picker" << text;
+        emit wordsPicked(text);
+    }
 }
 
 QString Picker::getSelectedText()
