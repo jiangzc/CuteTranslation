@@ -3,9 +3,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 
-#include "event_monitor.h"
 #include "floatbutton.h"
-#include "mainwindow.h"
 #include "xdotool.h"
 
 int main(int argc, char *argv[])
