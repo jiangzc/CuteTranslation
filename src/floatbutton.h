@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "picker.h"
+#include "mainwindow.h"
 namespace Ui {
 class FloatButton;
 }
@@ -13,14 +14,14 @@ class FloatButton : public QWidget
 
 public:
     explicit FloatButton(QWidget *parent = nullptr);
-
+    MainWindow *mainWindow;
     ~FloatButton();
 
 protected:
-    void mousePressEvent(QMouseEvent *);
+    void _mousePressEvent();
 
 signals:
-    void pressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
+    void floatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
 private:
     Ui::FloatButton *ui;
     Picker *picker;

@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &MainWindow::onMouseButtonPressed ,Qt::QueuedConnection );
+    // connect(&xdotool.eventMonitor, &EventMonitor::buttonPress , this, &MainWindow::onMouseButtonPressed ,Qt::QueuedConnection );
     xdotool.eventMonitor.start();
 }
 
@@ -114,5 +114,6 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         // Triangle_Offset = -Triangle_Offset;
     }
     move(mid);
+    qDebug() << "geo" << this->geometry();
     this->show();
 }

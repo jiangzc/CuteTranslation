@@ -46,18 +46,26 @@ FloatButton::~FloatButton()
 void FloatButton::onMouseButtonPressed(int x, int y)
 {
     picker->buttonPressed();
-
-    if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
+    mainWindow->onMouseButtonPressed(x, y);
+    if (this->isHidden())
     {
-        hide();
         mousePressPosition.setX(x);
         mousePressPosition.setY(y);
         qDebug() << "press:" << mousePressPosition;
     }
     else
     {
-
+        if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
+        {
+            hide();
+        }
+        else
+        {
+             _mousePressEvent();
+        }
     }
+
+
 
 
 }
@@ -77,12 +85,11 @@ void FloatButton::onMouseButtonReleased(int x, int y)
     }
 }
 
-void FloatButton::mousePressEvent(QMouseEvent *event)
+void FloatButton::_mousePressEvent()
 {
-    // 重写窗口鼠标按下事件
-    if (event->button() == Qt::LeftButton)
-    {
-        emit pressed(mousePressPosition, mouseReleasedPosition);
-        this->hide();
-    }
+    qDebug() << "press floatbutton";
+    this->hide();
+    emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
+
+
 }

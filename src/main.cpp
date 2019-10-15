@@ -22,11 +22,12 @@ int main(int argc, char *argv[])
 
 
     MainWindow w;
+    f.mainWindow = &w;
     w.setGeometry(800,200,400,300);
     w.show();
 
     w.activateWindow();
-    QObject::connect(&f, &FloatButton::pressed, &w, &MainWindow::onFloatButtonPressed);
+    QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
 
 
     return a.exec();
