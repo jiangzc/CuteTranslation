@@ -30,7 +30,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
         xdotool.getMousePosition(x, y);
         this->move(x - 10, y + 15);
         this->show();
-        this->activateWindow();
+        // this->activateWindow();
     });
     connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
@@ -43,19 +43,24 @@ FloatButton::~FloatButton()
 
 void FloatButton::onMouseButtonPressed(int x, int y)
 {
-    qDebug() << "FloatButton::onMouseButtonPressed, press at :" << mousePressPosition;
+    // qDebug() << "FloatButton::onMouseButtonPressed, press at :" << mousePressPosition;
     picker->buttonPressed();
     mainWindow->onMouseButtonPressed(x, y);
-    if (this->isHidden())
+    if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
     {
         mousePressPosition.setX(x);
         mousePressPosition.setY(y);
+    }
+    if (this->isHidden())
+    {
+
     }
     else
     {
         if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
         {
             hide();
+            move(0, 0);
         }
         else
         {
@@ -66,15 +71,12 @@ void FloatButton::onMouseButtonPressed(int x, int y)
 
 void FloatButton::onMouseButtonReleased(int x, int y)
 {
-    qDebug() << "FloatButton::onMouseButtonReleased, release at " << mouseReleasedPosition;
+    // qDebug() << "FloatButton::onMouseButtonReleased, release at " << mouseReleasedPosition;
     picker->buttonReleased();
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
     {
         mouseReleasedPosition.setX(x);
         mouseReleasedPosition.setY(y);
-    }
-    else
-    {
     }
 }
 
@@ -84,6 +86,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         this->hide();
+        qDebug() << "floatButtonPressed";
         emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
     }
 }

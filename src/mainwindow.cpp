@@ -72,10 +72,9 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
 void MainWindow::onMouseButtonPressed(int x, int y)
 {
-    if (x < this->x() || x > this->x() + width())
+    if (!this->isHidden() && (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height()))
         hide();
-    if (y < this->y() || y > this->y() + height())
-        hide();
+
 }
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
@@ -112,5 +111,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         // Triangle_Offset = -Triangle_Offset;
     }
     move(mid);
+    ui->label->setText(picker->getSelectedText());
+    ui->textBrowser->setText(picker->getSelectedText());
     this->show();
 }
