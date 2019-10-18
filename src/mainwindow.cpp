@@ -10,7 +10,7 @@
 
 // TODO:
 
-// 根据鼠标位置和屏幕大小，设置mainWin方向
+// 右键菜单，配置文件
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
