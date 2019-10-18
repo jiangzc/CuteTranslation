@@ -25,6 +25,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     picker = new Picker();
     picker->buttonReleased();
     connect(picker, &Picker::wordsPicked, this, [=](QString text) {
+        qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         qDebug() << "Text from picker" << text;
         int x, y;
         xdotool.getMousePosition(x, y);

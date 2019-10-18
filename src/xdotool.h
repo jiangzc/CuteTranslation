@@ -1,7 +1,9 @@
 #ifndef XDOTOOL_H
 #define XDOTOOL_H
+#include "unistd.h"
 #include "event_monitor.h"
 #include <QPoint>
+#include <QString>
 
 class Xdotool
 {
@@ -10,7 +12,8 @@ class Xdotool
     ~Xdotool();
     int getMousePosition(int &root_x, int &root_y);
     unsigned long getActiveWindowPID();
-    char *getActiveWindowName();
+    QString getActiveWindowName();
+    QString getProcessPathByPID(unsigned long pid);
     EventMonitor eventMonitor;
     int screenWidth;
     int screenHeight;

@@ -81,10 +81,24 @@ unsigned long Xdotool::getActiveWindowPID()
     return get_long_property(("_NET_WM_PID"), window);
 }
 
-char *Xdotool::getActiveWindowName()
+QString Xdotool::getActiveWindowName()
 {
     unsigned long window;
     window = get_long_property("_NET_ACTIVE_WINDOW", root_window);
     get_string_property("_NET_WM_NAME", window);
-    return reinterpret_cast<char *>(prop);
+    return QString(reinterpret_cast<char *>(prop));
+}
+
+QString Xdotool::getProcessPathByPID(unsigned long pid)
+{
+    char path[30];
+    sprintf(path, "/proc/%ld/exe", pid);
+    char buff[100];
+    ssize_t buff_len;
+    if ((buff_len = readlink(path, buff, 99)) != -1)
+    {
+        buff[buff_len] = '\0';
+        return QString(buff);
+    }
+    return QString("");
 }
