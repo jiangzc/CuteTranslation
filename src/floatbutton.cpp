@@ -33,6 +33,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
         this->show();
         // this->activateWindow();
     });
+
     connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
 }
