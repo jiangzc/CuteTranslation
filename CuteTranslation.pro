@@ -27,6 +27,7 @@ PKGCONFIG += xcb xcb-util
 LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
+        src/configtool.cpp \
         src/event_monitor.cpp \
         src/floatbutton.cpp \
         src/main.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
         src/xdotool.cpp
 
 HEADERS += \
+        src/configtool.h \
         src/event_monitor.h \
         src/floatbutton.h \
         src/mainwindow.h \

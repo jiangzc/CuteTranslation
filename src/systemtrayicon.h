@@ -15,6 +15,7 @@ class SystemTrayIcon : public QSystemTrayIcon
     QAction config_action;
     QAction help_action;
     QAction search_action;
+    QAction ocr_action;
     QAction change_mode_all_action;
     QAction change_mode_none_action;
     QAction change_mode_custom_action;

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "picker.h"
+#include "configtool.h"
 #include <QMainWindow>
 
 namespace Ui
@@ -21,9 +22,9 @@ class MainWindow : public QMainWindow
     Ui::MainWindow *ui;
     void paintEvent(QPaintEvent *event);
     Picker *picker;
-    const int Triangle_Height = 15;
-    const int Triangle_Width = 15;
-    int Triangle_Offset = 0;
+    const int TriangleHeight = configTool.TriangleHeight;
+    const int TriangleWidth = configTool.TriangleWidth;
+    int TriangleOffset = 0;
     const int Direction_Up = 0;
     const int Direction_Down = 1;
     int Direction = Direction_Up;

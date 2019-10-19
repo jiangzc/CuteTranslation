@@ -1,0 +1,18 @@
+#include "configtool.h"
+
+
+ConfigTool::ConfigTool() : settings("/opt/CuteTranslation/config.ini", QSettings::IniFormat)
+{
+    Mode = settings.value("/Genenal/Mode", "all").toString();
+    TriangleWidth = settings.value("/Genenal/TriangleWidth", 15).toInt();
+    TriangleHeight = settings.value("/Genenal/TriangleHeight", 15).toInt();
+    Edge = settings.value("/Genenal/Edge", 15).toInt();
+    MainWindowWidth = settings.value("/Genenal/MainWindowWidth").toInt();
+    MainWindowHeight = settings.value("/Genenal/MainWindowHeight").toInt();
+    FloatButtonWidth = settings.value("/Genenal/FloatButtonWidth").toInt();
+    FloatButtonHeight = settings.value("/Genenal/FloatButtonHeight").toInt();
+
+    Default = (settings.value("/Custom/Default").toString() == "on" ? true : false);
+}
+
+ConfigTool configTool;
