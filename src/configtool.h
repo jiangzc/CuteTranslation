@@ -13,6 +13,7 @@ class ConfigTool
     int TriangleHeight;
     int TriangleWidth;
     int Edge;
+    int Direction;
     int MainWindowWidth;
     int MainWindowHeight;
     int FloatButtonWidth;

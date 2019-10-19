@@ -27,7 +27,7 @@ class MainWindow : public QMainWindow
     int TriangleOffset = 0;
     const int Direction_Up = 0;
     const int Direction_Down = 1;
-    int Direction = Direction_Up;
+    int Direction;
 
   public slots:
     void onMouseButtonPressed(int x, int y);

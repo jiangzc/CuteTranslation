@@ -78,14 +78,25 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
     // 默认方向向上 重置三角形偏移量
-    Direction = Direction_Up;
+    Direction = configTool.Direction;
     TriangleOffset = 0;
-    QPoint mid = QPoint((mousePressPosition.x() + mouseReleasedPosition.x()) / 2,
-                        std::max(mousePressPosition.y(), mouseReleasedPosition.y()));
-    mid.rx() -= this->width() / 2;
-    mid.ry() += 15;
+
+    QPoint mid;
+    mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
+
+    if (Direction == Direction_Up)
+        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
+    else
+        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
+
+    // 判断是否超出屏幕上边界
+    if (Direction == Direction_Down && mid.y() < 0)
+    {
+        Direction = Direction_Up;
+        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
+    }
     // 判断是否超出屏幕下边界
-    if (mid.y() + this->height() > xdotool.screenHeight)
+    if (Direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
     {
         Direction = Direction_Down;
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
