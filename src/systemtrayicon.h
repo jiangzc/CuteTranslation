@@ -14,6 +14,8 @@ class SystemTrayIcon : public QSystemTrayIcon
     QAction quit_action;
     QAction config_action;
     QAction help_action;
+    QAction homepage_action;
+    QAction donate_action;
     QAction search_action;
     QAction ocr_action;
     QAction change_mode_all_action;
@@ -24,6 +26,7 @@ class SystemTrayIcon : public QSystemTrayIcon
   private:
     QMenu menu;
     QMenu modeSubMenu;
+    QMenu helpSubMenu;
 
 };
 
