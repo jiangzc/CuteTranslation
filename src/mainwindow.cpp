@@ -27,7 +27,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-
+    resize(configTool.MainWindowWidth, configTool.MainWindowHeight);
     QColor greyColor(192, 192, 192);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -66,6 +66,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 
     painter.drawPolygon(polygon, Qt::WindingFill);
+    QMainWindow::paintEvent(event);
 }
 
 void MainWindow::onMouseButtonPressed(int x, int y)
