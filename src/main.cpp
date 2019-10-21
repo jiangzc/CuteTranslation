@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 
     FloatButton f;
     f.mainWindow = &w;
+    w.picker = f.picker;
 
     SystemTrayIcon tray;
     tray.show();

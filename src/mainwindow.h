@@ -16,12 +16,12 @@ class MainWindow : public QMainWindow
 
   public:
     explicit MainWindow(QWidget *parent = nullptr);
+    Picker *picker;
     ~MainWindow();
 
   private:
     Ui::MainWindow *ui;
     void paintEvent(QPaintEvent *event);
-    Picker *picker;
     const int TriangleHeight = configTool.TriangleHeight;
     const int TriangleWidth = configTool.TriangleWidth;
     int TriangleOffset = 0;

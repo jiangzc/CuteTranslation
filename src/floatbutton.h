@@ -17,6 +17,7 @@ class FloatButton : public QWidget
   public:
     explicit FloatButton(QWidget *parent = nullptr);
     MainWindow *mainWindow;
+    Picker *picker;
     ~FloatButton();
 
   protected:
@@ -27,7 +28,6 @@ class FloatButton : public QWidget
 
   private:
     Ui::FloatButton *ui;
-    Picker *picker;
     QPoint mousePressPosition;
     QPoint mouseReleasedPosition;
     void onMouseButtonPressed(int x, int y);  // global listen

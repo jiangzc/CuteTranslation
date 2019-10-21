@@ -82,14 +82,13 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     Direction = configTool.Direction;
     TriangleOffset = 0;
 
-    QPoint mid;
+    QPoint mid(0, 0);
     mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
 
     if (Direction == Direction_Up)
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     else
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
-
     // 判断是否超出屏幕上边界
     if (Direction == Direction_Down && mid.y() < 0)
     {
@@ -120,7 +119,10 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
     }
     move(mid);
-    ui->label->setText(picker->getSelectedText());
+
+    ui->label->setText("aa");
     ui->textBrowser->setText(picker->getSelectedText());
+
     this->show();
+
 }
