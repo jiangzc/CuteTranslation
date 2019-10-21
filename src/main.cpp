@@ -14,13 +14,12 @@ int main(int argc, char *argv[])
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
-
+    picker = new Picker();
     MainWindow w;
     w.setGeometry(800, 200, 400, 300);
 
     FloatButton f;
     f.mainWindow = &w;
-    w.picker = f.picker;
 
     SystemTrayIcon tray;
     tray.show();

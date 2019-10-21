@@ -17,7 +17,6 @@ class FloatButton : public QWidget
   public:
     explicit FloatButton(QWidget *parent = nullptr);
     MainWindow *mainWindow;
-    Picker *picker;
     ~FloatButton();
 
   protected:

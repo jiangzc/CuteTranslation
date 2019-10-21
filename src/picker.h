@@ -24,5 +24,5 @@ class Picker : public QObject
 
   public slots:
 };
-
+extern Picker *picker;
 #endif // PICKER_H

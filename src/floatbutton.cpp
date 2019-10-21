@@ -22,7 +22,6 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(*pic);
 
-    picker = new Picker();
     picker->buttonReleased();
     connect(picker, &Picker::wordsPicked, this, [=](QString text) {
         qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());

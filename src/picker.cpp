@@ -36,3 +36,5 @@ QString Picker::getSelectedText()
     return clipboard->text(QClipboard::Selection);
     //    return "Picker";
 }
+
+Picker *picker;
