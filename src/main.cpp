@@ -6,6 +6,10 @@
 #include "floatbutton.h"
 #include "xdotool.h"
 #include "systemtrayicon.h"
+#include "configtool.h"
+
+Xdotool xdotool;
+ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +19,7 @@ int main(int argc, char *argv[])
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
     picker = new Picker();
+
     MainWindow w;
     w.setGeometry(800, 200, 400, 300);
 
@@ -25,7 +30,7 @@ int main(int argc, char *argv[])
     tray.show();
 
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
-    QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });
+    // QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });
 
     xdotool.eventMonitor.start();
 

@@ -16,4 +16,3 @@ ConfigTool::ConfigTool() : settings("/opt/CuteTranslation/config.ini", QSettings
     Default = (settings.value("/Custom/Default").toString() == "on" ? true : false);
 }
 
-ConfigTool configTool;

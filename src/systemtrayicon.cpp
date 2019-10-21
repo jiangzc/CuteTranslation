@@ -1,4 +1,8 @@
+#include <QApplication>
+#include <QDesktopServices>
+#include <QUrl>
 #include "systemtrayicon.h"
+#include "xdotool.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     quit_action("退出"), config_action("配置"), help_action("帮助手册"), search_action("文字翻译"), ocr_action("截图翻译"),
@@ -26,7 +30,17 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
     menu.addAction(&quit_action);
 
-
-
     setContextMenu(&menu);
+
+    connect(&quit_action, &QAction::triggered, this, [=]{
+        xdotool.eventMonitor.terminate();
+        xdotool.eventMonitor.wait();
+        qApp->quit();
+    });
+
+    connect(&homepage_action, &QAction::triggered, this, [=]{
+        QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation"));
+    });
+
+
 }
