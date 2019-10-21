@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "picker.h"
 #include <QWidget>
+#include <QMenu>
 
 namespace Ui
 {
@@ -27,6 +28,8 @@ class FloatButton : public QWidget
 
   private:
     Ui::FloatButton *ui;
+    QMenu floatButtonMenu;
+    QAction notShow;
     QPoint mousePressPosition;
     QPoint mouseReleasedPosition;
     void onMouseButtonPressed(int x, int y);  // global listen

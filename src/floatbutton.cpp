@@ -3,6 +3,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
+#include <QMenu>
+#include <QAction>
 
 #include "floatbutton.h"
 #include "ui_floatbutton.h"
@@ -21,6 +23,8 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     label->setScaledContents(true);
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(*pic);
+
+    floatButtonMenu.addAction(&notShow);
 
     picker->buttonReleased();
     connect(picker, &Picker::wordsPicked, this, [=](QString text) {
@@ -89,5 +93,13 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
         this->hide();
         qDebug() << "floatButtonPressed";
         emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
+    }
+    else if (event->button() == Qt::RightButton)
+    {
+        int x, y;
+        notShow.setText("不要在" + picker->CurrentWindowsPath.mid(1 + picker->CurrentWindowsPath.lastIndexOf("/")) + "显示");
+        xdotool.getMousePosition(x, y);
+        floatButtonMenu.move(x, y);
+        floatButtonMenu.show();
     }
 }
