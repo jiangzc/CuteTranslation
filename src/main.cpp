@@ -14,6 +14,7 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
 
     // 获取屏幕可用的大小
