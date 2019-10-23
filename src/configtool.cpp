@@ -13,7 +13,7 @@ ConfigTool::ConfigTool() : settings("/opt/CuteTranslation/config.ini", QSettings
     FloatButtonWidth = settings.value("/Genenal/FloatButtonWidth").toInt();
     FloatButtonHeight = settings.value("/Genenal/FloatButtonHeight").toInt();
 
-    Default = (settings.value("/Custom/Default").toString() == "on" ? true : false);
+    Default = settings.value("/Custom/Default").toString();
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 }

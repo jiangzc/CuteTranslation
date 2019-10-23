@@ -7,6 +7,7 @@
 #include "xdotool.h"
 #include "systemtrayicon.h"
 #include "configtool.h"
+#include "configwindow.h"
 
 Xdotool xdotool;
 ConfigTool configTool;
@@ -28,6 +29,9 @@ int main(int argc, char *argv[])
 
     SystemTrayIcon tray;
     tray.show();
+
+    // ConfigWindow cw;
+    // cw.show();
 
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
     // QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });

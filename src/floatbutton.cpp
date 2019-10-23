@@ -17,13 +17,14 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
-    setStyleSheet("background-color: white; border-radius: 5px;");
+    setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
 
     QPixmap *pic = new QPixmap(":/google-translate.png");
     QLabel *label = new QLabel(this);
     label->setScaledContents(true);
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(*pic);
+    // label->setStyleSheet("border-width:5");
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
@@ -105,7 +106,11 @@ void FloatButton::onWordPicked(QString text)
 {
     if (configTool.Mode == "none")
         return;
-    else if (configTool.Mode == "custom" && configTool.NotShow.contains(picker->CurrentWindowsPath))
+    else if (configTool.Mode == "custom" && configTool.Default == "on" && configTool.NotShow.contains(picker->CurrentWindowsPath))
+    {
+        return;
+    }
+    else if (configTool.Mode == "custom" && configTool.Default == "off" && configTool.Show.contains(picker->CurrentWindowsPath) == false)
     {
         return;
     }

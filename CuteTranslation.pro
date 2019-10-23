@@ -28,6 +28,7 @@ LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
         src/configtool.cpp \
+        src/configwindow.cpp \
         src/event_monitor.cpp \
         src/floatbutton.cpp \
         src/main.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
 
 HEADERS += \
         src/configtool.h \
+        src/configwindow.h \
         src/event_monitor.h \
         src/floatbutton.h \
         src/mainwindow.h \
@@ -46,6 +48,7 @@ HEADERS += \
         src/xdotool.h
 
 FORMS += \
+        src/configwindow.ui \
         src/floatbutton.ui \
         src/mainwindow.ui
 
