@@ -11,7 +11,7 @@ Picker::Picker(QObject *parent) : QObject(parent)
         // do not emit the signal right now, for browser
         text = clipboard->text(QClipboard::Selection);
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
-        qDebug() << CurrentWindowsPath;
+        // qDebug() << CurrentWindowsPath;
         if (!isPressed && text != "")
             emit wordsPicked(text);
     });

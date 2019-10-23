@@ -5,6 +5,7 @@
 #include "picker.h"
 #include <QWidget>
 #include <QMenu>
+#include <QString>
 
 namespace Ui
 {
@@ -34,6 +35,9 @@ class FloatButton : public QWidget
     QPoint mouseReleasedPosition;
     void onMouseButtonPressed(int x, int y);  // global listen
     void onMouseButtonReleased(int x, int y); // global listen
+
+private slots:
+    void onWordPicked(QString text);
 };
 
 #endif // FLOATBUTTON_H

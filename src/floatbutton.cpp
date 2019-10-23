@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QAction>
 
+
 #include "floatbutton.h"
 #include "ui_floatbutton.h"
 #include "xdotool.h"
@@ -25,17 +26,13 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     label->setPixmap(*pic);
 
     floatButtonMenu.addAction(&notShow);
+    connect(&notShow, &QAction::triggered, this, [=]{
+        configTool.NotShow += ":" + picker->CurrentWindowsPath;
+
+    });
 
     picker->buttonReleased();
-    connect(picker, &Picker::wordsPicked, this, [=](QString text) {
-        qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
-        qDebug() << "Text from picker" << text;
-        int x, y;
-        xdotool.getMousePosition(x, y);
-        this->move(x - 10, y + 15);
-        this->show();
-        // this->activateWindow();
-    });
+    connect(picker, &Picker::wordsPicked, this, &FloatButton::onWordPicked);
 
     connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
@@ -102,4 +99,21 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
         floatButtonMenu.move(x, y);
         floatButtonMenu.show();
     }
+}
+
+void FloatButton::onWordPicked(QString text)
+{
+    if (configTool.Mode == "none")
+        return;
+    else if (configTool.Mode == "custom" && configTool.NotShow.contains(picker->CurrentWindowsPath))
+    {
+        return;
+    }
+    // qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
+    qDebug() << "Text from picker" << text;
+    int x, y;
+    xdotool.getMousePosition(x, y);
+    this->move(x - 10, y + 15);
+    this->show();
+    // this->activateWindow();
 }
