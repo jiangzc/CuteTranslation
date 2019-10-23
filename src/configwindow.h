@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::ConfigWindow *ui;
+    void closeEvent(QCloseEvent *e);
 };
 
 #endif // CONFIGWINDOW_H

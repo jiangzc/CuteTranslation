@@ -31,12 +31,12 @@ int main(int argc, char *argv[])
     SystemTrayIcon tray;
     tray.show();
 
-    // ConfigWindow cw;
+    ConfigWindow cw;
     // cw.show();
 
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
     // QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });
-
+    QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
     xdotool.eventMonitor.start();
 
     return a.exec();
