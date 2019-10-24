@@ -65,7 +65,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Default</string>
+    <string>未定义</string>
    </property>
   </widget>
   <widget class="QComboBox" name="comboBox_2">
@@ -77,6 +77,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QListView" name="listView">
    <property name="geometry">
@@ -84,7 +87,17 @@
      <x>50</x>
      <y>170</y>
      <width>281</width>
-     <height>291</height>
+     <height>161</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView_2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>350</y>
+     <width>281</width>
+     <height>161</height>
     </rect>
    </property>
   </widget>

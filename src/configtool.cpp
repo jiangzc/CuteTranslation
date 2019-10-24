@@ -1,8 +1,10 @@
 #include "configtool.h"
+#include <QDebug>
 
 
-ConfigTool::ConfigTool() : settings("/opt/CuteTranslation/config.ini", QSettings::IniFormat)
+ConfigTool::ConfigTool() : settings("/home/jzc/CuteTranslation/config.ini", QSettings::IniFormat)
 {
+    qDebug() << settings.isWritable();
     Mode = settings.value("/Genenal/Mode", "all").toString();
     TriangleWidth = settings.value("/Genenal/TriangleWidth", 15).toInt();
     TriangleHeight = settings.value("/Genenal/TriangleHeight", 15).toInt();
@@ -13,8 +15,10 @@ ConfigTool::ConfigTool() : settings("/opt/CuteTranslation/config.ini", QSettings
     FloatButtonWidth = settings.value("/Genenal/FloatButtonWidth").toInt();
     FloatButtonHeight = settings.value("/Genenal/FloatButtonHeight").toInt();
 
-    Default = settings.value("/Custom/Default").toString();
+    Undefined = settings.value("/Custom/Undefined").toString();
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
+
+
 }
 

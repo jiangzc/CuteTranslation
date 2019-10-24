@@ -18,11 +18,9 @@ class ConfigTool
     int MainWindowHeight;
     int FloatButtonWidth;
     int FloatButtonHeight;
-    QString Default;
+    QString Undefined;
     QString Show;
     QString NotShow;
-
-private:
     QSettings settings;
 };
 

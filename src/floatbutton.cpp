@@ -17,6 +17,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
+    this->resize(configTool.FloatButtonWidth, configTool.FloatButtonHeight);
     setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
 
     QPixmap *pic = new QPixmap(":/google-translate.png");
@@ -29,7 +30,8 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
         configTool.NotShow += ":" + picker->CurrentWindowsPath;
-
+        configTool.settings.setValue("/Custom/NotShow", configTool.NotShow);
+        this->hide();
     });
 
     picker->buttonReleased();
@@ -106,11 +108,11 @@ void FloatButton::onWordPicked(QString text)
 {
     if (configTool.Mode == "none")
         return;
-    else if (configTool.Mode == "custom" && configTool.Default == "on" && configTool.NotShow.contains(picker->CurrentWindowsPath))
+    else if (configTool.Mode == "custom" && configTool.Undefined == "Show" && configTool.NotShow.contains(picker->CurrentWindowsPath))
     {
         return;
     }
-    else if (configTool.Mode == "custom" && configTool.Default == "off" && configTool.Show.contains(picker->CurrentWindowsPath) == false)
+    else if (configTool.Mode == "custom" && configTool.Undefined == "NotShow" && configTool.Show.contains(picker->CurrentWindowsPath) == false)
     {
         return;
     }
