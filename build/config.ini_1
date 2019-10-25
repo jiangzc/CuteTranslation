@@ -4,12 +4,12 @@ Show=app1:app2:app3:...
 Undefined=Show
 
 [Genenal]
-Direction=up
+Direction=down
 Edge=15
 FloatButtonHeight=40
 FloatButtonWidth=40
-MainWindowHeight=500
-MainWindowWidth=500
+MainWindowHeight=300
+MainWindowWidth=800
 Mode=custom
 ShortCut=ctrl+alt+x
 TriangleHeight=15
