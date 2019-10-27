@@ -2,6 +2,7 @@
 #define CONFIGWINDOW_H
 
 #include <QWidget>
+#include <QStringListModel>
 
 namespace Ui {
 class ConfigWindow;
@@ -17,7 +18,9 @@ public:
 
 private:
     Ui::ConfigWindow *ui;
+    QStringListModel model;
     void closeEvent(QCloseEvent *e);
+    void showEvent(QShowEvent *e);
 };
 
 #endif // CONFIGWINDOW_H

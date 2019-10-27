@@ -21,4 +21,3 @@ ConfigTool::ConfigTool() : settings("/home/jzc/CuteTranslation/config.ini", QSet
 
 
 }
-

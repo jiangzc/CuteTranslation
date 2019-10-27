@@ -15,13 +15,23 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_mode->addItem("自定义");
     ui->comboBox_mode->addItem("禁用");
     ui->comboBox_mode->setStyleSheet("combobox-popup: 0;");
+    ui->listView->setModel(&model);
     connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "全局")
+        {
             configTool.Mode = "all";
+            configTool.settings.setValue("/Genenal/Mode", "all");
+        }
         else if (text == "自定义")
+        {
             configTool.Mode = "custom";
+            configTool.settings.setValue("/Genenal/Mode", "custom");
+        }
         else if (text == "禁用")
+        {
             configTool.Mode = "none";
+            configTool.settings.setValue("/Genenal/Mode", "none");
+        }
     });
 
 }
@@ -35,4 +45,16 @@ void ConfigWindow::closeEvent(QCloseEvent *e)
 {
     this->hide();
     e->ignore();
+}
+
+void ConfigWindow::showEvent(QShowEvent *e)
+{
+    QWidget::showEvent(e);
+    model.setStringList(configTool.NotShow.split(":", QString::SkipEmptyParts));
+    if (configTool.Mode == "all")
+        ui->comboBox_mode->setCurrentIndex(0);
+    else if (configTool.Mode == "custom")
+        ui->comboBox_mode->setCurrentIndex(1);
+    else if (configTool.Mode == "none")
+        ui->comboBox_mode->setCurrentIndex(2);
 }

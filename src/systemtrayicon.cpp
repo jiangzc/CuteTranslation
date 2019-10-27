@@ -3,6 +3,7 @@
 #include <QUrl>
 #include "systemtrayicon.h"
 #include "xdotool.h"
+#include "configtool.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     quit_action("退出"), config_action("配置"), help_action("帮助手册"), search_action("文字翻译"), ocr_action("截图翻译"),
@@ -42,5 +43,20 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
         QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation"));
     });
 
+    connect(&change_mode_all_action, &QAction::triggered, this, [=]{
+        configTool.Mode = "all";
+        configTool.settings.setValue("/Genenal/Mode", "all");
+    });
 
+    connect(&change_mode_custom_action, &QAction::triggered, this, [=]{
+        configTool.Mode = "custom";
+        configTool.settings.setValue("/Genenal/Mode", "custom");
+    });
+
+    connect(&change_mode_none_action, &QAction::triggered, this, [=]{
+        configTool.Mode = "none";
+        configTool.settings.setValue("/Genenal/Mode", "none");
+    });
 }
+
+
