@@ -1,7 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
-#include <QString>
 #include <QSettings>
+#include <QString>
+#include <QDebug>
 
 
 
@@ -9,7 +10,33 @@ class ConfigTool
 {
   public:
     ConfigTool();
-    QString Mode;
+
+    static QSettings settings;
+    // QString Mode;
+    class
+    {
+
+      public:
+        QString value;
+        QString &operator=(const QString &i)
+        {
+            qDebug() << "aaa";
+            qDebug() << ConfigTool::settings.value("/Genenal/Mode");
+            ConfigTool::settings.setValue("/Genenal/Mode", i);
+            return value = i;
+        }
+        bool operator==(const QString str)
+        {
+            qDebug() << "bbb";
+            return (str == value);
+        }
+        operator QString() const
+        {
+            return value;
+        }
+
+    } Mode;
+
     int TriangleHeight;
     int TriangleWidth;
     int Edge;
@@ -21,7 +48,6 @@ class ConfigTool
     QString Undefined;
     QString Show;
     QString NotShow;
-    QSettings settings;
 };
 
 extern ConfigTool configTool;

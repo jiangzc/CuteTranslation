@@ -2,10 +2,10 @@
 #include <QDebug>
 
 
-ConfigTool::ConfigTool() : settings("/home/jzc/CuteTranslation/config.ini", QSettings::IniFormat)
+ConfigTool::ConfigTool()
 {
     qDebug() << settings.isWritable();
-    Mode = settings.value("/Genenal/Mode", "all").toString();
+    Mode.value = settings.value("/Genenal/Mode", "all").toString();
     TriangleWidth = settings.value("/Genenal/TriangleWidth", 15).toInt();
     TriangleHeight = settings.value("/Genenal/TriangleHeight", 15).toInt();
     Edge = settings.value("/Genenal/Edge", 15).toInt();
@@ -19,5 +19,7 @@ ConfigTool::ConfigTool() : settings("/home/jzc/CuteTranslation/config.ini", QSet
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
-
 }
+
+
+QSettings ConfigTool::settings("/home/jzc/CuteTranslation/config.ini", QSettings::IniFormat);

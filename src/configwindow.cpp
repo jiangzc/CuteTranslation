@@ -20,17 +20,14 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
         if (text == "全局")
         {
             configTool.Mode = "all";
-            configTool.settings.setValue("/Genenal/Mode", "all");
         }
         else if (text == "自定义")
         {
             configTool.Mode = "custom";
-            configTool.settings.setValue("/Genenal/Mode", "custom");
         }
         else if (text == "禁用")
         {
             configTool.Mode = "none";
-            configTool.settings.setValue("/Genenal/Mode", "none");
         }
     });
 

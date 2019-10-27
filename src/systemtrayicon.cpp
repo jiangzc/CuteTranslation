@@ -45,17 +45,17 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
     connect(&change_mode_all_action, &QAction::triggered, this, [=]{
         configTool.Mode = "all";
-        configTool.settings.setValue("/Genenal/Mode", "all");
+        //configTool.settings.setValue("/Genenal/Mode", "all");
     });
 
     connect(&change_mode_custom_action, &QAction::triggered, this, [=]{
         configTool.Mode = "custom";
-        configTool.settings.setValue("/Genenal/Mode", "custom");
+        //configTool.settings.setValue("/Genenal/Mode", "custom");
     });
 
     connect(&change_mode_none_action, &QAction::triggered, this, [=]{
         configTool.Mode = "none";
-        configTool.settings.setValue("/Genenal/Mode", "none");
+        //configTool.settings.setValue("/Genenal/Mode", "none");
     });
 }
 
