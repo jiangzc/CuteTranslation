@@ -2,9 +2,12 @@
 #define CONFIG_H
 #include <QSettings>
 #include <QString>
-#include <QDebug>
 
-
+/* ConfigTool 中使用了匿名类来实现C#-style类的属性的功能
+ * 重载了匿名类的赋值运算符作为set函数
+ * 设置了匿名类的类型转换 class -> type 作为get函数
+ * 具体参考 https://stackoverflow.com/questions/8368512/does-c11-have-c-style-properties
+ */
 
 class ConfigTool
 {
@@ -12,7 +15,7 @@ class ConfigTool
     ConfigTool();
 
     static QSettings settings;
-    // QString Mode;
+    // QString Mode ;
     class
     {
 
@@ -20,14 +23,11 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            qDebug() << "aaa";
-            qDebug() << ConfigTool::settings.value("/Genenal/Mode");
             ConfigTool::settings.setValue("/Genenal/Mode", i);
             return value = i;
         }
         bool operator==(const QString str)
         {
-            qDebug() << "bbb";
             return (str == value);
         }
         operator QString() const

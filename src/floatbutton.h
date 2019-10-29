@@ -1,11 +1,11 @@
 #ifndef FLOATBUTTON_H
 #define FLOATBUTTON_H
 
-#include "mainwindow.h"
-#include "picker.h"
 #include <QWidget>
 #include <QMenu>
 #include <QString>
+#include "mainwindow.h"
+
 
 namespace Ui
 {

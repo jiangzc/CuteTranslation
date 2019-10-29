@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "picker.h"
 #include "configtool.h"
+#include "picker.h"
 #include <QMainWindow>
 
 namespace Ui

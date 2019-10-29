@@ -1,10 +1,7 @@
 #ifndef SYSTEMTRAYICON_H
 #define SYSTEMTRAYICON_H
 #include <QAction>
-#include <QIcon>
 #include <QMenu>
-#include <QString>
-#include <QObject>
 #include <QSystemTrayIcon>
 
 class SystemTrayIcon : public QSystemTrayIcon

@@ -1,5 +1,5 @@
-#include "configtool.h"
 #include <QDebug>
+#include "configtool.h"
 
 
 ConfigTool::ConfigTool()

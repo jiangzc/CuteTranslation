@@ -1,9 +1,7 @@
 #ifndef XDOTOOL_H
 #define XDOTOOL_H
-#include "unistd.h"
 #include "event_monitor.h"
-#include <QPoint>
-#include <QString>
+#include "unistd.h"
 
 class Xdotool
 {
