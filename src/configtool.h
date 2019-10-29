@@ -37,6 +37,30 @@ class ConfigTool
 
     } Mode;
 
+    // QString Undefined;
+    class
+    {
+
+    public:
+        QString value;
+        QString &operator=(const QString &i)
+        {
+            ConfigTool::settings.setValue("/Custom/Undefined", i);
+            return value = i;
+        }
+        bool operator==(const QString str)
+        {
+            return (str == value);
+        }
+        operator QString() const
+        {
+            return value;
+        }
+
+    } Undefined;
+
+    QString Show;
+    QString NotShow;
     int TriangleHeight;
     int TriangleWidth;
     int Edge;
@@ -45,9 +69,7 @@ class ConfigTool
     int MainWindowHeight;
     int FloatButtonWidth;
     int FloatButtonHeight;
-    QString Undefined;
-    QString Show;
-    QString NotShow;
+
 };
 
 extern ConfigTool configTool;

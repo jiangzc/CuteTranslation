@@ -6,6 +6,8 @@ ConfigTool::ConfigTool()
 {
     qDebug() << settings.isWritable();
     Mode.value = settings.value("/Genenal/Mode", "all").toString();
+    Undefined.value = settings.value("/Custom/Undefined").toString();
+
     TriangleWidth = settings.value("/Genenal/TriangleWidth", 15).toInt();
     TriangleHeight = settings.value("/Genenal/TriangleHeight", 15).toInt();
     Edge = settings.value("/Genenal/Edge", 15).toInt();
@@ -15,7 +17,6 @@ ConfigTool::ConfigTool()
     FloatButtonWidth = settings.value("/Genenal/FloatButtonWidth", 40).toInt();
     FloatButtonHeight = settings.value("/Genenal/FloatButtonHeight", 40).toInt();
 
-    Undefined = settings.value("/Custom/Undefined").toString();
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 

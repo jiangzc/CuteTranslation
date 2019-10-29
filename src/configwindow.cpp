@@ -17,7 +17,11 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_mode->addItem("自定义");
     ui->comboBox_mode->addItem("禁用");
     ui->comboBox_mode->setStyleSheet("combobox-popup: 0;");
-    ui->listView->setModel(&model);
+    ui->comboBox_undefined->addItem("Show");
+    ui->comboBox_undefined->addItem("NotShow");
+    ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
+    ui->listView->setModel(&notShowModel);
+
     connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "全局")
         {
@@ -31,6 +35,17 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
         {
             configTool.Mode = "none";
         }
+    });
+    connect(ui->comboBox_undefined, &QComboBox::currentTextChanged, this, [=](QString text){
+        if (text == "NotShow")
+        {
+            configTool.Undefined = "NotShow";
+        }
+        else if (text == "Show")
+        {
+            configTool.Undefined = "Show";
+        }
+
     });
 
 }
@@ -49,11 +64,16 @@ void ConfigWindow::closeEvent(QCloseEvent *e)
 void ConfigWindow::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
-    model.setStringList(configTool.NotShow.split(":", QString::SkipEmptyParts));
+    notShowModel.setStringList(configTool.NotShow.split(":", QString::SkipEmptyParts));
     if (configTool.Mode == "all")
         ui->comboBox_mode->setCurrentIndex(0);
     else if (configTool.Mode == "custom")
         ui->comboBox_mode->setCurrentIndex(1);
     else if (configTool.Mode == "none")
         ui->comboBox_mode->setCurrentIndex(2);
+
+    if (configTool.Undefined == "Show")
+        ui->comboBox_undefined->setCurrentIndex(0);
+    else if (configTool.Undefined == "NotShow")
+        ui->comboBox_undefined->setCurrentIndex(1);
 }
