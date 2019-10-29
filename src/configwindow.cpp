@@ -77,3 +77,12 @@ void ConfigWindow::showEvent(QShowEvent *e)
     else if (configTool.Undefined == "NotShow")
         ui->comboBox_undefined->setCurrentIndex(1);
 }
+
+bool ConfigWindow::event(QEvent *e)
+{
+    if (e->type() == QEvent::WindowDeactivate)
+    {
+        this->hide();
+    }
+    return QWidget::event(e);
+}
