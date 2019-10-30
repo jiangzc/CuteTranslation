@@ -30,7 +30,6 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
         configTool.NotShow += ":" + picker->CurrentWindowsPath;
-        configTool.settings.setValue("/Custom/NotShow", configTool.NotShow);
         this->hide();
     });
 
@@ -108,7 +107,7 @@ void FloatButton::onWordPicked(QString text)
 {
     if (configTool.Mode == "none")
         return;
-    else if (configTool.Mode == "custom" && configTool.Undefined == "Show" && configTool.NotShow.contains(picker->CurrentWindowsPath))
+    else if (configTool.Mode == "custom" && configTool.Undefined == "Show" && configTool.NotShow.value.contains(picker->CurrentWindowsPath))
     {
         return;
     }

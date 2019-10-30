@@ -60,7 +60,35 @@ class ConfigTool
     } Undefined;
 
     QString Show;
-    QString NotShow;
+    //QString NotShow;
+    // QString NotShow;
+    class
+    {
+
+    public:
+        QString value;
+        QString &operator=(const QString &i)
+        {
+            ConfigTool::settings.setValue("/Custom/NotShow", i);
+            return value = i;
+        }
+        bool operator==(const QString str)
+        {
+            return (str == value);
+        }
+        QString& operator+=(const QString &str)
+        {
+            value += str;
+            ConfigTool::settings.setValue("/Custom/NotShow", value);
+            return value;
+        }
+        operator QString() const
+        {
+            return value;
+        }
+
+    } NotShow;
+
     int TriangleHeight;
     int TriangleWidth;
     int Edge;

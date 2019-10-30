@@ -64,7 +64,7 @@ void ConfigWindow::closeEvent(QCloseEvent *e)
 void ConfigWindow::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
-    notShowModel.setStringList(configTool.NotShow.split(":", QString::SkipEmptyParts));
+    notShowModel.setStringList(configTool.NotShow.value.split(":", QString::SkipEmptyParts));
     if (configTool.Mode == "all")
         ui->comboBox_mode->setCurrentIndex(0);
     else if (configTool.Mode == "custom")
