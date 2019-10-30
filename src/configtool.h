@@ -13,8 +13,17 @@ class ConfigTool
 {
   public:
     ConfigTool();
+    int TriangleHeight;
+    int TriangleWidth;
+    int Edge;
+    int Direction;
+    int MainWindowWidth;
+    int MainWindowHeight;
+    int FloatButtonWidth;
+    int FloatButtonHeight;
 
     static QSettings settings;
+
     // QString Mode ;
     class
     {
@@ -24,7 +33,8 @@ class ConfigTool
         QString &operator=(const QString &i)
         {
             ConfigTool::settings.setValue("/Genenal/Mode", i);
-            return value = i;
+            value = i;
+            return value;
         }
         bool operator==(const QString str)
         {
@@ -46,7 +56,8 @@ class ConfigTool
         QString &operator=(const QString &i)
         {
             ConfigTool::settings.setValue("/Custom/Undefined", i);
-            return value = i;
+            value = i;
+            return value;
         }
         bool operator==(const QString str)
         {
@@ -59,8 +70,6 @@ class ConfigTool
 
     } Undefined;
 
-    QString Show;
-    //QString NotShow;
     // QString NotShow;
     class
     {
@@ -70,7 +79,8 @@ class ConfigTool
         QString &operator=(const QString &i)
         {
             ConfigTool::settings.setValue("/Custom/NotShow", i);
-            return value = i;
+            value = i;
+            return value;
         }
         bool operator==(const QString str)
         {
@@ -89,14 +99,34 @@ class ConfigTool
 
     } NotShow;
 
-    int TriangleHeight;
-    int TriangleWidth;
-    int Edge;
-    int Direction;
-    int MainWindowWidth;
-    int MainWindowHeight;
-    int FloatButtonWidth;
-    int FloatButtonHeight;
+    // QString Show;
+    class
+    {
+
+    public:
+        QString value;
+        QString &operator=(const QString &i)
+        {
+            ConfigTool::settings.setValue("/Custom/Show", i);
+            value = i;
+            return value;
+        }
+        bool operator==(const QString str)
+        {
+            return (str == value);
+        }
+        QString& operator+=(const QString &str)
+        {
+            value += str;
+            ConfigTool::settings.setValue("/Custom/Show", value);
+            return value;
+        }
+        operator QString() const
+        {
+            return value;
+        }
+
+    } Show;
 
 };
 

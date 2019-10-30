@@ -111,7 +111,7 @@ void FloatButton::onWordPicked(QString text)
     {
         return;
     }
-    else if (configTool.Mode == "custom" && configTool.Undefined == "NotShow" && configTool.Show.contains(picker->CurrentWindowsPath) == false)
+    else if (configTool.Mode == "custom" && configTool.Undefined == "NotShow" && configTool.Show.value.contains(picker->CurrentWindowsPath) == false)
     {
         return;
     }
