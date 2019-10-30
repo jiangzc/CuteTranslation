@@ -96,6 +96,12 @@
      <height>151</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
   </widget>
   <widget class="QListView" name="listView_2">
    <property name="geometry">
@@ -105,6 +111,12 @@
      <width>391</width>
      <height>161</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>10</pointsize>
+    </font>
    </property>
   </widget>
  </widget>
