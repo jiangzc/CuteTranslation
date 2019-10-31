@@ -1,5 +1,6 @@
 #include <QCloseEvent>
 #include <QComboBox>
+#include <QMenu>
 
 #include "xdotool.h"
 #include "ui_configwindow.h"
@@ -21,7 +22,15 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_undefined->addItem("NotShow");
     ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
     ui->listView->setStyleSheet(" QListView {padding:5px; background-color:white;}  QListView::item { padding: 5px; } ");
+    connect(ui->listView, &QListView::pressed, ui->listView, [=] {
+        QMenu* popMenu = new QMenu(this);
+        popMenu->addAction(new QAction("添加", this));
+        popMenu->addAction(new QAction("删除", this));
+        popMenu->addAction(new QAction("修改", this));
+        if (QGuiApplication::mouseButtons() == Qt::RightButton)
+            popMenu->exec(QCursor::pos());
 
+    });
     ui->listView->setModel(&notShowModel);
 
 
