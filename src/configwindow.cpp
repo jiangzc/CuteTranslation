@@ -20,8 +20,10 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_undefined->addItem("Show");
     ui->comboBox_undefined->addItem("NotShow");
     ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
-    ui->listView->setStyleSheet(" QListView::item { padding: 5px; }");
+    ui->listView->setStyleSheet(" QListView {padding:5px; background-color:white;}  QListView::item { padding: 5px; } ");
+
     ui->listView->setModel(&notShowModel);
+
 
     connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "全局")

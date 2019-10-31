@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>481</width>
-    <height>638</height>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,7 +93,7 @@
      <x>50</x>
      <y>160</y>
      <width>391</width>
-     <height>151</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="font">
@@ -102,21 +102,8 @@
      <pointsize>10</pointsize>
     </font>
    </property>
-  </widget>
-  <widget class="QListView" name="listView_2">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>360</y>
-     <width>391</width>
-     <height>161</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft YaHei UI</family>
-     <pointsize>10</pointsize>
-    </font>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
   </widget>
  </widget>
