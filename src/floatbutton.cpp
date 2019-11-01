@@ -95,11 +95,8 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     }
     else if (event->button() == Qt::RightButton)
     {
-        int x, y;
         notShow.setText("不要在" + picker->CurrentWindowsPath.mid(1 + picker->CurrentWindowsPath.lastIndexOf("/")) + "显示");
-        xdotool.getMousePosition(x, y);
-        floatButtonMenu.move(x, y);
-        floatButtonMenu.show();
+        floatButtonMenu.exec(QCursor::pos());
     }
 }
 
@@ -117,9 +114,8 @@ void FloatButton::onWordPicked(QString text)
     }
     // qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
     qDebug() << "Text from picker" << text;
-    int x, y;
-    xdotool.getMousePosition(x, y);
-    this->move(x - 10, y + 15);
+
+    this->move(QCursor::pos() + QPoint(-10, 15));
     this->show();
     // this->activateWindow();
 }
