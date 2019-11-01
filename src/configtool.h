@@ -82,13 +82,19 @@ class ConfigTool
             value = i;
             return value;
         }
-        bool operator==(const QString str)
+        bool operator==(const QString &str)
         {
             return (str == value);
         }
         QString& operator+=(const QString &str)
         {
             value += str;
+            ConfigTool::settings.setValue("/Custom/NotShow", value);
+            return value;
+        }
+        QString& operator-=(const QString &str)
+        {
+            value.remove(":" + str);
             ConfigTool::settings.setValue("/Custom/NotShow", value);
             return value;
         }

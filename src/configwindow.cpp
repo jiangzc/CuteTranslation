@@ -21,7 +21,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_undefined->addItem("Show");
     ui->comboBox_undefined->addItem("NotShow");
     ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
-    ui->listWidget->setStyleSheet(" QListWidget {padding:5px; background-color:white;}  QListWidget::item { padding: 5px; } ");
+    ui->listWidget->setStyleSheet(" QListWidget {padding:5px; background-color:white;} QListWidget::item { padding: 5px; }");
 
     rightClickMenu.addAction(&remove_action);
 
@@ -32,6 +32,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     });
 
     connect(&remove_action, &QAction::triggered, this, [=] {
+        configTool.NotShow -= ui->listWidget->currentItem()->text();
         ui->listWidget->takeItem(ui->listWidget->currentRow());
     });
 
