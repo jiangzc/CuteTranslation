@@ -29,7 +29,10 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
-        configTool.NotShow += ":" + picker->CurrentWindowsPath;
+        if (configTool.Mode == "all")
+            configTool.Mode = "custom";
+        if (configTool.NotShow.value.contains(picker->CurrentWindowsPath) == false)
+            configTool.NotShow += ":" + picker->CurrentWindowsPath;
         this->hide();
     });
 
