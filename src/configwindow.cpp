@@ -21,21 +21,19 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_undefined->addItem("Show");
     ui->comboBox_undefined->addItem("NotShow");
     ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
-    ui->listView->setStyleSheet(" QListView {padding:5px; background-color:white;}  QListView::item { padding: 5px; } ");
+    ui->listWidget->setStyleSheet(" QListWidget {padding:5px; background-color:white;}  QListWidget::item { padding: 5px; } ");
 
     rightClickMenu.addAction(&remove_action);
 
-    connect(ui->listView, &QListView::pressed, ui->listView, [=] {
+    connect(ui->listWidget, &QListWidget::itemPressed, ui->listWidget, [=] {
         if (QGuiApplication::mouseButtons() == Qt::RightButton)
             rightClickMenu.exec(QCursor::pos());
 
     });
 
-    connect(&remove_action, &QAction::trigger, this, [=] {
-        //ui->listView->currentIndex();
-        //notShowModel.removeRow(1);
+    connect(&remove_action, &QAction::triggered, this, [=] {
+        ui->listWidget->takeItem(ui->listWidget->currentRow());
     });
-    ui->listView->setModel(&notShowModel);
 
 
     connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
@@ -80,7 +78,8 @@ void ConfigWindow::closeEvent(QCloseEvent *e)
 void ConfigWindow::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
-    notShowModel.setStringList(configTool.NotShow.value.split(":", QString::SkipEmptyParts));
+    ui->listWidget->clear();
+    ui->listWidget->addItems(configTool.NotShow.value.split(":", QString::SkipEmptyParts));
     if (configTool.Mode == "all")
         ui->comboBox_mode->setCurrentIndex(0);
     else if (configTool.Mode == "custom")

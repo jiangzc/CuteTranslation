@@ -20,7 +20,6 @@ public:
 
 private:
     Ui::ConfigWindow *ui;
-    QStringListModel notShowModel;
     void closeEvent(QCloseEvent *e);
     void showEvent(QShowEvent *e);
     bool event(QEvent *e);

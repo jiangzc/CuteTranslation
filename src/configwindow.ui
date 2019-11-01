@@ -87,32 +87,13 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>160</y>
-     <width>391</width>
-     <height>231</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft YaHei UI</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-  </widget>
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>401</y>
-     <width>256</width>
-     <height>31</height>
+     <x>50</x>
+     <y>150</y>
+     <width>391</width>
+     <height>261</height>
     </rect>
    </property>
   </widget>
