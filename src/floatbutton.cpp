@@ -41,6 +41,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
+    connect(&xdotool.eventMonitor, &EventMonitor::keyPress, this, &FloatButton::onKeyPressed, Qt::QueuedConnection);
 }
 
 FloatButton::~FloatButton()
@@ -121,4 +122,14 @@ void FloatButton::onWordPicked(QString text)
     this->move(QCursor::pos() + QPoint(-10, 15));
     this->show();
     // this->activateWindow();
+}
+
+void FloatButton::onKeyPressed(int keyCode)
+{
+    if (this->isHidden() == false)
+        this->hide();
+    if (previousKeyCode == 37 && keyCode == 24)
+        qDebug() << "shortcut";
+    previousKeyCode = keyCode;
+    // 用队列实现多个按键的
 }

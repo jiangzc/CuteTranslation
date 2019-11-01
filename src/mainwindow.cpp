@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QtMath>
+#include <QWebEngineView>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -18,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_TranslucentBackground);
+    //QWebEngineView *view = new QWebEngineView(this);
+    //view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
+    //view->resize(300,300);
+    //view->show();
 }
 
 MainWindow::~MainWindow()
