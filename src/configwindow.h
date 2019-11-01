@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStringListModel>
+#include <QMenu>
 
 
 namespace Ui {
@@ -23,6 +24,8 @@ private:
     void closeEvent(QCloseEvent *e);
     void showEvent(QShowEvent *e);
     bool event(QEvent *e);
+    QMenu rightClickMenu;
+    QAction remove_action;
 
 };
 

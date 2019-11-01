@@ -106,6 +106,16 @@
     <set>QAbstractItemView::NoEditTriggers</set>
    </property>
   </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>401</y>
+     <width>256</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
