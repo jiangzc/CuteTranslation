@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QWebEngineView>
+#include <QWebEngineSettings>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -19,10 +20,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    //QWebEngineView *view = new QWebEngineView(this);
-    //view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
-    //view->resize(300,300);
-    //view->show();
+    QWebEngineView *view = new QWebEngineView(this);
+
+    view->setZoomFactor(1.2);
+    view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
+    view->setGeometry(5,30,490,350);
+    view->show();
 }
 
 MainWindow::~MainWindow()
@@ -125,8 +128,8 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     move(mid);
 
-    ui->label->setText("aa");
-    ui->textBrowser->setText(picker->getSelectedText());
+    //ui->label->setText("aa");
+    //ui->textBrowser->setText(picker->getSelectedText());
 
     this->show();
 
