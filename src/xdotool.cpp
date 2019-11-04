@@ -1,5 +1,6 @@
 #include "xdotool.h"
 #include <stdio.h>
+#include <X11/XKBlib.h>
 
 #define MAXSTR 1000
 
@@ -13,6 +14,7 @@ Xdotool::Xdotool()
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
+    // XKeysymToString( XkbKeycodeToKeysym(this->display, 25, 0, 0) );
 }
 
 Xdotool::~Xdotool()

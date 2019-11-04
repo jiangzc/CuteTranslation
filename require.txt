@@ -1,0 +1,3 @@
+sudo apt install libqt5webengine5
+sudo apt install libqt5webenginewidgets5
+sudo apt install qtwebengine5-dev
