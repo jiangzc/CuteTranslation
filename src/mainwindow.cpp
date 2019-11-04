@@ -128,8 +128,6 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     move(mid);
 
-    //ui->label->setText("aa");
-    //ui->textBrowser->setText(picker->getSelectedText());
 
     this->show();
 
