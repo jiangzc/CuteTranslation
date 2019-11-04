@@ -37,7 +37,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     picker->buttonReleased();
 
-    connect(&xdotool.eventMonitor, &EventMonitor::keyPress, this, &FloatButton::onKeyPressed, Qt::QueuedConnection);
+
 }
 
 FloatButton::~FloatButton()
