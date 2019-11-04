@@ -1,5 +1,7 @@
 #ifndef XDOTOOL_H
 #define XDOTOOL_H
+
+#include <map>
 #include "event_monitor.h"
 #include "unistd.h"
 
@@ -13,6 +15,8 @@ class Xdotool
     QString getActiveWindowName();
     QString getProcessPathByPID(unsigned long pid);
     EventMonitor eventMonitor;
+    std::map<QString, int> getKeyMap();
+
     int screenWidth;
     int screenHeight;
 

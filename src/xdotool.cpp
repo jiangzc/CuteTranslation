@@ -1,6 +1,8 @@
+#include <QDebug>
 #include "xdotool.h"
 #include <stdio.h>
 #include <X11/XKBlib.h>
+
 
 #define MAXSTR 1000
 
@@ -14,7 +16,7 @@ Xdotool::Xdotool()
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
-    // XKeysymToString( XkbKeycodeToKeysym(this->display, 25, 0, 0) );
+    getKeyMap();
 }
 
 Xdotool::~Xdotool()
@@ -102,4 +104,19 @@ QString Xdotool::getProcessPathByPID(unsigned long pid)
         return QString(buff);
     }
     return QString("");
+}
+
+std::map<QString, int> Xdotool::getKeyMap()
+{
+    std::map<QString, int> keyMap;
+    for (unsigned char i = 0; i < 100; i++)
+    {
+        QString keyName(XKeysymToString(XkbKeycodeToKeysym(this->display, i, 0, 0)));
+        if (!keyName.isEmpty())
+        {
+            keyMap[keyName] = i;
+        }
+    }
+    qDebug() << keyMap;
+    return keyMap;
 }
