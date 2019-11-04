@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
     w.setGeometry(800, 200, 400, 300);
 
     FloatButton f;
-    f.mainWindow = &w;
 
     SystemTrayIcon tray;
     tray.show();
@@ -37,7 +36,10 @@ int main(int argc, char *argv[])
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
     // QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
-    xdotool.eventMonitor.start();
 
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
+    xdotool.eventMonitor.start();
     return a.exec();
 }

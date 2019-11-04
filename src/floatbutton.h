@@ -18,7 +18,7 @@ class FloatButton : public QWidget
 
   public:
     explicit FloatButton(QWidget *parent = nullptr);
-    MainWindow *mainWindow;
+    void onMouseButtonPressed(int x, int y);  // global listen
     ~FloatButton();
 
   protected:
@@ -33,7 +33,7 @@ class FloatButton : public QWidget
     QAction notShow;
     QPoint mousePressPosition;
     QPoint mouseReleasedPosition;
-    void onMouseButtonPressed(int x, int y);  // global listen
+
     void onMouseButtonReleased(int x, int y); // global listen
     void onKeyPressed(int keyCode);  // global listen
     int previousKeyCode = 0;
