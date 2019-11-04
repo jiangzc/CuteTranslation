@@ -33,13 +33,18 @@ int main(int argc, char *argv[])
     ConfigWindow cw;
     // cw.show();
 
+    QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
+
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
-    // QObject::connect(&tray.quit_action, &QAction::triggered, &a, [=]{ xdotool.eventMonitor.terminate(); xdotool.eventMonitor.wait(); qApp->quit(); });
+
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
 
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
+
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, &f, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, picker, &Picker::buttonReleased, Qt::QueuedConnection);
     xdotool.eventMonitor.start();
     return a.exec();
 }

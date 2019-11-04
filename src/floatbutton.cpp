@@ -37,10 +37,10 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     });
 
     picker->buttonReleased();
-    connect(picker, &Picker::wordsPicked, this, &FloatButton::onWordPicked);
+
 
     // connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, this, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
-    connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, this, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
+
     connect(&xdotool.eventMonitor, &EventMonitor::keyPress, this, &FloatButton::onKeyPressed, Qt::QueuedConnection);
 }
 
@@ -80,7 +80,7 @@ void FloatButton::onMouseButtonPressed(int x, int y)
 void FloatButton::onMouseButtonReleased(int x, int y)
 {
     // qDebug() << "FloatButton::onMouseButtonReleased, release at " << mouseReleasedPosition;
-    picker->buttonReleased();
+    // picker->buttonReleased();
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
     {
         mouseReleasedPosition.setX(x);
