@@ -86,7 +86,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     }
     else if (event->button() == Qt::RightButton)
     {
-        notShow.setText("不要在" + picker->CurrentWindowsPath.mid(1 + picker->CurrentWindowsPath.lastIndexOf("/")) + "显示");
+        notShow.setText("不要在" + picker->CurrentWindowsPath + "显示");
         floatButtonMenu.exec(QCursor::pos());
     }
 }

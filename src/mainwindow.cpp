@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     view->show();
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
-
 }
 
 MainWindow::~MainWindow()
@@ -90,7 +89,7 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-    // 默认方向向 重置三角形偏移量
+    // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;
 
