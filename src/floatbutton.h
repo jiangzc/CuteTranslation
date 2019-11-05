@@ -34,9 +34,6 @@ class FloatButton : public QWidget
     QPoint mousePressPosition;
     QPoint mouseReleasedPosition;
 
-
-    int previousKeyCode = 0;
-
 public slots:
     void onWordPicked(QString text);
     void onMouseButtonPressed(int x, int y);  // global listen

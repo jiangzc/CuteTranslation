@@ -117,6 +117,5 @@ std::map<QString, int> Xdotool::getKeyMap()
             keyMap[keyName] = i;
         }
     }
-    qDebug() << keyMap;
     return keyMap;
 }

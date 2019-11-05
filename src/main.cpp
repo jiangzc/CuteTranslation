@@ -8,6 +8,7 @@
 #include "systemtrayicon.h"
 #include "configtool.h"
 #include "configwindow.h"
+#include "shortcut.h"
 
 Xdotool xdotool;
 ConfigTool configTool;
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
     SystemTrayIcon tray;
     tray.show();
 
+    ShortCut shortcut;
 
     // cw.show();
 
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 
     // 全局键盘监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &f, &FloatButton::onKeyPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &shortcut, &ShortCut::onKeyPressed, Qt::QueuedConnection);
 
     xdotool.eventMonitor.start();
     return a.exec();

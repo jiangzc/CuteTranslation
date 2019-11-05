@@ -142,8 +142,4 @@ void FloatButton::onKeyPressed(int keyCode)
 {
     if (this->isHidden() == false)
         this->hide();
-    if (previousKeyCode == 37 && keyCode == 24)
-        qDebug() << "shortcut";
-    previousKeyCode = keyCode;
-    // 用队列实现多个按键的
 }

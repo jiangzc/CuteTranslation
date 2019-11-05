@@ -34,6 +34,7 @@ SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
         src/picker.cpp \
+        src/shortcut.cpp \
         src/systemtrayicon.cpp \
         src/xdotool.cpp
 
@@ -44,6 +45,7 @@ HEADERS += \
         src/floatbutton.h \
         src/mainwindow.h \
         src/picker.h \
+        src/shortcut.h \
         src/systemtrayicon.h \
         src/xdotool.h
 

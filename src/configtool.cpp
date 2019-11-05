@@ -1,5 +1,7 @@
 #include <QDebug>
+#include <QDir>
 #include "configtool.h"
+#include "xdotool.h"
 
 
 ConfigTool::ConfigTool()
@@ -12,15 +14,26 @@ ConfigTool::ConfigTool()
     TriangleHeight = settings.value("/Genenal/TriangleHeight", 15).toInt();
     Edge = settings.value("/Genenal/Edge", 15).toInt();
     Direction = (settings.value("/Genenal/Direction", "up").toString() == "up" ? 0 : 1);
-    MainWindowWidth = settings.value("/Genenal/MainWindowWidth", 400).toInt();
-    MainWindowHeight = settings.value("/Genenal/MainWindowHeight", 300).toInt();
+    MainWindowWidth = settings.value("/Genenal/MainWindowWidth", 500).toInt();
+    MainWindowHeight = settings.value("/Genenal/MainWindowHeight", 400).toInt();
     FloatButtonWidth = settings.value("/Genenal/FloatButtonWidth", 40).toInt();
     FloatButtonHeight = settings.value("/Genenal/FloatButtonHeight", 40).toInt();
 
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
+    auto shortcut = settings.value("/ShortCut/FloatBar").toString().split("+", QString::SkipEmptyParts);
+    auto keyMap = xdotool.getKeyMap();
+    for (auto &it : shortcut)
+    {
+        FloatBarShortCut.push_back(keyMap.at(it));
+    }
+    //foreach(QString keyName, shortcut)
+    //{
+     //   FloatBarShortCut.push_back(keyMap.at(keyName));
+    //}
+
 }
 
 
-QSettings ConfigTool::settings("/home/jzc/CuteTranslation/config.ini", QSettings::IniFormat);
+QSettings ConfigTool::settings(QDir::homePath() + "/CuteTranslation/config.ini", QSettings::IniFormat);
