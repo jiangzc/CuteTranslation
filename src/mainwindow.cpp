@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
     view->setGeometry(5,30,490,350);
     view->show();
+    setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -35,11 +38,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    resize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+    QMainWindow::paintEvent(event);
+
     QColor greyColor(192, 192, 192);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    // painter.fillRect(QRect(0, 0, this->width() , this->height() - 30), QBrush(Qt::white));
+
     QPen pen;
     pen.setColor(greyColor);
     pen.setWidth(3);
@@ -74,7 +78,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     }
 
     painter.drawPolygon(polygon, Qt::WindingFill);
-    QMainWindow::paintEvent(event);
+
 }
 
 void MainWindow::onMouseButtonPressed(int x, int y)
@@ -86,29 +90,30 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-    // 默认方向向上 重置三角形偏移量
-    Direction = configTool.Direction;
+    // 默认方向向 重置三角形偏移量
+    int direction = configTool.Direction;
     TriangleOffset = 0;
 
     QPoint mid(0, 0);
     mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
 
-    if (Direction == Direction_Up)
+    if (direction == Direction_Up)
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     else
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
     // 判断是否超出屏幕上边界
-    if (Direction == Direction_Down && mid.y() < 0)
+    if (direction == Direction_Down && mid.y() < 0)
     {
-        Direction = Direction_Up;
+        direction = Direction_Up;
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     }
     // 判断是否超出屏幕下边界
-    if (Direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
+    if (direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
     {
-        Direction = Direction_Down;
+        direction = Direction_Down;
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
     }
+    Direction = direction;
     // 判断是否超出屏幕左边界
     if (mid.x() < configTool.Edge)
     {
@@ -127,8 +132,6 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
     }
     move(mid);
-
-
     this->show();
 
 }

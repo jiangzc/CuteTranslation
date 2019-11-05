@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
     picker = new Picker();
-
+    ConfigWindow cw;
     MainWindow w;
     w.setGeometry(800, 200, 400, 300);
 
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     SystemTrayIcon tray;
     tray.show();
 
-    ConfigWindow cw;
+
     // cw.show();
 
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
