@@ -24,8 +24,6 @@ class MainWindow : public QMainWindow
     const int TriangleHeight = configTool.TriangleHeight;
     const int TriangleWidth = configTool.TriangleWidth;
     int TriangleOffset = 0;
-    const int Direction_Up = 0;
-    const int Direction_Down = 1;
     int Direction;
 
   public slots:

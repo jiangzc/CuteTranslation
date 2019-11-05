@@ -10,9 +10,13 @@
 #include "ui_mainwindow.h"
 #include "xdotool.h"
 
-// TODO:
+// Why does “extern const int n;” not work as expected?
+// https://stackoverflow.com/questions/14894698/why-does-extern-const-int-n-not-work-as-expected
 
-// 右键菜单，配置文件
+extern const int Direction_Up;
+extern const int Direction_Down;
+const int Direction_Up = 0;
+const int Direction_Down = 1;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)

@@ -10,6 +10,9 @@
 #include "ui_floatbutton.h"
 #include "xdotool.h"
 
+extern const int Direction_Up;
+extern const int Direction_Down;
+
 FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
                                             ui(new Ui::FloatButton)
 {
@@ -110,20 +113,20 @@ void FloatButton::onWordPicked(QString text)
     int direction = configTool.Direction;
     int mainWindowHeight = configTool.MainWindowHeight;
 
-    if (direction == 0)
+    if (direction == Direction_Up)
         y = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     else
         y = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - mainWindowHeight - 15;
 
     // 判断是否超出屏幕上边界
-    if (direction == 1 && y < 0)
+    if (direction == Direction_Down && y < 0)
     {
-        direction = 0;
+        direction = Direction_Up;
     }
     // 判断是否超出屏幕下边界
-    if (direction == 0 && y + mainWindowHeight > xdotool.screenHeight)
+    if (direction == Direction_Up && y + mainWindowHeight > xdotool.screenHeight)
     {
-        direction = 1;
+        direction = Direction_Down;
     }
 
     if (direction == 1)
