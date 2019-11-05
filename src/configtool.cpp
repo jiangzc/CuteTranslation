@@ -6,7 +6,6 @@
 
 ConfigTool::ConfigTool()
 {
-    qDebug() << settings.isWritable();
     Mode.value = settings.value("/Genenal/Mode", "all").toString();
     Undefined.value = settings.value("/Custom/Undefined").toString();
 
@@ -22,16 +21,16 @@ ConfigTool::ConfigTool()
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
-    auto shortcut = settings.value("/ShortCut/FloatBar").toString().split("+", QString::SkipEmptyParts);
     auto keyMap = xdotool.getKeyMap();
+    auto shortcut = settings.value("/ShortCut/FloatBar").toString().split("+", QString::SkipEmptyParts);
+
     for (auto &it : shortcut)
     {
-        FloatBarShortCut.push_back(keyMap.at(it));
+        if (keyMap.find(it) != keyMap.end())
+            FloatBarShortCut.push_back(keyMap.at(it));
+        else
+            qDebug() << "Unknow keyName: " + it;
     }
-    //foreach(QString keyName, shortcut)
-    //{
-     //   FloatBarShortCut.push_back(keyMap.at(keyName));
-    //}
 
 }
 
