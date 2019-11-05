@@ -2,7 +2,6 @@
 #define CONFIG_H
 #include <QSettings>
 #include <QString>
-#include <vector>
 
 /* ConfigTool 中使用了匿名类来实现C#-style类的属性的功能
  * 重载了匿名类的赋值运算符作为set函数

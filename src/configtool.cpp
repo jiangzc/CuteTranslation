@@ -1,7 +1,6 @@
 #include <QDebug>
 #include <QDir>
 #include "configtool.h"
-#include "xdotool.h"
 
 
 ConfigTool::ConfigTool()
