@@ -103,10 +103,34 @@ void FloatButton::onWordPicked(QString text)
     {
         return;
     }
-    // qDebug() << xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
+
     qDebug() << "Text from picker" << text;
 
-    this->move(QCursor::pos() + QPoint(-10, 15));
+    int y;
+    int direction = configTool.Direction;
+    int mainWindowHeight = configTool.MainWindowHeight;
+
+    if (direction == 0)
+        y = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
+    else
+        y = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - mainWindowHeight - 15;
+
+    // 判断是否超出屏幕上边界
+    if (direction == 1 && y < 0)
+    {
+        direction = 0;
+    }
+    // 判断是否超出屏幕下边界
+    if (direction == 0 && y + mainWindowHeight > xdotool.screenHeight)
+    {
+        direction = 1;
+    }
+
+    if (direction == 1)
+        this->move(QCursor::pos() + QPoint(-10, 15));
+    else
+        this->move(QCursor::pos() + QPoint(-10, -(15 + this->height())));
+
     this->show();
     // this->activateWindow();
 }
