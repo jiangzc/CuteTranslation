@@ -2,6 +2,7 @@
 #define SHORTCUT_H
 #include <QObject>
 #include <deque>
+#include <vector>
 
 class ShortCut: public QObject
 {
@@ -11,6 +12,7 @@ public:
 
 private:
     std::deque<int> keyCodes;
+    std::vector<int> FloatBarShortCut;
 
 public slots:
     void onKeyPressed(int keyCode);

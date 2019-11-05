@@ -21,16 +21,8 @@ ConfigTool::ConfigTool()
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
-    auto keyMap = xdotool.getKeyMap();
-    auto shortcut = settings.value("/ShortCut/FloatBar").toString().split("+", QString::SkipEmptyParts);
+    FloatBarShortCutString = settings.value("/ShortCut/FloatBar").toString();
 
-    for (auto &it : shortcut)
-    {
-        if (keyMap.find(it) != keyMap.end())
-            FloatBarShortCut.push_back(keyMap.at(it));
-        else
-            qDebug() << "Unknow keyName: " + it;
-    }
 
 }
 

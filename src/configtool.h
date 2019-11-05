@@ -22,7 +22,7 @@ class ConfigTool
     int MainWindowHeight;
     int FloatButtonWidth;
     int FloatButtonHeight;
-    std::vector<int> FloatBarShortCut;
+    QString FloatBarShortCutString;
 
     static QSettings settings;
 
