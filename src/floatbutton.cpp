@@ -16,7 +16,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    this->resize(configTool.FloatButtonWidth, configTool.FloatButtonHeight);
+    this->setFixedSize(configTool.FloatButtonWidth, configTool.FloatButtonHeight);
     setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
 
     QPixmap *pic = new QPixmap(":/google-translate.png");
