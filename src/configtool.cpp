@@ -20,8 +20,8 @@ ConfigTool::ConfigTool()
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
-    FloatBarShortCutString = settings.value("/ShortCut/FloatBar").toString();
-
+    FloatBarShortCutString = settings.value("/ShortCut/FloatBar").toString().toLower();
+    ScreenShotShortCutString = settings.value("/ShortCut/ScreenShot").toString().toLower();
 
 }
 

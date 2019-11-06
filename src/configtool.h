@@ -22,6 +22,7 @@ class ConfigTool
     int FloatButtonWidth;
     int FloatButtonHeight;
     QString FloatBarShortCutString;
+    QString ScreenShotShortCutString;
 
     static QSettings settings;
 

@@ -13,6 +13,7 @@ public:
 private:
     std::deque<int> keyCodes;
     std::vector<int> FloatBarShortCut;
+    std::vector<int> ScreenShotShortCut;
 
 public slots:
     void onKeyPressed(int keyCode);
