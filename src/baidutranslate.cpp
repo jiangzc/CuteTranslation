@@ -44,7 +44,6 @@ QString TranslateWord(QString word)
             close(pipes[0]);
             close(pipes[1]);
             // exec program
-            // execl(python_path.toStdString().c_str(), "translate_demo.py", word_chars, (char *)NULL);
             execl(python_path.toStdString().c_str(), "translate_demo.py", word_chars, (char *)NULL);
         }
         else
@@ -54,25 +53,23 @@ QString TranslateWord(QString word)
             close(pipes[1]);
             while (1)
             {
-
-                // read call if return -1 then pipe is empty because of fcntl
                 nread = read(pipes[0], buf, 2000);
+                // read call  return -1 if pipe is empty (because of fcntl)
                 switch (nread)
                 {
                 case -1:
 
-                    // case -1 means pipe is empty and errono
-                    // set EAGAIN
+                    // case -1 means pipe is empty and errono was set to EAGAIN
                     if (errno == EAGAIN)
                     {
                         printf("(pipe empty)\n");
-                        usleep(100000);
+                        usleep(50000); // sleep 50 ms
                         break;
                     }
                     else
                     {
                         perror("fail to read from pipe.\n");
-                        exit(4);
+                        return QString();
                     }
 
                 // case 0 means all bytes are read and EOF(end of conv.)
@@ -81,12 +78,9 @@ QString TranslateWord(QString word)
                     close(pipes[0]);
                     int status;
                     wait(&status);
-                    return result;
+                    return result; // success
                 default:
-
-                    // text read
-                    // by default return no. of bytes
-                    // which read call read at that time
+                    // text read by default return n of bytes which read call read at that time
                     result += buf;
                 }
             }
@@ -96,5 +90,5 @@ QString TranslateWord(QString word)
     {
         perror("fail to create pipe.\n");
     }
-    return QString("");
+    return QString(""); // if failed
 }
