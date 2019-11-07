@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "xdotool.h"
+#include "picker.h"
 
 // Why does “extern const int n;” not work as expected?
 // https://stackoverflow.com/questions/14894698/why-does-extern-const-int-n-not-work-as-expected
@@ -17,6 +18,7 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
+extern QString TranslateWord(QString word);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -93,6 +95,8 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
+    // 获取翻译
+    qDebug() << TranslateWord(picker->Text);
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;

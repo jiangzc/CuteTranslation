@@ -36,6 +36,7 @@ Picker::Picker(QObject *parent) : QObject(parent)
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
         // qDebug() << CurrentWindowsPath;
         if (!isPressed && text != "")
+            Text = text;
             emit wordsPicked(text);
     });
 }
@@ -52,7 +53,7 @@ void Picker::buttonReleased()
     // to get the selected text
     if (text != "")
     {
-        // qDebug() << "Text from picker" << text;
+        Text = text;
         emit wordsPicked(text);
     }
 }

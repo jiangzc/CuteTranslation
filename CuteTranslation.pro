@@ -27,6 +27,7 @@ PKGCONFIG += xcb xcb-util
 LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
+        src/baidutranslate.cpp \
         src/configtool.cpp \
         src/configwindow.cpp \
         src/event_monitor.cpp \
