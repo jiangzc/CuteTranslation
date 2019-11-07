@@ -7,12 +7,13 @@
 
 ShortCut::ShortCut()
 {
+    // keyCodes是双向队列，记录最近按下的3个键
     keyCodes.push_back(0);
     keyCodes.push_back(0);
     keyCodes.push_back(0);
-
+    // 获取 keyName -> keyCode 映射
     auto keyMap = xdotool.getKeyMap();
-
+    // 加载 FloatBarShortCut
     auto shortcut = configTool.FloatBarShortCutString.split("+", QString::SkipEmptyParts);
     for (auto &it : shortcut)
     {
@@ -24,7 +25,7 @@ ShortCut::ShortCut()
             qApp->quit();
         }
     }
-
+    // 加载 ScreenShotShortCut
     shortcut = configTool.ScreenShotShortCutString.split("+", QString::SkipEmptyParts);
     for (auto &it : shortcut)
     {
