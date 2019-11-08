@@ -34,10 +34,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     view->setGeometry(5,10,490,350);
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
-            int newHeight=result.toInt() * 1.2 + 20;
+            int newHeight=result.toInt() * 1.2 + 10;
             qDebug() << newHeight;
             view->setFixedSize(view->width(),newHeight);
-            this->setFixedHeight(newHeight + 40);
+            this->setFixedHeight(newHeight + 30);
             emit gotHeight();
         });
     });
