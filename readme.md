@@ -10,6 +10,6 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。
 + 个性化的配置
 + 快捷键 悬浮窗口
 
-![](pic/demo1.gif)
+![](pic/demo1.gif =480x360)
 
 ## 使用
