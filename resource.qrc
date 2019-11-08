@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>google-translate.png</file>
-        <file>icon.png</file>
+        <file>pic/icon.png</file>
+        <file>pic/google-translate.png</file>
     </qresource>
 </RCC>

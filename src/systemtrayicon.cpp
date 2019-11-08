@@ -11,7 +11,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     homepage_action("项目主页"), donate_action("捐赠"),
     modeSubMenu("取词模式", &menu), helpSubMenu("帮助", &menu)
 {
-    QIcon icon(":/icon.png");
+    QIcon icon(":/pic/icon.png");
     setIcon(icon);
 
     modeSubMenu.addAction(&change_mode_all_action);
