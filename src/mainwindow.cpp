@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->view = new QWebEngineView(this->centralWidget());
 
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
     view->setGeometry(5,10,490,350);
     connect(view, &QWebEngineView::loadFinished, this, [=]{
-        view->page()->runJavaScript("document.body.scrollHeight;",[=](QVariant result){
+        view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
             int newHeight=result.toInt() * 1.2 + 20;
             qDebug() << newHeight;
             view->setFixedSize(view->width(),newHeight);
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
-    QFile file("/home/jzc/Desktop/interpret_js_2.html");
+    QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qDebug() << "fail to open";
     QTextStream in(&file);
