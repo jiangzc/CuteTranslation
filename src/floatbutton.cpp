@@ -31,10 +31,12 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
+        qDebug() << "tri";
         if (configTool.Mode == "all")
             configTool.Mode = "custom";
         if (configTool.NotShow.value.contains(picker->CurrentWindowsPath) == false)
             configTool.NotShow += ":" + picker->CurrentWindowsPath;
+        qDebug() << configTool.NotShow.value;
         this->hide();
     });
 
@@ -60,7 +62,9 @@ void FloatButton::onMouseButtonPressed(int x, int y)
     {
         if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
         {
-            hide();
+            // 如果点击菜单，此处 hide()与triggered()有可能形成竞争，所以加一个判断。
+            if (floatButtonMenu.isHidden())
+                hide();
         }
         else
         {
@@ -89,6 +93,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     }
     else if (event->button() == Qt::RightButton)
     {
+        this->activateWindow();
         notShow.setText("不要在" + picker->CurrentWindowsPath + "显示");
         floatButtonMenu.exec(QCursor::pos());
     }
