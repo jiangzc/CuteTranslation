@@ -4,6 +4,7 @@
 #include <QtMath>
 #include <QFile>
 #include <QTextStream>
+#include <QEventLoop>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -26,12 +27,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    this->view = new QWebEngineView(this);
+    this->view = new QWebEngineView(this->centralWidget());
 
     view->setZoomFactor(1.2);
     // view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
-    view->setGeometry(5,30,490,350);
-    view->show();
+    view->setGeometry(5,10,490,350);
+    connect(view, &QWebEngineView::loadFinished, this, [=]{
+        view->page()->runJavaScript("document.body.scrollHeight;",[=](QVariant result){
+            int newHeight=result.toInt() * 1.2 + 20;
+            qDebug() << newHeight;
+            view->setFixedSize(view->width(),newHeight);
+            this->setFixedHeight(newHeight + 40);
+            emit gotHeight();
+        });
+    });
+
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
     QFile file("/home/jzc/Desktop/interpret_js_2.html");
@@ -106,6 +116,9 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QString html = this->html;
 
     this->view->setHtml(html.replace("\"{0}\"", json));
+    QEventLoop qel;
+    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+    qel.exec();
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;

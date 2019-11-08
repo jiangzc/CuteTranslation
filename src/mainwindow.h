@@ -32,6 +32,8 @@ class MainWindow : public QMainWindow
     QWebEngineView *view;
     QString html;
 
+signals:
+    void gotHeight();
   public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
