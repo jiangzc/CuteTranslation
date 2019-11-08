@@ -2,8 +2,8 @@
 #include <QDebug>
 #include <QPainter>
 #include <QtMath>
-#include <QWebEngineView>
-#include <QWebEngineSettings>
+#include <QFile>
+#include <QTextStream>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -26,13 +26,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    QWebEngineView *view = new QWebEngineView(this);
+    this->view = new QWebEngineView(this);
 
     view->setZoomFactor(1.2);
-    view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
+    // view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
     view->setGeometry(5,30,490,350);
     view->show();
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+
+    QFile file("/home/jzc/Desktop/interpret_js_2.html");
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        qDebug() << "fail to open";
+    QTextStream in(&file);
+    this->html = in.readAll();
 
 }
 
@@ -96,7 +102,10 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
     // 获取翻译
-    qDebug() << TranslateWord(picker->Text);
+    QString json = TranslateWord(picker->Text);
+    QString html = this->html;
+
+    this->view->setHtml(html.replace("\"{0}\"", json));
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;

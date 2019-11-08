@@ -1,9 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QMainWindow>
+#include <QWebEngineView>
+#include <QWebEngineSettings>
+
 #include "configtool.h"
 #include "picker.h"
-#include <QMainWindow>
+
 
 namespace Ui
 {
@@ -25,6 +29,8 @@ class MainWindow : public QMainWindow
     const int TriangleWidth = configTool.TriangleWidth;
     int TriangleOffset = 0;
     int Direction;
+    QWebEngineView *view;
+    QString html;
 
   public slots:
     void onMouseButtonPressed(int x, int y);

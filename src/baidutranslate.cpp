@@ -63,7 +63,7 @@ QString TranslateWord(QString word)
                     if (errno == EAGAIN)
                     {
                         printf("(pipe empty)\n");
-                        usleep(50000); // sleep 50 ms
+                        usleep(100000); // sleep 100 ms
                         break;
                     }
                     else
@@ -81,6 +81,7 @@ QString TranslateWord(QString word)
                     return result; // success
                 default:
                     // text read by default return n of bytes which read call read at that time
+                    buf[nread] = '\0';
                     result += buf;
                 }
             }

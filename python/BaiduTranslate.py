@@ -41,7 +41,6 @@ var token = function(r, _gtk) {
 
 class Dict:
     def __init__(self):
-        print("init")
         self.sess = requests.Session()
         self.headers = {
             'User-Agent':
@@ -61,7 +60,6 @@ class Dict:
             load main page : https://fanyi.baidu.com/
             and get token, gtk
         """
-        print("load MainPage")
         url = 'https://fanyi.baidu.com'
 
         try:
@@ -109,9 +107,7 @@ class Dict:
             'token': self.token,
         }
         try:
-            print("post " + str(time.time()))
             r = self.sess.post(url=url, data=data)
-            print("post " + str(time.time()))
         except Exception as e:
             raise e
 
