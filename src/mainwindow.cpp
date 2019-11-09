@@ -123,11 +123,10 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     {
         this->view->setHtml(json);
         qel.exec();
-        this->view->setFixedHeight(100);
+        this->view->setFixedHeight(300);
         this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
     }
-
 
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;

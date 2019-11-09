@@ -26,4 +26,14 @@ if __name__ == "__main__":
     #print(json['trans_result']['data'][0]['dst'])
     word = sys.argv[1]
     obj = d.dictionary(word, dst='zh', src='en')
-    print(json.dumps(obj["dict_result"]["simple_means"], ensure_ascii=False))
+    if "dict_result" in obj:
+        print(json.dumps(obj["dict_result"]["simple_means"], ensure_ascii=False))
+    elif "trans_result" in obj:
+        data_list = obj["trans_result"]["data"]
+        res = ""
+        for item in data_list:
+            res += item["dst"] + "<br/>"
+        print(res)
+    else:
+        print("None\n")
+        
