@@ -34,7 +34,6 @@ Picker::Picker(QObject *parent) : QObject(parent)
         text = clipboard->text(QClipboard::Selection);
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-        // qDebug() << CurrentWindowsPath;
         if (!isPressed && text != "")
         {
             Text = text;
