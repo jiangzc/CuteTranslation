@@ -30,12 +30,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->view = new QWebEngineView(this->centralWidget());
 
     view->setZoomFactor(1.2);
-    // view->load(QUrl("file:///home/jzc/Desktop/interpret.html"));
     view->setGeometry(5,10,490,350);
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
             int newHeight=result.toInt() * 1.2 + 10;
-            qDebug() << newHeight;
             view->setFixedSize(view->width(),newHeight);
             this->setFixedHeight(newHeight + 30);
             emit gotHeight();
@@ -111,14 +109,26 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-    // 获取翻译
-    QString json = TranslateWord(picker->Text);
-    QString html = this->html;
-
-    this->view->setHtml(html.replace("\"{0}\"", json));
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    qel.exec();
+    // 获取翻译
+    QString json = TranslateWord(picker->Text);
+    if (json.startsWith("{"))
+    {
+        QString html = this->html;
+        this->view->setHtml(html.replace("\"{0}\"", json));
+        qel.exec();
+    }
+    else
+    {
+        this->view->setHtml(json);
+        qel.exec();
+        this->view->setFixedHeight(100);
+        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+
+    }
+
+
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;

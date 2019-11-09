@@ -21,6 +21,7 @@ QString TranslateWord(QString word)
     QString python_path = QCoreApplication::applicationDirPath() + "/translate_demo.py";
 
     QString result;
+    float timeLeft = 2.0; // max delay of sub process
     int pipes[2];
     pid_t pid;
     if (pipe(pipes) == 0)
@@ -51,7 +52,8 @@ QString TranslateWord(QString word)
             int nread;
             char buf[2000];
             close(pipes[1]);
-            while (1)
+            bool timeout = false;
+            while (!timeout)
             {
                 nread = read(pipes[0], buf, 2000);
                 // read call  return -1 if pipe is empty (because of fcntl)
@@ -64,6 +66,14 @@ QString TranslateWord(QString word)
                     {
                         printf("(pipe empty)\n");
                         usleep(100000); // sleep 100 ms
+                        if (timeLeft > 0)
+                        {
+                            timeLeft -= 0.1;
+                        }
+                        else
+                        {
+                            timeout = true;
+                        }
                         break;
                     }
                     else
@@ -78,13 +88,22 @@ QString TranslateWord(QString word)
                     close(pipes[0]);
                     int status;
                     wait(&status);
-                    return result; // success
+                    if (status == 0)
+                        return result; // success
+                    else
+                        return QString("error"); // fail
                 default:
                     // text read by default return n of bytes which read call read at that time
                     buf[nread] = '\0';
                     result += buf;
                 }
             }
+            // timeout
+            close(pipes[0]);
+            int status;
+            kill(pid, SIGTERM);
+            wait(&status);
+            return QString("time out");
         }
     }
     else
