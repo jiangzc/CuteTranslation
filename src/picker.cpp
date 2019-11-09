@@ -31,14 +31,16 @@ Picker::Picker(QObject *parent) : QObject(parent)
     clipboard = QApplication::clipboard();
     connect(clipboard, &QClipboard::selectionChanged, this, [=] {
         // do not emit the signal right now, for browser
+
         text = clipboard->text(QClipboard::Selection);
-        CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
-        CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
         if (!isPressed && text != "")
         {
+            CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
+            CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
             Text = text;
             emit wordsPicked(text);
         }
+
     });
 }
 
@@ -54,6 +56,8 @@ void Picker::buttonReleased()
     // to get the selected text
     if (text != "")
     {
+        CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
+        CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
         Text = text;
         emit wordsPicked(text);
     }

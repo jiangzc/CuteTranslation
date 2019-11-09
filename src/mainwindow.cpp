@@ -113,6 +113,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
     QString json = TranslateWord(picker->Text);
+    qDebug() << json;
     if (json.startsWith("{"))
     {
         QString html = this->html;
