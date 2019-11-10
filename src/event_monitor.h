@@ -52,6 +52,7 @@ signals:
     void buttonRelease(int x, int y);
     void keyPress(int code);
     void keyRelease(int code);
+    void mouseWheel();
 
 protected:
     bool filterWheelEvent(int detail);
