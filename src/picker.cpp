@@ -10,37 +10,39 @@ Picker::Picker(QObject *parent) : QObject(parent)
 
     connect(clipboard, &QClipboard::selectionChanged, this, [=] {
 
-        text = clipboard->text(QClipboard::Selection);
-
-        // 在浏览器上选中文字会收到大量selectionChanged信号，并且收到的text==""。
-        // 如果text==""，可以认为当前用户操作的是浏览器
+        // 在浏览器和Calibre上选中文字会收到大量selectionChanged信号。
+        // 如果selectionChanged信号之间的时间间隔很短，可以认为当前用户操作的是浏览器
         // 为了避免处理大量信号导致floatBtn.show() 延时，此处屏蔽clipboard所有信号，在picker.buttonReleased()中恢复
-        if (text == "")
+        int elapsed = lastTime.msecsTo(QTime::currentTime());
+        if (elapsed < 200) // less than 200ms
         {
             clipboard->blockSignals(true);
-        }
-        else
-        {
-            CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
-            CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-            emit wordsPicked(text);
+            return;
         }
 
+        text = clipboard->text(QClipboard::Selection);
+        CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
+        CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
+
+        if (!isPressed)
+        {
+            emit wordsPicked(text);
+        }
     });
 }
 
 void Picker::buttonPressed()
 {
-
+     this->isPressed = true;
 }
 
 void Picker::buttonReleased()
 {
-
+    this->isPressed = false;
     if (clipboard->signalsBlocked())
     {
         text = clipboard->text(QClipboard::Selection);
-        clipboard->blockSignals(false);
+        clipboard->blockSignals(false); // 恢复clipboard信号
 
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));

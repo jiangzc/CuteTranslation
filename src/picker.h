@@ -26,6 +26,7 @@
 #include <QClipboard>
 #include <QObject>
 #include <QString>
+#include <QTime>
 
 
 
@@ -42,6 +43,8 @@ class Picker : public QObject
   private:
     QClipboard *clipboard;
     QString text;
+    QTime lastTime;
+    bool isPressed;
 
   signals:
     void wordsPicked(QString);
