@@ -7,7 +7,8 @@
 Picker::Picker(QObject *parent) : QObject(parent)
 {
     clipboard = QApplication::clipboard();
-
+    this->isPressed = false;
+    lastTime = QTime::currentTime();
     connect(clipboard, &QClipboard::selectionChanged, this, [=] {
 
         // 在浏览器和Calibre上选中文字会收到大量selectionChanged信号。

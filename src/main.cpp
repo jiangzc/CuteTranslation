@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 {
     // TODO check files exist
     // TODO analyse picker's text language type
-    // BUG First select invaild
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
 
