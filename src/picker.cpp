@@ -14,6 +14,7 @@ Picker::Picker(QObject *parent) : QObject(parent)
         // 如果selectionChanged信号之间的时间间隔很短，可以认为当前用户操作的是浏览器
         // 为了避免处理大量信号导致floatBtn.show() 延时，此处屏蔽clipboard所有信号，在picker.buttonReleased()中恢复
         int elapsed = lastTime.msecsTo(QTime::currentTime());
+        lastTime = QTime::currentTime();
         if (elapsed < 200) // less than 200ms
         {
             clipboard->blockSignals(true);
@@ -33,6 +34,7 @@ Picker::Picker(QObject *parent) : QObject(parent)
 
 void Picker::buttonPressed()
 {
+    text = "";
      this->isPressed = true;
 }
 
@@ -46,9 +48,10 @@ void Picker::buttonReleased()
 
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-        emit wordsPicked(text);
 
     }
+    if (text != "")
+        emit wordsPicked(text);
 }
 
 QString Picker::getSelectedText()
