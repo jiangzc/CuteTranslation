@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QDir>
 
 #include "floatbutton.h"
 #include "xdotool.h"
@@ -15,11 +16,17 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO check files exist
     // TODO analyse picker's text language type
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
+
+    QDir appDir(QCoreApplication::applicationDirPath());
+    if (!appDir.exists("BaiduTranslate.py") || !appDir.exists("translate_demo.py") || !appDir.exists("interpret_js_2.html"))
+    {
+        qDebug() << "files is missing";
+        return 1;
+    }
 
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
