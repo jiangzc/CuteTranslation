@@ -25,7 +25,14 @@ if __name__ == "__main__":
     # json = d.dictionary('青花瓷', dst='en', src='zh')
     #print(json['trans_result']['data'][0]['dst'])
     word = sys.argv[1]
-    obj = d.dictionary(word, dst='zh', src='en')
+    is_latin = True
+    for c in word:
+        if ord(c) > 127:
+            is_latin = False
+    if is_latin:
+        obj = d.dictionary(word, dst='zh', src='en')
+    else:
+        obj = d.dictionary(word, dst='zh', src=d.langdetect(word))
     if "dict_result" in obj:
         print(json.dumps(obj["dict_result"]["simple_means"], ensure_ascii=False))
     elif "trans_result" in obj:
