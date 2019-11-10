@@ -19,7 +19,6 @@ Picker::Picker(QObject *parent) : QObject(parent)
         {
             CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
             CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-            Text = text;
             emit wordsPicked(text);
         }
 
@@ -43,7 +42,6 @@ void Picker::buttonReleased()
 
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-        Text = text;
         emit wordsPicked(text);
 
     }

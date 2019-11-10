@@ -38,11 +38,9 @@ class Picker : public QObject
     void buttonPressed();
     void buttonReleased();
     QString getSelectedText();
-    QString Text;
 
   private:
     QClipboard *clipboard;
-    bool isPressed;
     QString text;
 
   signals:
