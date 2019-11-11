@@ -17,6 +17,9 @@ private:
 
 public slots:
     void onKeyPressed(int keyCode);
+
+signals:
+    void OCRCompleted(QString res);
 };
 
 #endif // SHORTCUT_H

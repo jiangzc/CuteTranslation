@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
 
+    QObject::connect(&shortcut, &ShortCut::OCRCompleted, &w, &MainWindow::onOCRCompleted);
+
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);

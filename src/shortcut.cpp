@@ -5,6 +5,8 @@
 #include "xdotool.h"
 #include <algorithm>
 
+extern QString OCRTranslate();
+
 ShortCut::ShortCut()
 {
     // keyCodes是双向队列，记录最近按下的3个键
@@ -53,5 +55,8 @@ void ShortCut::onKeyPressed(int keyCode)
                    keyCodes.cbegin() + 3 - int(ScreenShotShortCut.size())))
     {
         qDebug() << "ScreenShotShortCut";
+        QString res = OCRTranslate();
+        emit OCRCompleted(res);
+
     }
 }

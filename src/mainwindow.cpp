@@ -174,3 +174,69 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     this->show();
 
 }
+
+void MainWindow::onOCRCompleted(QString res)
+{
+    QPoint mousePressPosition = xdotool.eventMonitor.mousePressPosition;
+    QPoint mouseReleasedPosition = xdotool.eventMonitor.mouseReleasedPosition;
+    QEventLoop qel;
+    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+    qDebug() << res;
+    if (res.startsWith("{"))
+    {
+        QString html = this->html;
+        this->view->setHtml(html.replace("\"{0}\"", res));
+        qel.exec();
+    }
+    else
+    {
+        this->view->setHtml(res);
+        qel.exec();
+        this->view->setFixedHeight(300);
+        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+    }
+
+    // 获取默认方向向 重置三角形偏移量
+    int direction = configTool.Direction;
+    TriangleOffset = 0;
+
+    QPoint mid(0, 0);
+    mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
+
+    if (direction == Direction_Up)
+        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
+    else
+        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
+    // 判断是否超出屏幕上边界
+    if (direction == Direction_Down && mid.y() < 0)
+    {
+        direction = Direction_Up;
+        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
+    }
+    // 判断是否超出屏幕下边界
+    if (direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
+    {
+        direction = Direction_Down;
+        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
+    }
+    Direction = direction;
+    // 判断是否超出屏幕左边界
+    if (mid.x() < configTool.Edge)
+    {
+        TriangleOffset = configTool.Edge - mid.x();
+        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
+            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
+        mid.rx() = configTool.Edge;
+        TriangleOffset = -TriangleOffset;
+    }
+    // 判断是否超出屏幕右边界
+    if (mid.x() + this->width() > xdotool.screenWidth - configTool.Edge)
+    {
+        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool.Edge);
+        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
+            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
+        mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
+    }
+    move(mid);
+    this->show();
+}

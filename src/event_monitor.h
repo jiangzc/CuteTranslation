@@ -25,6 +25,7 @@
 #define EVENTMONITOR_H
 
 #include <QThread>
+#include <QPoint>
 #include <X11/Xlib.h>
 #include <X11/extensions/record.h>
 
@@ -45,6 +46,8 @@ class EventMonitor : public QThread
 
 public:
     EventMonitor(QObject *parent = 0);
+    QPoint mousePressPosition;
+    QPoint mouseReleasedPosition;
     
 signals:
     void buttonPress(int x, int y);

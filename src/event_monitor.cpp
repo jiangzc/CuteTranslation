@@ -85,6 +85,7 @@ void EventMonitor::handleRecordEvent(XRecordInterceptData* data)
         case ButtonPress:
             if (filterWheelEvent(event->u.u.detail)) {
                 isPress = true;
+                mousePressPosition = QPoint(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY);
                 emit buttonPress(
                     event->u.keyButtonPointer.rootX, 
                     event->u.keyButtonPointer.rootY);
@@ -107,6 +108,7 @@ void EventMonitor::handleRecordEvent(XRecordInterceptData* data)
         case ButtonRelease:
             if (filterWheelEvent(event->u.u.detail)) {
                 isPress = false;
+                mouseReleasedPosition = QPoint(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY);
                 emit buttonRelease(
                     event->u.keyButtonPointer.rootX, 
                     event->u.keyButtonPointer.rootY);
