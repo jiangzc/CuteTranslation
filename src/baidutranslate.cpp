@@ -122,7 +122,7 @@ QString OCRTranslate()
     QString python_path = QCoreApplication::applicationDirPath() + "/BaiduOCR.py";
     pid_t pid;
     QString result;
-    float timeLeft = 5.0; // max delay of sub process
+    float timeLeft = 3.0; // max delay of sub process
     int pipes[2];
 
     if (pipe(pipes) == 0)
@@ -189,6 +189,7 @@ QString OCRTranslate()
                     close(pipes[0]);
                     int status;
                     wait(&status);
+                    qDebug() << result;
                     if (status == 0)
                         return TranslateWord(result); // success
                     else
