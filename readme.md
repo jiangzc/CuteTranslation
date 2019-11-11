@@ -33,6 +33,17 @@ mkdir build && cd build
 qmake ..
 make
 ```
+复制文件到程序所在的目录
+```
+cd ..
+cp python/*.py build
+cp template/* build
+cp config.ini ~/CuteTranslation/ (暂时)
+```
+运行
+```
+./CuteTranslation
+```
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker)
 + [ScreenTranslation](https://github.com/ziqiangxu/words-picker)
