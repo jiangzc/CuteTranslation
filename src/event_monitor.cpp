@@ -90,7 +90,9 @@ void EventMonitor::handleRecordEvent(XRecordInterceptData* data)
                     event->u.keyButtonPointer.rootY);
             }
             else {
-                emit mouseWheel();
+                emit mouseWheel(
+                    event->u.keyButtonPointer.rootX,
+                    event->u.keyButtonPointer.rootY);
             }
             
             break;
