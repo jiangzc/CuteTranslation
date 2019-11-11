@@ -46,7 +46,7 @@ def recognize_image(picture_path): # picture_path 是绝对路径
         return "path do not exist"
     with open(picture_path, 'rb') as f:
         image_string = base64.b64encode(f.read())
-    data = {'image': image_string}
+    data = {'image': image_string, 'detect_language': 'true'}
     res = requests.post("https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=" + 
         access_token, data, timeout=5)
     result_string = ""
