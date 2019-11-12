@@ -3,6 +3,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QDir>
+#include <QVector>
 
 #include "floatbutton.h"
 #include "xdotool.h"
@@ -21,12 +22,29 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
 
+    QVector<QString> depends;
+    depends.push_back("BaiduTranslate.py");
+    depends.push_back("translate_demo.py");
+    depends.push_back("BaiduOCR.py");
+    depends.push_back("interpret_js_2.html");
+
+
     QDir appDir(QCoreApplication::applicationDirPath());
-    if (!appDir.exists("BaiduTranslate.py") || !appDir.exists("translate_demo.py") || !appDir.exists("interpret_js_2.html"))
+    for (auto file : depends)
     {
-        qDebug() << "files is missing";
+        if (!appDir.exists(file))
+        {
+            qDebug() << "file is missing: " << file;
+            return 1;
+        }
+    }
+
+    if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
+    {
+        qDebug() << "file is missing: " << "config.ini";
         return 1;
     }
+
 
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
