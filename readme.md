@@ -33,12 +33,14 @@ mkdir build && cd build
 qmake ..
 make
 ```
-复制文件到程序所在的目录
+安装
 ```
-cd ..
-cp python/*.py build
-cp template/* build
-cp config.ini ~/CuteTranslation/ (暂时)
+# 安装到build目录
+bash install.sh build
+
+# 安装到 /opt/CuteTranslation
+sudo bash install.sh
+sudo chown -R $USER /opt/CuteTranslation
 ```
 运行
 ```
