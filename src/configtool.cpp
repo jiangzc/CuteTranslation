@@ -26,4 +26,4 @@ ConfigTool::ConfigTool()
 }
 
 
-QSettings ConfigTool::settings(QDir::homePath() + "/CuteTranslation/config.ini", QSettings::IniFormat);
+QSettings ConfigTool::settings(QDir::homePath() + ".config/CuteTranslation/config.ini", QSettings::IniFormat);
