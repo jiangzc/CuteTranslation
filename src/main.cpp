@@ -11,6 +11,7 @@
 #include "configtool.h"
 #include "configwindow.h"
 #include "shortcut.h"
+#include "searchbar.h"
 
 Xdotool xdotool;
 ConfigTool configTool;
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
 
+    // 检查依赖文件是否存在
     QVector<QString> depends;
     depends.push_back("BaiduTranslate.py");
     depends.push_back("translate_demo.py");
@@ -64,6 +66,8 @@ int main(int argc, char *argv[])
     ShortCut shortcut;
 
     // cw.show();
+    SearchBar sb;
+    sb.show();
 
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
 
@@ -89,5 +93,6 @@ int main(int argc, char *argv[])
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &shortcut, &ShortCut::onKeyPressed, Qt::QueuedConnection);
 
     xdotool.eventMonitor.start();
+
     return a.exec();
 }

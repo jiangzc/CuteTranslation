@@ -239,4 +239,5 @@ void MainWindow::onOCRCompleted(QString res)
     }
     move(mid);
     this->show();
+    this->activateWindow();
 }

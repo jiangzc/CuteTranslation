@@ -20,14 +20,14 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     this->setFixedSize(configTool.FloatButtonWidth, configTool.FloatButtonHeight);
-    setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
 
     QPixmap *pic = new QPixmap(":/pic/google-translate.png");
     QLabel *label = new QLabel(this);
     label->setScaledContents(true);
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(*pic);
-    // label->setStyleSheet("border-width:5");
+    label->setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
+
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{

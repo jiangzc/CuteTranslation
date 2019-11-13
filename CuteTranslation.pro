@@ -35,6 +35,7 @@ SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
         src/picker.cpp \
+        src/searchbar.cpp \
         src/shortcut.cpp \
         src/systemtrayicon.cpp \
         src/xdotool.cpp
@@ -46,6 +47,7 @@ HEADERS += \
         src/floatbutton.h \
         src/mainwindow.h \
         src/picker.h \
+        src/searchbar.h \
         src/shortcut.h \
         src/systemtrayicon.h \
         src/xdotool.h
@@ -53,7 +55,8 @@ HEADERS += \
 FORMS += \
         src/configwindow.ui \
         src/floatbutton.ui \
-        src/mainwindow.ui
+        src/mainwindow.ui \
+        src/searchbar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
