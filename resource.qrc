@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>pic/icon.png</file>
         <file>pic/google-translate.png</file>
+        <file>pic/icons-search.svg</file>
     </qresource>
 </RCC>

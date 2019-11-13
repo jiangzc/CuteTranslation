@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>60</height>
+    <height>70</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,17 @@
     <rect>
      <x>50</x>
      <y>10</y>
-     <width>301</width>
-     <height>31</height>
+     <width>321</width>
+     <height>50</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans CJK SC</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
    </property>
    <property name="inputMask">
     <string/>

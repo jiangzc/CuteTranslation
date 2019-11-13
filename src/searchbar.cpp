@@ -8,11 +8,17 @@ SearchBar::SearchBar(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    //ui->frame->setGeometry(5, 5, 390, 50);
 
-    ui->lineEdit->setStyleSheet("QLineEdit{background-color: white; border-radius: 10px;padding: 2 2 2 20;border-style:solid;border-width:1px; border-color:rgb(192,192,192);}");
-    this->move(300, 300);
-    //ui->lineEdit->setCursorPosition(3);
+
+    ui->lineEdit->setStyleSheet("QLineEdit{background-color: white; border-radius: 20px;\
+        padding: 2 2 2 10;border-style:solid;border-width:2px; border-color:rgb(192,192,192);\
+        background-image: url(:/pic/icons-search.svg);background-repeat: no-repeat;background-position: left;\
+        background-origin: content;}");
+    ui->lineEdit->setTextMargins(35,0,0,0);
+    ui->lineEdit->setPlaceholderText("Search");
+
+    this->move(600, 500);
+
 }
 
 SearchBar::~SearchBar()
