@@ -28,22 +28,24 @@ int main(int argc, char *argv[])
     depends.push_back("BaiduOCR.py");
     depends.push_back("interpret_js_2.html");
 
-
+    bool filesExist = true;
     QDir appDir(QCoreApplication::applicationDirPath());
     for (auto file : depends)
     {
         if (!appDir.exists(file))
         {
-            qDebug() << "file is missing: " << file;
-            return 1;
+            qDebug() << "file is missing: " << appDir.filePath(file);
+            filesExist = false;
         }
     }
 
     if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
     {
-        qDebug() << "file is missing: " << "config.ini";
-        return 1;
+        qDebug() << "file is missing: " << QDir::homePath() + "/.config/CuteTranslation/config.ini";
+        filesExist = false;
     }
+    if (filesExist == false)
+        return -1;
 
 
     // 获取屏幕可用的大小

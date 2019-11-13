@@ -20,10 +20,10 @@ ConfigTool::ConfigTool()
     Show = settings.value("/Custom/Show").toString();
     NotShow = settings.value("/Custom/NotShow").toString();
 
-    FloatBarShortCutString = settings.value("/ShortCut/FloatBar").toString().toLower();
-    ScreenShotShortCutString = settings.value("/ShortCut/ScreenShot").toString().toLower();
+    FloatBarShortCutString = settings.value("/ShortCut/FloatBar", "ctrl+q").toString().toLower();
+    ScreenShotShortCutString = settings.value("/ShortCut/ScreenShot", "alt+q").toString().toLower();
 
 }
 
 
-QSettings ConfigTool::settings(QDir::homePath() + ".config/CuteTranslation/config.ini", QSettings::IniFormat);
+QSettings ConfigTool::settings(QDir::homePath() + "/.config/CuteTranslation/config.ini", QSettings::IniFormat);
