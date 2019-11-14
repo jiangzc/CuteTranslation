@@ -2,6 +2,7 @@
 #define SEARCHBAR_H
 
 #include <QWidget>
+#include <QPoint>
 
 namespace Ui {
 class SearchBar;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::SearchBar *ui;
+    QPoint mDragPosition;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 };
 
 #endif // SEARCHBAR_H
