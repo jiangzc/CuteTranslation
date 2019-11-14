@@ -1,45 +1,11 @@
 #include <QMouseEvent>
-#include <QLabel>
 #include <QPoint>
 #include <QDebug>
 #include <QIcon>
 
 #include "searchbar.h"
 #include "ui_searchbar.h"
-class PictureBox;
-class PictureBox : public QLabel
-{
 
-private:
-    QPoint mDragPosition;
-protected:
-    virtual void mousePressEvent(QMouseEvent *event)
-    {
-        if (event->button() == Qt::LeftButton) {
-            mDragPosition = event->pos();
-            event->accept();
-        }
-    }
-    virtual void mouseMoveEvent(QMouseEvent *event)
-    {
-        reinterpret_cast<QWidget*>(this->parent()->parent())->move(event->globalPos() - mDragPosition
-                                   - reinterpret_cast<QWidget*>(this->parent())->pos() - this->pos());
-
-    }
-public:
-    explicit PictureBox(QWidget *parent = nullptr);
-    ~PictureBox();
-};
-
-PictureBox::PictureBox(QWidget *parent) : QLabel(parent)
-{
-
-}
-
-PictureBox::~PictureBox()
-{
-
-}
 
 SearchBar::SearchBar(QWidget *parent) :
     QWidget(parent),
@@ -56,17 +22,19 @@ SearchBar::SearchBar(QWidget *parent) :
     ui->lineEdit->setTextMargins(35,0,0,0);
     //ui->lineEdit->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui->lineEdit->setPlaceholderText("Search");
-    PictureBox *searchIcon = new PictureBox(this->ui->lineEdit);
+
+    QPixmap pic(":/pic/icons-search.svg");
+
+    searchIcon = new QLabel(this->ui->lineEdit);
     searchIcon->setFixedSize(30, 30);
     searchIcon->move(10,10);
-    QPixmap pic(":/pic/icons-search.svg");
     searchIcon->setPixmap(pic);
     searchIcon->setScaledContents(true);
     searchIcon->show();
+    searchIcon->installEventFilter(this);
 
 
     hideButton = new QPushButton(this->ui->lineEdit);
-
     hideButton->setFixedSize(30, 30);
     hideButton->move(250, 10);
     hideButton->setStyleSheet("border:none;background-color:white; ");
@@ -98,6 +66,21 @@ bool SearchBar::eventFilter(QObject *obj, QEvent *event)
     {
         hideButton->setIcon(QIcon());
         return true;
+    }
+    if (obj == this->searchIcon && event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent *e = reinterpret_cast<QMouseEvent *>(event);
+        if (e->button() == Qt::LeftButton)
+        {
+            mDragPosition = e->pos() + this->ui->lineEdit->pos() + this->searchIcon->pos();
+        }
+
+    }
+    if (obj == this->searchIcon && event->type() == QEvent::MouseMove)
+    {
+        QMouseEvent *e = reinterpret_cast<QMouseEvent *>(event);
+        this->move(e->globalPos() - mDragPosition);
+
     }
     return false;
 }

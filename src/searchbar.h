@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QWidget>
 #include <QPoint>
+#include <QLabel>
 
 
 namespace Ui {
@@ -23,6 +24,7 @@ private:
     Ui::SearchBar *ui;
     QPoint mDragPosition;
     QPushButton *hideButton;
+    QLabel *searchIcon;
 };
 
 #endif // SEARCHBAR_H
