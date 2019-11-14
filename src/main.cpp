@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
     // cw.show();
     SearchBar sb;
-    sb.show();
+    // sb.show();
 
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
 
@@ -75,7 +75,9 @@ int main(int argc, char *argv[])
 
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
 
+    // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRCompleted, &w, &MainWindow::onOCRCompleted);
+    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, &SearchBar::show);
 
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);

@@ -12,7 +12,7 @@ public:
 
 private:
     std::deque<int> keyCodes;
-    std::vector<int> FloatBarShortCut;
+    std::vector<int> SearchBarShortCut;
     std::vector<int> ScreenShotShortCut;
 
 public slots:
@@ -20,6 +20,7 @@ public slots:
 
 signals:
     void OCRCompleted(QString res);
+    void SearchBarShortCutPressed();
 };
 
 #endif // SHORTCUT_H

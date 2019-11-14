@@ -21,7 +21,7 @@ class ConfigTool
     int MainWindowHeight;
     int FloatButtonWidth;
     int FloatButtonHeight;
-    QString FloatBarShortCutString;
+    QString SearchBarShortCutString;
     QString ScreenShotShortCutString;
 
     static QSettings settings;
