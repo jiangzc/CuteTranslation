@@ -3,5 +3,6 @@
         <file>pic/icon.png</file>
         <file>pic/google-translate.png</file>
         <file>pic/icons-search.svg</file>
+        <file>pic/icons-cancel.svg</file>
     </qresource>
 </RCC>

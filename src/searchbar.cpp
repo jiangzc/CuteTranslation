@@ -1,8 +1,9 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QPoint>
-#include <QWidget>
 #include <QDebug>
+#include <QIcon>
+
 #include "searchbar.h"
 #include "ui_searchbar.h"
 class PictureBox;
@@ -45,6 +46,7 @@ SearchBar::SearchBar(QWidget *parent) :
     ui(new Ui::SearchBar)
 {
     ui->setupUi(this);
+    this->setMouseTracking(true);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     qDebug() << ui->lineEdit->parent();
@@ -57,10 +59,22 @@ SearchBar::SearchBar(QWidget *parent) :
     PictureBox *searchIcon = new PictureBox(this->ui->lineEdit);
     searchIcon->setFixedSize(30, 30);
     searchIcon->move(10,10);
-    QPixmap *pic = new QPixmap(":/pic/icons-search.svg");
-    searchIcon->setPixmap(*pic);
+    QPixmap pic(":/pic/icons-search.svg");
+    searchIcon->setPixmap(pic);
     searchIcon->setScaledContents(true);
     searchIcon->show();
+
+
+    hideButton = new QPushButton(this->ui->lineEdit);
+
+    hideButton->setFixedSize(30, 30);
+    hideButton->move(250, 10);
+    hideButton->setStyleSheet("border:none;background-color:white; ");
+    hideButton->setFlat(true);
+    hideButton->setIconSize(QSize(40, 40));
+    hideButton->show();
+    hideButton->installEventFilter(this);
+    connect(hideButton, &QPushButton::clicked, this, &QWidget::hide);
 
     this->move(600, 500);
 
@@ -72,17 +86,18 @@ SearchBar::~SearchBar()
 }
 
 
-void SearchBar::mousePressEvent(QMouseEvent *event)
+bool SearchBar::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        mDragPosition = event->pos();
-        event->accept();
+    if (obj == this->hideButton && event->type() == QEvent::HoverEnter)
+    {
+        QPixmap pic = QPixmap(":/pic/icons-cancel.svg");
+        hideButton->setIcon(pic);
+        return true;
     }
-}
-
-void SearchBar::mouseMoveEvent(QMouseEvent *event)
-{
-
-        move(event->globalPos() - mDragPosition);
-
+    if (obj == this->hideButton && event->type() == QEvent::HoverLeave)
+    {
+        hideButton->setIcon(QIcon());
+        return true;
+    }
+    return false;
 }
