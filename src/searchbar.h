@@ -25,6 +25,9 @@ private:
     QPoint mDragPosition;
     QPushButton *hideButton;
     QLabel *searchIcon;
+
+signals:
+    void returnPressed(QPoint pos, QPoint size, QString res);
 };
 
 #endif // SEARCHBAR_H

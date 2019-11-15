@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->view = new QWebEngineView(this->centralWidget());
 
     view->setZoomFactor(1.2);
-    view->setGeometry(5,10,490,350);
+    view->setGeometry(10,10,480,350);
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
             int newHeight=result.toInt() * 1.2 + 10;
@@ -57,8 +57,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    QMainWindow::paintEvent(event);
-
     QColor greyColor(192, 192, 192);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -74,8 +72,19 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     QPolygon polygon;
-    if (Direction == Direction_Down)
+    if (showTriangle == false)
     {
+        centralWidget()->move(0, 0);
+        polygon << QPoint(0, 0);
+        polygon << QPoint(this->width(), 0);
+        polygon << QPoint(this->width(), this->height());
+        polygon << QPoint(0, this->height());
+        showTriangle = true;
+
+    }
+    else if (Direction == Direction_Down)
+    {
+        centralWidget()->move(0, 0);
         polygon << QPoint(0, 0);
         polygon << QPoint(this->width(), 0);
         polygon << QPoint(this->width(), this->height() - TriangleHeight);
@@ -240,4 +249,31 @@ void MainWindow::onOCRCompleted(QString res)
     move(mid);
     this->show();
     this->activateWindow();
+}
+
+void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
+{
+    QEventLoop qel;
+    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+    res = TranslateWord(res);
+    if (res.startsWith("{"))
+    {
+        QString html = this->html;
+        this->view->setHtml(html.replace("\"{0}\"", res));
+        qel.exec();
+    }
+    else
+    {
+        this->view->setHtml(res);
+        qel.exec();
+        this->view->setFixedHeight(300);
+        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+    }
+
+    this->showTriangle = false;
+    QPoint mid;
+    mid.ry() = pos.y() + size.y();
+    mid.rx() = pos.x() + size.x() / 2 - this->width() / 2;
+    move(mid);
+    this->show();
 }

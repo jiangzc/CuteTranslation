@@ -75,6 +75,8 @@ int main(int argc, char *argv[])
 
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
 
+    QObject::connect(&sb, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
+
     // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRCompleted, &w, &MainWindow::onOCRCompleted);
     QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, &SearchBar::show);

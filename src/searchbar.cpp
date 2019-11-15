@@ -12,30 +12,27 @@ SearchBar::SearchBar(QWidget *parent) :
     ui(new Ui::SearchBar)
 {
     ui->setupUi(this);
-    this->setMouseTracking(true);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    qDebug() << ui->lineEdit->parent();
+
     ui->lineEdit->setStyleSheet("QLineEdit{background-color: white; border-radius: 20px;\
         padding: 2 2 2 10;border-style:solid;border-width:2px; border-color:rgb(192,192,192);\
         }");
     ui->lineEdit->setTextMargins(35,0,0,0);
-    //ui->lineEdit->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui->lineEdit->setPlaceholderText("Search");
+    connect(ui->lineEdit, &QLineEdit::returnPressed, this, [=]{
+        emit this->returnPressed(this->pos(), QPoint(this->width(), this->height()), this->ui->lineEdit->text());
+    });
 
     QPixmap pic(":/pic/icons-search.svg");
-
+    pic.scaled(30, 30);
     searchIcon = new QLabel(this->ui->lineEdit);
     searchIcon->setFixedSize(45, 30);
+    searchIcon->move(0, 10);
     searchIcon->setStyleSheet("QLabel{padding: 2 2 2 10;}");
-    searchIcon->move(0,10);
-    pic.scaled(30, 30);
     searchIcon->setPixmap(pic);
-
-    //searchIcon->setScaledContents(true);
-    searchIcon->show();
     searchIcon->installEventFilter(this);
-
+    searchIcon->show();
 
     hideButton = new QPushButton(this->ui->lineEdit);
     hideButton->setFixedSize(50, 30);

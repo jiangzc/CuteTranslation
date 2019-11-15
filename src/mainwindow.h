@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow
     int Direction;
     QWebEngineView *view;
     QString html;
+    bool showTriangle = true;
 
   signals:
     void gotHeight();
@@ -40,6 +41,7 @@ class MainWindow : public QMainWindow
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
     void onOCRCompleted(QString res);
+    void onSearchBarReturned(QPoint pos, QPoint size, QString res);
 };
 
 #endif // MAINWINDOW_H
