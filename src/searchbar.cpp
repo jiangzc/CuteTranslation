@@ -26,18 +26,21 @@ SearchBar::SearchBar(QWidget *parent) :
     QPixmap pic(":/pic/icons-search.svg");
 
     searchIcon = new QLabel(this->ui->lineEdit);
-    searchIcon->setFixedSize(30, 30);
-    searchIcon->move(10,10);
+    searchIcon->setFixedSize(45, 30);
+    searchIcon->setStyleSheet("QLabel{padding: 2 2 2 10;}");
+    searchIcon->move(0,10);
+    pic.scaled(30, 30);
     searchIcon->setPixmap(pic);
-    searchIcon->setScaledContents(true);
+
+    //searchIcon->setScaledContents(true);
     searchIcon->show();
     searchIcon->installEventFilter(this);
 
 
     hideButton = new QPushButton(this->ui->lineEdit);
-    hideButton->setFixedSize(30, 30);
+    hideButton->setFixedSize(50, 30);
     hideButton->move(250, 10);
-    hideButton->setStyleSheet("border:none;background-color:white; ");
+    hideButton->setStyleSheet("QPushButton{border:none;background-color:transparent;} ");
     hideButton->setFlat(true);
     hideButton->setIconSize(QSize(40, 40));
     hideButton->show();
