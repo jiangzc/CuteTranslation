@@ -63,7 +63,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     QPen pen;
     pen.setColor(greyColor);
-    pen.setWidth(3);
+    pen.setWidth(4);
     painter.setPen(pen);
 
     QBrush brush;
@@ -274,6 +274,11 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
     QPoint mid;
     mid.ry() = pos.y() + size.y();
     mid.rx() = pos.x() + size.x() / 2 - this->width() / 2;
+    // 判断是否超出屏幕下边界
+    if (mid.y() + this->height() > xdotool.screenHeight)
+    {
+        mid.ry() = pos.y() - this->size().height();
+    }
     move(mid);
     this->show();
 }
