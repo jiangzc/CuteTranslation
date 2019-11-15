@@ -16,7 +16,7 @@ SearchBar::SearchBar(QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
 
     ui->lineEdit->setStyleSheet("QLineEdit{background-color: white; border-radius: 20px;\
-        padding: 2 2 2 10;border-style:solid;border-width:2px; border-color:rgb(192,192,192);\
+        padding: 2 60 2 10;border-style:solid;border-width:2px; border-color:rgb(192,192,192);\
         }");
     ui->lineEdit->setTextMargins(35,0,0,0);
     ui->lineEdit->setPlaceholderText("Search");
@@ -27,7 +27,7 @@ SearchBar::SearchBar(QWidget *parent) :
     QPixmap pic(":/pic/icons-search.svg");
     pic.scaled(30, 30);
     searchIcon = new QLabel(this->ui->lineEdit);
-    searchIcon->setFixedSize(45, 30);
+    searchIcon->setFixedSize(40, 30); // 延长接触区域
     searchIcon->move(0, 10);
     searchIcon->setStyleSheet("QLabel{padding: 2 2 2 10;}");
     searchIcon->setPixmap(pic);
@@ -35,7 +35,7 @@ SearchBar::SearchBar(QWidget *parent) :
     searchIcon->show();
 
     hideButton = new QPushButton(this->ui->lineEdit);
-    hideButton->setFixedSize(50, 30);
+    hideButton->setFixedSize(40, 30); // 延长接触区域
     hideButton->move(250, 10);
     hideButton->setStyleSheet("QPushButton{border:none;background-color:transparent;} ");
     hideButton->setFlat(true);
@@ -69,6 +69,7 @@ bool SearchBar::eventFilter(QObject *obj, QEvent *event)
     }
     if (obj == this->searchIcon && event->type() == QEvent::MouseButtonPress)
     {
+        ui->lineEdit->deselect();
         QMouseEvent *e = reinterpret_cast<QMouseEvent *>(event);
         if (e->button() == Qt::LeftButton)
         {
@@ -78,6 +79,7 @@ bool SearchBar::eventFilter(QObject *obj, QEvent *event)
     }
     if (obj == this->searchIcon && event->type() == QEvent::MouseMove)
     {
+        ui->lineEdit->deselect();
         QMouseEvent *e = reinterpret_cast<QMouseEvent *>(event);
         this->move(e->globalPos() - mDragPosition);
 

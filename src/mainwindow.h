@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow
     QWebEngineView *view;
     QString html;
     bool showTriangle = true;
+    virtual void showEvent(QShowEvent *e);
 
   signals:
     void gotHeight();

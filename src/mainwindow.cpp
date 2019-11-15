@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QEventLoop>
+#include <QShowEvent>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->view = new QWebEngineView(this->centralWidget());
 
     view->setZoomFactor(1.2);
-    view->setGeometry(10,10,480,350);
+    view->setGeometry(10,10,460,350);
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
             int newHeight=result.toInt() * 1.2 + 10;
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
             emit gotHeight();
         });
     });
-
+    //view->hide();
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
     QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
@@ -48,13 +49,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     QTextStream in(&file);
     this->html = in.readAll();
 
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+void MainWindow::showEvent(QShowEvent *e)
+{
+    if (Direction == Direction_Up)
+    {
+        // 三角形占用了上面的区域，所以整体下移
+        this->setFixedHeight(this->height() + TriangleHeight);
+        qDebug() << "aaa";
+    }
+    e->ignore();
+}
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QColor greyColor(192, 192, 192);
@@ -63,7 +74,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     QPen pen;
     pen.setColor(greyColor);
-    pen.setWidth(4);
+    pen.setWidth(3);
     painter.setPen(pen);
 
     QBrush brush;
@@ -72,40 +83,51 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     QPolygon polygon;
+    QPainterPath path;
     if (showTriangle == false)
     {
         centralWidget()->move(0, 0);
-        polygon << QPoint(0, 0);
-        polygon << QPoint(this->width(), 0);
-        polygon << QPoint(this->width(), this->height());
-        polygon << QPoint(0, this->height());
+        QPainterPath path;
+        path.addRoundedRect(5, 5, this->width() -5 -5, this->height()-5-5 , 15, 15);
         showTriangle = true;
-
     }
     else if (Direction == Direction_Down)
     {
         centralWidget()->move(0, 0);
-        polygon << QPoint(0, 0);
-        polygon << QPoint(this->width(), 0);
-        polygon << QPoint(this->width(), this->height() - TriangleHeight);
-        polygon << QPoint(this->width() / 2 + TriangleWidth + TriangleOffset, this->height() - TriangleHeight);
-        polygon << QPoint(this->width() / 2 + TriangleOffset, this->height());
-        polygon << QPoint(this->width() / 2 - TriangleWidth + TriangleOffset, this->height() - TriangleHeight);
-        polygon << QPoint(0, this->height() - TriangleHeight);
+        path.moveTo(0, 0);
+        path.arcMoveTo(5,5,30,30,90);
+        path.arcTo(5,5,30,30,90, 90);
+        path.lineTo(5, this->height() - TriangleHeight - 15);
+        path.arcTo(5,this->height() - TriangleHeight - 30,30,30,180, 90);
+        path.lineTo(this->width() / 2 - TriangleWidth + TriangleOffset, this->height() - TriangleHeight);
+        path.lineTo(this->width() / 2 + TriangleOffset, this->height());
+        path.lineTo(this->width() / 2 + TriangleWidth + TriangleOffset, this->height() - TriangleHeight);
+        path.lineTo(this->width() -5 -15, this->height() - TriangleHeight);
+        path.arcTo(this->width() -5 -30 ,this->height() - TriangleHeight - 30,30,30,270, 90);
+        path.lineTo(this->width() -5 , 5+15);
+        path.arcTo(this->width() -5 -30 ,5,30,30,0, 90);
+        path.closeSubpath();
+
     }
     else if (Direction == Direction_Up)
     {
         centralWidget()->move(centralWidget()->x(), TriangleHeight);
-        polygon << QPoint(0, TriangleHeight);
-        polygon << QPoint(this->width() / 2 - TriangleWidth + TriangleOffset, TriangleHeight);
-        polygon << QPoint(this->width() / 2 + TriangleOffset, 0);
-        polygon << QPoint(this->width() / 2 + TriangleWidth + TriangleOffset, TriangleHeight);
-        polygon << QPoint(this->width(), TriangleHeight);
-        polygon << QPoint(this->width(), this->height());
-        polygon << QPoint(0, this->height());
+        path.moveTo(0, 0);
+        path.arcMoveTo(5,TriangleHeight,30,30,90);
+        path.arcTo(5,TriangleHeight,30,30,90, 90);
+        path.lineTo(5, this->height() - 5 -15 );
+        path.arcTo(5,this->height() - 5 - 30,30,30,180, 90);
+        path.lineTo(this->width() -5 -15, this->height() - 5);
+        path.arcTo(this->width() -5 -30 ,this->height() - 5 - 30,30,30,270, 90);
+        path.lineTo(this->width() -5 , TriangleHeight+15);
+        path.arcTo(this->width() -5 -30 ,TriangleHeight,30,30,0, 90);
+        path.lineTo(this->width() / 2 + TriangleWidth + TriangleOffset, TriangleHeight);
+        path.lineTo(this->width() / 2 + TriangleOffset, 0);
+        path.lineTo(this->width() / 2 - TriangleWidth + TriangleOffset, TriangleHeight);
+        path.closeSubpath();
     }
 
-    painter.drawPolygon(polygon, Qt::WindingFill);
+    painter.drawPath(path);
 
 }
 
