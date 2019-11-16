@@ -1,15 +1,15 @@
 # CuteTranslation
 ## 简介
-CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户减少英文的阅读障碍。
 
 
 功能：
 1. 取词翻译   
 	<img src="pic/demo1.gif" width="600" height="300">  
 2. 截图翻译  
-	<img src="pic/demo3.gif" width="660" height="480">
+	<img src="pic/demo2.gif" width="600" height="412">
 3. 悬浮搜索框  
-	<img src="pic/demo2.png" width="300" height="100">
+	<img src="pic/demo3.png" width="315" height="240">
 
 特点：
 + Google翻译插件风格
