@@ -41,7 +41,7 @@ class MainWindow : public QMainWindow
   public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
-    void onOCRCompleted(QString res);
+    void onOCRShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
 };
 

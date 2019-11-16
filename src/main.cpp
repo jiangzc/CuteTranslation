@@ -18,7 +18,8 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO analyse picker's text language type
+    // TODO 截图翻译，针对单词优化。添加开机启动功能
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication a(argc, argv);
@@ -78,7 +79,7 @@ int main(int argc, char *argv[])
     QObject::connect(&sb, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
 
     // 快捷键
-    QObject::connect(&shortcut, &ShortCut::OCRCompleted, &w, &MainWindow::onOCRCompleted);
+    QObject::connect(&shortcut, &ShortCut::OCRShortCutPressed, &w, &MainWindow::onOCRShortCutPressed);
     QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, [&]{
         if (sb.isHidden())
         {
@@ -88,6 +89,9 @@ int main(int argc, char *argv[])
         else
             sb.hide();
     });
+    // 托盘菜单
+    QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
+    QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
 
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);

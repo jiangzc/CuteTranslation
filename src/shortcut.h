@@ -19,7 +19,7 @@ public slots:
     void onKeyPressed(int keyCode);
 
 signals:
-    void OCRCompleted(QString res);
+    void OCRShortCutPressed();
     void SearchBarShortCutPressed();
 };
 

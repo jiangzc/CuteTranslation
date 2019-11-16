@@ -56,8 +56,7 @@ void ShortCut::onKeyPressed(int keyCode)
                    keyCodes.cbegin() + 3 - int(ScreenShotShortCut.size())))
     {
         qDebug() << "ScreenShotShortCut";
-        QString res = OCRTranslate();
-        emit OCRCompleted(res);
+        emit OCRShortCutPressed();
 
     }
 }

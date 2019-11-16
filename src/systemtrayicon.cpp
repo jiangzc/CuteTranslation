@@ -2,6 +2,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include "systemtrayicon.h"
+#include "shortcut.h"
 #include "xdotool.h"
 #include "configtool.h"
 
@@ -38,6 +39,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
         xdotool.eventMonitor.wait();
         qApp->quit();
     });
+
+
 
     connect(&homepage_action, &QAction::triggered, this, []{
         QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation"));

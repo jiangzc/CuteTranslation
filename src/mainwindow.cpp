@@ -21,6 +21,7 @@ extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
 extern QString TranslateWord(QString word);
+extern QString OCRTranslate();
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -205,8 +206,9 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 
 }
 
-void MainWindow::onOCRCompleted(QString res)
+void MainWindow::onOCRShortCutPressed()
 {
+    QString res = OCRTranslate();
     QPoint mousePressPosition = xdotool.eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool.eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
