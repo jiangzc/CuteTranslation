@@ -86,3 +86,11 @@ bool SearchBar::eventFilter(QObject *obj, QEvent *event)
     }
     return false;
 }
+
+void SearchBar::showEvent(QShowEvent *e)
+{
+    this->ui->lineEdit->setFocus();
+    this->ui->lineEdit->clear();
+    this->activateWindow();
+    e->ignore();
+}

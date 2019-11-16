@@ -25,6 +25,7 @@ private:
     QPoint mDragPosition;
     QPushButton *hideButton;
     QLabel *searchIcon;
+    virtual void showEvent(QShowEvent *e);
 
 signals:
     void returnPressed(QPoint pos, QPoint size, QString res);

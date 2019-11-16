@@ -79,7 +79,15 @@ int main(int argc, char *argv[])
 
     // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRCompleted, &w, &MainWindow::onOCRCompleted);
-    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, &SearchBar::show);
+    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, [&]{
+        if (sb.isHidden())
+        {
+            sb.move(QCursor::pos() - QPoint(150, 25));
+            sb.show();
+        }
+        else
+            sb.hide();
+    });
 
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
