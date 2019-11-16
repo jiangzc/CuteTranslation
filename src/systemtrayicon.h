@@ -18,6 +18,7 @@ class SystemTrayIcon : public QSystemTrayIcon
     QAction change_mode_all_action;
     QAction change_mode_none_action;
     QAction change_mode_custom_action;
+    QAction autostart_action;
 
 
   private:

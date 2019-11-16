@@ -1,6 +1,6 @@
 # CuteTranslation
 ## 简介
-CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户减少英文的阅读障碍。
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户减少英文阅读障碍。
 
 
 功能：
@@ -52,6 +52,9 @@ sudo chown -R $USER /opt/CuteTranslation
 ```
 ./CuteTranslation
 ```
+## 捐赠
+<img src="pic/alipay.png" width="250" height="250" > 
+<img src="pic/wechat.png" width="250" height="250">
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker)
 + [ScreenTranslation](https://github.com/ziqiangxu/words-picker)

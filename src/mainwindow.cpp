@@ -300,7 +300,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
     // 判断是否超出屏幕下边界
     if (mid.y() + this->height() > xdotool.screenHeight)
     {
-        mid.ry() = pos.y() - this->size().height();
+        mid.ry() = pos.y() - this->height();
     }
     move(mid);
     this->show();
