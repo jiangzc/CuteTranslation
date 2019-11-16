@@ -87,7 +87,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
     if (showTriangle == false)
     {
         centralWidget()->move(0, 0);
-        QPainterPath path;
         path.addRoundedRect(5, 5, this->width() -5 -5, this->height()-5-5 , 15, 15);
         showTriangle = true;
     }
