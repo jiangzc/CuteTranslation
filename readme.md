@@ -53,8 +53,8 @@ sudo chown -R $USER /opt/CuteTranslation
 ./CuteTranslation
 ```
 ## 捐赠
-<img src="pic/alipay.png" width="250" height="250" > 
-<img src="pic/wechat.png" width="250" height="250">
+<img src="pic/alipay.png" width="250" height="250"><img src="pic/wechat.png" width="250" height="250">
+
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker)
 + [ScreenTranslation](https://github.com/ziqiangxu/words-picker)
