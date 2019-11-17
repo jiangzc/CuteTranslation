@@ -18,10 +18,11 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 截图翻译，针对单词优化。添加开机启动功能
+    // TODO 截图翻译，针对单词优化。添加开机启动功能。
 
-
+    // BUG 快捷键有问题， 分别按下 ctrl , q 触发快捷键
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
+    QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
     QApplication a(argc, argv);
 
     // 检查依赖文件是否存在

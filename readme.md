@@ -46,7 +46,7 @@ bash install.sh build
 
 # 安装到 /opt/CuteTranslation
 sudo bash install.sh
-sudo chown -R $USER /opt/CuteTranslation
+sudo chmod 777 /opt/CuteTranslation
 ```
 运行
 ```

@@ -96,9 +96,9 @@ QString Xdotool::getProcessPathByPID(unsigned long pid)
 {
     char path[30];
     sprintf(path, "/proc/%ld/exe", pid);
-    char buff[100];
+    char buff[200];
     ssize_t buff_len;
-    if ((buff_len = readlink(path, buff, 99)) != -1)
+    if ((buff_len = readlink(path, buff, 199)) != -1)
     {
         buff[buff_len] = '\0';
         return QString(buff);
