@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
 
   private:
     Ui::MainWindow *ui;
-    void paintEvent(QPaintEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
     const int TriangleHeight = configTool.TriangleHeight;
     const int TriangleWidth = configTool.TriangleWidth;
     int TriangleOffset = 0;

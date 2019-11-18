@@ -28,22 +28,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    this->view = new QWebEngineView(this->centralWidget());
+    setAttribute(Qt::WA_TranslucentBackground);
+    setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
+    view = new QWebEngineView(this->centralWidget());
     view->setZoomFactor(1.2);
     view->setGeometry(10,10,460,350);
+
+    // 当页面加载完成后，获取html页面高度调整自身高度
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
-            int newHeight=result.toInt() * 1.2 + 10;
+            int newHeight = int(result.toInt() * 1.2 + 10);
             view->setFixedSize(view->width(),newHeight);
             this->setFixedHeight(newHeight + 30);
             emit gotHeight();
         });
     });
-    //view->hide();
-    setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
+    // 读取html模板
     QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qDebug() << "fail to open";
@@ -57,16 +59,17 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 void MainWindow::showEvent(QShowEvent *e)
 {
     if (Direction == Direction_Up)
     {
-        // 三角形占用了上面的区域，所以整体下移
+        // 三角形占用了上面的区域
         this->setFixedHeight(this->height() + TriangleHeight);
-        qDebug() << "aaa";
     }
     e->ignore();
 }
+
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QColor greyColor(192, 192, 192);
@@ -126,9 +129,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
         path.lineTo(this->width() / 2 - TriangleWidth + TriangleOffset, TriangleHeight);
         path.closeSubpath();
     }
-
     painter.drawPath(path);
-
 }
 
 void MainWindow::onMouseButtonPressed(int x, int y)

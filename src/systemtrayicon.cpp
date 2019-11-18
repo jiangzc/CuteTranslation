@@ -81,6 +81,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
         configTool.Mode = "none";
         //configTool.settings.setValue("/Genenal/Mode", "none");
     });
+    this->show();
 }
 
 

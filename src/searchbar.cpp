@@ -56,6 +56,7 @@ SearchBar::~SearchBar()
 
 bool SearchBar::eventFilter(QObject *obj, QEvent *event)
 {
+    // 当鼠标悬停在特定区域，显示取消按钮
     if (obj == this->hideButton && event->type() == QEvent::HoverEnter)
     {
         QPixmap pic = QPixmap(":/pic/icons-cancel.svg");
@@ -67,6 +68,7 @@ bool SearchBar::eventFilter(QObject *obj, QEvent *event)
         hideButton->setIcon(QIcon());
         return true;
     }
+    // 拖动悬浮框
     if (obj == this->searchIcon && event->type() == QEvent::MouseButtonPress)
     {
         ui->lineEdit->deselect();

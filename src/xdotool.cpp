@@ -117,12 +117,9 @@ std::map<QString, int> Xdotool::getKeyMap()
             keyMap[keyName] = i;
         }
     }
-
     keyMap["ctrl"] = keyMap["Control_L"];
     keyMap["alt"] = keyMap["Alt_L"];
     keyMap["super"] = keyMap["Super_L"];
     keyMap["shift"] = keyMap["Shift_L"];
-
-
     return keyMap;
 }

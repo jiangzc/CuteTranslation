@@ -18,9 +18,8 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 截图翻译，针对单词优化。添加开机启动功能。
+    // TODO 截图翻译，针对单词优化。
 
-    // BUG 快捷键有问题， 分别按下 ctrl , q 触发快捷键
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
     QApplication a(argc, argv);
@@ -42,7 +41,6 @@ int main(int argc, char *argv[])
             filesExist = false;
         }
     }
-
     if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
     {
         qDebug() << "file is missing: " << QDir::homePath() + "/.config/CuteTranslation/config.ini";
@@ -55,41 +53,41 @@ int main(int argc, char *argv[])
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
+
+    /* Picker           取词功能
+     * ConfigWindow     配置界面
+     * MainWindow       翻译界面
+     * FloatButton      悬浮按钮
+     * SystemTrayIcon   托盘栏
+     * ShortCut         快捷键
+     * SearchBar        悬浮搜索框
+     */
+
     picker = new Picker();
     ConfigWindow cw;
     MainWindow w;
-    w.setGeometry(800, 200, 400, 300);
-
     FloatButton f;
-
     SystemTrayIcon tray;
-    tray.show();
-
     ShortCut shortcut;
-
-    // cw.show();
-    SearchBar sb;
-    // sb.show();
+    SearchBar searchBar;
 
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
-
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
-
-    QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show );
-
-    QObject::connect(&sb, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
+    QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show);
+    QObject::connect(&searchBar, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
 
     // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRShortCutPressed, &w, &MainWindow::onOCRShortCutPressed);
-    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &sb, [&]{
-        if (sb.isHidden())
+    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &searchBar, [&]{
+        if (searchBar.isHidden())
         {
-            sb.move(QCursor::pos() - QPoint(150, 25));
-            sb.show();
+            searchBar.move(QCursor::pos() - QPoint(150, 25));
+            searchBar.show();
         }
         else
-            sb.hide();
+            searchBar.hide();
     });
+
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
