@@ -17,6 +17,7 @@ private:
 
 public slots:
     void onKeyPressed(int keyCode);
+    void onKeyReleased(int keyCode);
 
 signals:
     void OCRShortCutPressed();

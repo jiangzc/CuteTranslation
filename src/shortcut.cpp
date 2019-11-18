@@ -60,3 +60,13 @@ void ShortCut::onKeyPressed(int keyCode)
 
     }
 }
+
+void ShortCut::onKeyReleased(int keyCode)
+{
+    auto releasedCode = std::find(keyCodes.begin(), keyCodes.end(), keyCode);
+    if (releasedCode != keyCodes.end())
+    {
+        *releasedCode = 0;
+    }
+
+}

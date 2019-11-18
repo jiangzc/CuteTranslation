@@ -108,6 +108,7 @@ int main(int argc, char *argv[])
     // 全局键盘监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &f, &FloatButton::onKeyPressed, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &shortcut, &ShortCut::onKeyPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyRelease, &shortcut, &ShortCut::onKeyReleased, Qt::QueuedConnection);
 
     xdotool.eventMonitor.start();
 
