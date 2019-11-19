@@ -30,7 +30,8 @@ class MainWindow : public QMainWindow
     int TriangleOffset = 0;
     int Direction;
     QWebEngineView *view;
-    QString html;
+    QString html1;
+    QString html2;
     bool showTriangle = true;
     virtual void showEvent(QShowEvent *e);
 

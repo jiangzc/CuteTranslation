@@ -25,10 +25,12 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 为 Debian 系的发行版安装开发库
 ```bash
 # Qt, WebEngine, Xlib
-sudo apt install qt5-default libxtst-dev libxcb-util0-dev g++  make
-sudo apt install libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev
+sudo apt install libxtst-dev libxcb-util0-dev g++  make
+sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev
 # JS
 sudo apt install nodejs
+# APP
+sudo apt install gnome-screenshot python3-pip
 # Python3
 pip3 install PyExecJS
 pip3 install requests

@@ -33,11 +33,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     view = new QWebEngineView(this->centralWidget());
     view->setZoomFactor(1.2);
-    view->setGeometry(10,10,460,350);
+    view->setGeometry(10,10, width() - 30 , height() - 30);
 
     // 当页面加载完成后，获取html页面高度调整自身高度
     connect(view, &QWebEngineView::loadFinished, this, [=]{
-        view->page()->runJavaScript("document.body.clientHeight;",[=](QVariant result){
+        view->page()->runJavaScript("document.body.offsetHeight;",[=](QVariant result){
             int newHeight = int(result.toInt() * 1.2 + 10);
             view->setFixedSize(view->width(),newHeight);
             this->setFixedHeight(newHeight + 30);
@@ -46,12 +46,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     });
 
     // 读取html模板
-    QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
+
+    QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_1.html");
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qDebug() << "fail to open";
     QTextStream in(&file);
-    this->html = in.readAll();
+    this->html1 = in.readAll();
+    file.close();
 
+    file.setFileName(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+        qDebug() << "fail to open";
+    in.setDevice(&file);
+    this->html2 = in.readAll();
+    file.close();
 
 }
 
@@ -148,16 +156,15 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     qDebug() << json;
     if (json.startsWith("{"))
     {
-        QString html = this->html;
+        QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", json));
         qel.exec();
     }
     else
     {
-        this->view->setHtml(json);
+        QString html = this->html1;
+        this->view->setHtml(html.replace("\"{0}\"", json));
         qel.exec();
-        this->view->setFixedHeight(300);
-        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
     }
 
@@ -217,7 +224,7 @@ void MainWindow::onOCRShortCutPressed()
     qDebug() << res;
     if (res.startsWith("{"))
     {
-        QString html = this->html;
+        QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", res));
         qel.exec();
     }
@@ -282,7 +289,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
     res = TranslateWord(res);
     if (res.startsWith("{"))
     {
-        QString html = this->html;
+        QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", res));
         qel.exec();
     }
