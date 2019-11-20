@@ -1,4 +1,4 @@
 #!/bin/bash
 
-#sudo -u \#1000 pip3 install PyExecJS
-#sudo -u \#1000 pip3 install requests
+#sudo -u \#1000 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple PyExecJS
+#sudo -u \#1000 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple  requests
