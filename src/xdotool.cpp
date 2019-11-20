@@ -72,6 +72,8 @@ unsigned char *Xdotool::get_string_property(const char *property_name, Window wi
 
 unsigned long Xdotool::get_long_property(const char *property_name, Window window)
 {
+    if (window == 0)
+        return 0;
     get_string_property(property_name, window);
     unsigned long long_property = static_cast<unsigned long>(prop[0] + (prop[1] << 8) + (prop[2] << 16) + (prop[3] << 24));
     return long_property;

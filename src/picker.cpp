@@ -25,8 +25,8 @@ Picker::Picker(QObject *parent) : QObject(parent)
         text = clipboard->text(QClipboard::Selection);
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
-
-        if (!isPressed)
+        // 关闭窗口时 text == ""
+        if (!isPressed && text != "")
         {
             emit wordsPicked(text);
         }
