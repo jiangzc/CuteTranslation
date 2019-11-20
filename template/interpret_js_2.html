@@ -111,6 +111,8 @@
         var labels = document.getElementById("labels");
         if ("tags" in data) {
             for (var i in data.tags.core) {
+                if (data.tags.core[i] == "")
+                    continue;
                 var new_lable = document.createElement("div");
                 new_lable.className = "label";
                 new_lable.innerText = data.tags.core[i];
@@ -133,12 +135,14 @@
             var new_character = document.createElement("div");
             new_character.className = "character";
             new_character.innerText = data.symbols[0].parts[i].part;
+
             var new_translation = document.createElement("div");
             new_translation.className = "translation";
             for (var j in data.symbols[0].parts[i].means) {
                 new_translation.innerText += data.symbols[0].parts[i].means[j] + "; ";
             }
-            new_characterBox.appendChild(new_character);
+            if ("part" in data.symbols[0].parts[i] && data.symbols[0].parts[i].part != "")
+                new_characterBox.appendChild(new_character);
             new_characterBox.appendChild(new_translation);
             translations.appendChild(new_characterBox);
         }
