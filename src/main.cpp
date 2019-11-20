@@ -3,6 +3,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QDir>
+#include <QFile>
 #include <QVector>
 
 #include "floatbutton.h"
@@ -18,7 +19,7 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 截图翻译，针对单词优化。截图翻译 取消截图行为
+    // TODO 从配置文件加载token网址
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
     depends.push_back("BaiduOCR.py");
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
+    depends.push_back("config.ini");
 
     bool filesExist = true;
     QDir appDir(QCoreApplication::applicationDirPath());
@@ -44,8 +46,8 @@ int main(int argc, char *argv[])
     }
     if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
     {
-        qDebug() << "file is missing: " << QDir::homePath() + "/.config/CuteTranslation/config.ini";
-        filesExist = false;
+        // 复制配置文件
+        QFile::copy(appDir.filePath("config.ini"), QDir::home().filePath(".config/CuteTranslation/config.ini"));
     }
     if (filesExist == false)
         return -1;

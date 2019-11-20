@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Categories=Dictionary;Application;Utility;
+Comment=CuteTranslation,dict,cute
+Encoding=UTF-8
+Exec=/opt/CuteTranslation/CuteTranslation
+Icon=/opt/CuteTranslation/CuteTranslation.svg
+Name=CuteTranslation
+StartupNotify=true
+Terminal=false
+Type=Application
+X-Deepin-CreatedBy=com.deepin.dde.daemon.Launcher
+X-Deepin-AppID=CuteTranslation
