@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 
 
-QString TranslateWord(QString word)
+QString TranslateText(QString word)
 {
     auto byteArray = word.toUtf8();
     const char *word_chars = byteArray.constData();
@@ -191,7 +191,7 @@ QString OCRTranslate()
                     wait(&status);
                     qDebug() << result;
                     if (status == 0)
-                        return TranslateWord(result); // success
+                        return TranslateText(result); // success
                     else
                         return QString("error"); // fail
                 default:

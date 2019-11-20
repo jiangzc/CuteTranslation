@@ -20,7 +20,7 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateWord(QString word);
+extern QString TranslateText(QString word);
 extern QString OCRTranslate();
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
@@ -152,22 +152,20 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
-    QString json = TranslateWord(picker->getSelectedText());
+    QString json = TranslateText(picker->getSelectedText());
     qDebug() << json;
     if (json.startsWith("{"))
     {
         QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", json));
-        qel.exec();
     }
     else
     {
         QString html = this->html1;
         this->view->setHtml(html.replace("\"{0}\"", json));
-        qel.exec();
-
     }
-
+    // 等待页面加载完成
+    qel.exec();
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
     TriangleOffset = 0;
@@ -226,15 +224,14 @@ void MainWindow::onOCRShortCutPressed()
     {
         QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", res));
-        qel.exec();
     }
     else
     {
-        this->view->setHtml(res);
-        qel.exec();
-        this->view->setFixedHeight(300);
-        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+        QString html = this->html1;
+        this->view->setHtml(html.replace("\"{0}\"", res));
     }
+    // 等待页面加载完成
+    qel.exec();
 
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool.Direction;
@@ -286,20 +283,19 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
 {
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    res = TranslateWord(res);
+    res = TranslateText(res);
     if (res.startsWith("{"))
     {
         QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", res));
-        qel.exec();
     }
     else
     {
-        this->view->setHtml(res);
-        qel.exec();
-        this->view->setFixedHeight(300);
-        this->setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+        QString html = this->html1;
+        this->view->setHtml(html.replace("\"{0}\"", res));
     }
+    // 等待页面加载完成
+    qel.exec();
 
     this->showTriangle = false;
     QPoint mid;
