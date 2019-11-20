@@ -18,7 +18,7 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 截图翻译，针对单词优化。
+    // TODO 截图翻译，针对单词优化。截图翻译 取消截图行为
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）

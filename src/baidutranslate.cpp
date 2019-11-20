@@ -115,9 +115,19 @@ QString TranslateText(QString word)
 
 QString OCRTranslate()
 {
-    // 截图
-    system("gnome-screenshot -a -f /tmp/ocr > /dev/null 2>&1");
-
+    // 截图,如果成功f1和f2不相等，返回0
+    int cmd_res = system("touch /tmp/ocr; "
+           "f1=`cksum /tmp/ocr`;"
+           "gnome-screenshot -a -f /tmp/ocr > /dev/null 2>&1;"
+           "f2=`cksum /tmp/ocr`;"
+           "if [ \"$f1\" = \"$f2\" ];then "
+                "return 1;"
+           "else "
+                "return 0;"
+           "fi"
+           );
+    if (cmd_res != 0) // 截图失败
+        return QString("");
 
     QString python_path = QCoreApplication::applicationDirPath() + "/BaiduOCR.py";
     pid_t pid;
@@ -191,7 +201,31 @@ QString OCRTranslate()
                     wait(&status);
                     qDebug() << result;
                     if (status == 0)
+                    {
+                        // word correction
+                        if (result.size() < 20)
+                        {
+                            auto front = 0;
+                            auto back = result.size() - 1;
+                            while (front < result.size())
+                            {
+                                if (result[front].isLetter() == false)
+                                    front++;
+                                else
+                                    break;
+                            }
+                            while (back > 0)
+                            {
+                                if (result[back].isLetter() == false)
+                                    back--;
+                                else
+                                    break;
+                            }
+                            if (front < back)
+                                result = result.mid(front, back - front + 1);
+                        }
                         return TranslateText(result); // success
+                    }
                     else
                         return QString("error"); // fail
                 default:

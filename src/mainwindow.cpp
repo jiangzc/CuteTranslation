@@ -225,6 +225,10 @@ void MainWindow::onOCRShortCutPressed()
         QString html = this->html2;
         this->view->setHtml(html.replace("\"{0}\"", res));
     }
+    else if(res.isEmpty())
+    {
+        return;
+    }
     else
     {
         QString html = this->html1;
