@@ -19,7 +19,7 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 从配置文件加载token网址  install.sh 修改， make_deb.sh
+    // TODO 从配置文件加载token网址  install.sh 修改， make_deb.sh  排版
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）

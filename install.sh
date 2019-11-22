@@ -10,4 +10,4 @@ cp ${PRO_DIR}/python/*.py ${INSTALL_DIR}
 cp ${PRO_DIR}/template/* ${INSTALL_DIR}
 cp ${PRO_DIR}/build/CuteTranslation ${INSTALL_DIR}
 mkdir -p ~/.config/CuteTranslation
-cp ${PRO_DIR}/config.ini ~/.config/CuteTranslation
+
