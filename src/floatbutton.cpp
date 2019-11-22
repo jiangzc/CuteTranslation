@@ -100,7 +100,9 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
 void FloatButton::onWordPicked(QString text)
 {
     if (configTool.Mode == "none")
+    {
         return;
+    }
     else if (configTool.Mode == "custom" && configTool.Undefined == "Show" && configTool.NotShow.value.contains(picker->CurrentWindowsPath))
     {
         return;
@@ -108,6 +110,21 @@ void FloatButton::onWordPicked(QString text)
     else if (configTool.Mode == "custom" && configTool.Undefined == "NotShow" && configTool.Show.value.contains(picker->CurrentWindowsPath) == false)
     {
         return;
+    }
+    else if (configTool.Mode == "custom" && configTool.ChineseNotShow)
+    {
+        // 分析text中文比例是否超过70%
+        int chineseChars = 0;
+        for (auto &c : text)
+        {
+            if(c.unicode() >= 0x4E00 && c.unicode() <= 0x9FA5)
+            {
+                // 这个字符是中文
+                chineseChars++;
+            }
+        }
+        if (1.0 * chineseChars / text.size() > 0.7)
+            return;
     }
 
     qDebug() << "Text from picker" << text;
