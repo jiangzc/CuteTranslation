@@ -23,6 +23,7 @@ class ConfigTool
     int FloatButtonHeight;
     QString SearchBarShortCutString;
     QString ScreenShotShortCutString;
+    bool ChineseNotShow;
 
     static QSettings settings;
 
@@ -34,7 +35,7 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            ConfigTool::settings.setValue("/Genenal/Mode", i);
+            ConfigTool::settings.setValue("/Picker/Mode", i);
             value = i;
             return value;
         }
