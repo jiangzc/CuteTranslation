@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 {
     // TODO 从配置文件加载token网址  排版  timeout retry
     // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
-    // 看全屏视频，呼叫悬浮搜索框，失去焦点问题。ctrl+q 行为，判断hidden->show , de-active->active
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
@@ -88,6 +88,14 @@ int main(int argc, char *argv[])
         {
             searchBar.move(QCursor::pos() - QPoint(150, 25));
             searchBar.show();
+            searchBar.activateWindow();
+        }
+        else if (searchBar.isActiveWindow() == false && w.isActiveWindow() == false)
+        {
+            // 看全屏视频，呼叫悬浮搜索框。
+            searchBar.move(QCursor::pos() - QPoint(150, 25));
+            searchBar.ClearLineEdit();
+            searchBar.activateWindow();
         }
         else
             searchBar.hide();

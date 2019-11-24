@@ -17,6 +17,7 @@ class SearchBar : public QWidget
 
 public:
     explicit SearchBar(QWidget *parent = nullptr);
+    void ClearLineEdit();
     ~SearchBar();
 protected:
     bool eventFilter(QObject *obj, QEvent *ev);

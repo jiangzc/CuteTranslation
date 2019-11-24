@@ -96,3 +96,9 @@ void SearchBar::showEvent(QShowEvent *e)
     this->activateWindow();
     e->ignore();
 }
+
+void SearchBar::ClearLineEdit()
+{
+    this->ui->lineEdit->clear();
+    this->ui->lineEdit->setFocus();
+}
