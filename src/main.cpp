@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 {
     // TODO 从配置文件加载token网址  排版  timeout retry
     // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
+    // 检查配置文件一致性
 
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
@@ -92,7 +93,7 @@ int main(int argc, char *argv[])
         }
         else if (searchBar.isActiveWindow() == false && w.isActiveWindow() == false)
         {
-            // 看全屏视频，呼叫悬浮搜索框。
+            // 这么做看全屏视频时，用悬浮搜索框有更好的体验。
             searchBar.move(QCursor::pos() - QPoint(150, 25));
             searchBar.ClearLineEdit();
             searchBar.activateWindow();
