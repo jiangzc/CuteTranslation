@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
     // 检查配置文件一致性
 
+    // BUG bash, dash 硬编码
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
