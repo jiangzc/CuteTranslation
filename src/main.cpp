@@ -13,6 +13,9 @@
 #include "configwindow.h"
 #include "shortcut.h"
 #include "searchbar.h"
+#include <unistd.h>
+#include <sys/file.h>
+
 
 Xdotool xdotool;
 ConfigTool configTool;
@@ -24,41 +27,22 @@ int main(int argc, char *argv[])
     // 检查配置文件一致性
     // token 验证有效性
 
-
-    // BUG bash, dash 硬编码
-
-
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
     QApplication a(argc, argv);
 
     // 防止应用多开
-    QFile myPIDFile("/tmp/CuteTranslation.pid");
-    if (myPIDFile.exists())
+    int fd = open("/tmp/cute.lock", O_CREAT);
+    if (fd == -1)
     {
-        myPIDFile.open(QIODevice::ReadOnly);
-        QTextStream in(&myPIDFile);
-        pid_t pid;
-        in >> pid;
-        myPIDFile.close();
-        // 更新pid内容
-        myPIDFile.open(QIODevice::WriteOnly);
-        QTextStream out(&myPIDFile);
-        out << getpid() << endl;
-        myPIDFile.close();
-
-        if (QDir("/proc/" + QString::number(pid)).exists())
-        {
-            qDebug() << "应用多开，自动退出。";
-            return -1;
-        }
+        qDebug() << "无法打开/tmp/cute.lock";
+        return -1;
     }
-    else
+    int res = flock(fd, LOCK_EX | LOCK_NB); // 非阻塞互斥锁
+    if (res != 0)
     {
-        myPIDFile.open(QIODevice::WriteOnly);
-        QTextStream out(&myPIDFile);
-        out << getpid() << endl;
-        myPIDFile.close();
+        qDebug() << "应用多开，自动退出。";
+        return -1;
     }
 
     // 检查依赖文件是否存在
@@ -88,8 +72,6 @@ int main(int argc, char *argv[])
     }
     if (filesExist == false)
         return -1;
-
-
 
 
     // 获取屏幕可用的大小
