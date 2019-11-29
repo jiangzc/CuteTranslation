@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
     // TODO 从配置文件加载token网址  排版  timeout retry
     // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
     // 检查配置文件一致性
+    // token 验证有效性
+
 
     // BUG bash, dash 硬编码
 
@@ -29,6 +31,35 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
     QApplication a(argc, argv);
+
+    // 防止应用多开
+    QFile myPIDFile("/tmp/CuteTranslation.pid");
+    if (myPIDFile.exists())
+    {
+        myPIDFile.open(QIODevice::ReadOnly);
+        QTextStream in(&myPIDFile);
+        pid_t pid;
+        in >> pid;
+        myPIDFile.close();
+        // 更新pid内容
+        myPIDFile.open(QIODevice::WriteOnly);
+        QTextStream out(&myPIDFile);
+        out << getpid() << endl;
+        myPIDFile.close();
+
+        if (QDir("/proc/" + QString::number(pid)).exists())
+        {
+            qDebug() << "应用多开，自动退出。";
+            return -1;
+        }
+    }
+    else
+    {
+        myPIDFile.open(QIODevice::WriteOnly);
+        QTextStream out(&myPIDFile);
+        out << getpid() << endl;
+        myPIDFile.close();
+    }
 
     // 检查依赖文件是否存在
     QVector<QString> depends;
@@ -56,6 +87,8 @@ int main(int argc, char *argv[])
     }
     if (filesExist == false)
         return -1;
+
+
 
 
     // 获取屏幕可用的大小
