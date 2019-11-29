@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
+    depends.push_back("screenshot.sh");
 
     bool filesExist = true;
     QDir appDir(QCoreApplication::applicationDirPath());

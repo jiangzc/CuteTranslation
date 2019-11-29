@@ -116,16 +116,8 @@ QString TranslateText(QString word)
 QString OCRTranslate()
 {
     // 截图,如果成功f1和f2不相等，返回0
-    int cmd_res = system("touch /tmp/ocr; "
-           "f1=`cksum /tmp/ocr`;"
-           "gnome-screenshot -a -f /tmp/ocr > /dev/null 2>&1;"
-           "f2=`cksum /tmp/ocr`;"
-           "if [ \"$f1\" = \"$f2\" ];then "
-                "return 1;"
-           "else "
-                "return 0;"
-           "fi"
-           );
+    QString cmd = "bash " + QCoreApplication::applicationDirPath() + "/screenshot.sh";
+    int cmd_res = system(cmd.toStdString().c_str());
     if (cmd_res != 0) // 截图失败
         return QString("");
 
