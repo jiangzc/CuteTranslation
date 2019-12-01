@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
     // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
     // 检查配置文件一致性
     // token 验证有效性
+    // pdf 换行，优化
+
+    // BUG: 浏览器地址栏，重复出现FloatBtn  won't fix
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
@@ -38,7 +41,7 @@ int main(int argc, char *argv[])
         qDebug() << "无法打开/tmp/cute.lock";
         return -1;
     }
-    int res = flock(fd, LOCK_EX | LOCK_NB); // 非阻塞互斥锁
+    int res = flock(fd, LOCK_EX | LOCK_NB); // 非阻塞放置互斥锁，一直占用不释放
     if (res != 0)
     {
         qDebug() << "应用多开，自动退出。";
@@ -125,9 +128,10 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
 
     // 全局鼠标监听
+    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
+
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
 
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, &f, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, picker, &Picker::buttonReleased, Qt::QueuedConnection);
