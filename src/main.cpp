@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // 防止应用多开
-    int fd = open("/tmp/cute.lock", O_CREAT);
+    int fd = open("/tmp/cute.lock", O_CREAT, S_IRUSR | S_IRGRP);
     if (fd == -1)
     {
         qDebug() << "无法打开/tmp/cute.lock";
