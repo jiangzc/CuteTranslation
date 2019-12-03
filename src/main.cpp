@@ -146,5 +146,9 @@ int main(int argc, char *argv[])
 
     xdotool.eventMonitor.start();
 
+    // 弹出窗口通知桌面环境，应用已经加载完毕
+    cw.show();
+    cw.hide();
+
     return a.exec();
 }
