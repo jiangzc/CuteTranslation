@@ -24,6 +24,7 @@ ConfigTool::ConfigTool()
     ScreenShotShortCutString = settings.value("/ShortCut/ScreenShot", "alt+q").toString().toLower();
 
     ChineseNotShow = settings.value("/Custom/ChineseNotShow", true).toBool();
+    MainWindowIsPinning = settings.value("/MainWindow/IsPinning", false).toBool();
 }
 
 

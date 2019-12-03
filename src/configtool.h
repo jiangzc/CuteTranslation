@@ -137,6 +137,29 @@ class ConfigTool
 
     } Show;
 
+    // bool MainWindowIsPinning;
+    class
+    {
+
+    public:
+        bool value;
+        bool &operator=(const bool &i)
+        {
+            ConfigTool::settings.setValue("/MainWindow/IsPinning", i);
+            value = i;
+            return value;
+        }
+        bool operator==(const bool i)
+        {
+            return (i == value);
+        }
+        operator bool() const
+        {
+            return value;
+        }
+
+    } MainWindowIsPinning;
+
 };
 
 extern ConfigTool configTool;

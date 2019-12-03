@@ -78,11 +78,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     fixButton->setGeometry(this->width()- 70, 10, 25, 25);
     fixButton->setFlat(true);
     fixButton->setCheckable(true);
+    fixButton->setChecked(configTool.MainWindowIsPinning);
     fixButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
     fixButton->setIconSize(QSize(25, 25));
     fixButton->setIcon(QIcon(":/pic/icons-pin-grey.png"));
     fixButton->show();
-    //connect(fixButton, &QPushButton::clicked, this, &MainWindow::hide);
+    connect(fixButton, &QPushButton::clicked, this, [](bool checked){
+        configTool.MainWindowIsPinning = checked;
+    });
 
 }
 
@@ -123,7 +126,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     {
         centralWidget()->move(0, 0);
         path.addRoundedRect(5, 5, this->width() -5 -5, this->height()-5-5 , 15, 15);
-        showTriangle = true;
+        //showTriangle = true;
     }
     else if (Direction == Direction_Down)
     {
@@ -166,7 +169,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
 void MainWindow::onMouseButtonPressed(int x, int y)
 {
     if (!this->isHidden() && (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height()))
-        hide();
+        if (!configTool.MainWindowIsPinning)
+            hide();
 
 }
 
@@ -231,6 +235,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
     }
     move(mid);
+    showTriangle = true;
     this->show();
 
 }
@@ -303,6 +308,7 @@ void MainWindow::onOCRShortCutPressed()
     }
     move(mid);
     this->show();
+    showTriangle = true;
     this->activateWindow();
 }
 
