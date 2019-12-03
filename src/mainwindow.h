@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QWebEngineView>
 #include <QWebEngineSettings>
+#include <QPushButton>
 
 #include "configtool.h"
 #include "picker.h"
@@ -33,6 +34,7 @@ class MainWindow : public QMainWindow
     QString html1;
     QString html2;
     bool showTriangle = true;
+    QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
 
   signals:

@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 关闭按钮
     QPushButton *closeButton = new QPushButton(this->centralWidget());
-    closeButton->setGeometry(this->width()- 40, 10, 25, 25);
+    closeButton->setGeometry(this->width()- 40, 12, 25, 25);
     closeButton->setFlat(true);
     //closeButton->setStyleSheet("QPushButton{border:none;}");
     closeButton->setIconSize(QSize(25, 25));
@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 固定按钮
     QPushButton *fixButton = new QPushButton(this->centralWidget());
-    fixButton->setGeometry(this->width()- 70, 10, 25, 25);
+    fixButton->setGeometry(this->width()- 70, 12, 25, 25);
     fixButton->setFlat(true);
     fixButton->setCheckable(true);
     fixButton->setChecked(configTool.MainWindowIsPinning);
@@ -87,6 +87,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         configTool.MainWindowIsPinning = checked;
     });
 
+    // 刷新按钮
+    refreshButton = new QPushButton(this->centralWidget());
+    refreshButton->setGeometry(this->width()- 100, 12, 25, 25);
+    refreshButton->setFlat(true);
+    refreshButton->setIconSize(QSize(25, 25));
+    refreshButton->setIcon(QIcon(":/pic/icons-refresh.png"));
+    refreshButton->show();
+    //connect(closeButton, &QPushButton::clicked, this, &MainWindow::hide);
+
+    // 星星按钮
+    QPushButton *starButton = new QPushButton(this->centralWidget());
+    starButton->setGeometry(this->width()- 130, 12, 25, 25);
+    starButton->setFlat(true);
+    starButton->setIconSize(QSize(25, 25));
+    starButton->setIcon(QIcon(":/pic/icons-star.png"));
+    starButton->show();
+
+    // 声音按钮
+    QPushButton *voiceButton = new QPushButton(this->centralWidget());
+    voiceButton->setGeometry(this->width()- 160, 13, 25, 25);
+    voiceButton->setFlat(true);
+    voiceButton->setIconSize(QSize(25, 25));
+    voiceButton->setIcon(QIcon(":/pic/icons-voice.png"));
+    voiceButton->show();
 }
 
 MainWindow::~MainWindow()
@@ -236,6 +260,10 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     move(mid);
     showTriangle = true;
+    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
+        this->onFloatButtonPressed(mousePressPosition, mouseReleasedPosition);
+    });
     this->show();
 
 }
@@ -309,14 +337,18 @@ void MainWindow::onOCRShortCutPressed()
     move(mid);
     this->show();
     showTriangle = true;
+    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
+        this->onOCRShortCutPressed();
+    });
     this->activateWindow();
 }
 
-void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
+void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 {
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    res = TranslateText(res);
+    QString res = TranslateText(text);
     if (res.startsWith("{"))
     {
         QString html = this->html2;
@@ -341,4 +373,8 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString res)
     }
     move(mid);
     this->show();
+    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
+        this->onSearchBarReturned(pos, size, text);
+    });
 }

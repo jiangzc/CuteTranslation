@@ -7,5 +7,8 @@
         <file>pic/icons-x.png</file>
         <file>pic/icons-pin.png</file>
         <file>pic/icons-pin-grey.png</file>
+        <file>pic/icons-refresh.png</file>
+        <file>pic/icons-star.png</file>
+        <file>pic/icons-voice.png</file>
     </qresource>
 </RCC>
