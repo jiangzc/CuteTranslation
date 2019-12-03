@@ -21,10 +21,9 @@ Picker::Picker(QObject *parent) : QObject(parent)
             clipboard->blockSignals(true);
             return;
         }
-        if (!isPressed)
-        {
-            text = clipboard->text(QClipboard::Selection);
-        }
+
+        text = clipboard->text(QClipboard::Selection);
+
         CurrentWindowsPath = xdotool.getProcessPathByPID(xdotool.getActiveWindowPID());
         CurrentWindowsPath = CurrentWindowsPath.mid(1 + CurrentWindowsPath.lastIndexOf("/"));
         // 关闭窗口时 text == ""
