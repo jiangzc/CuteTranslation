@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QEventLoop>
 #include <QShowEvent>
+#include <QPushButton>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     setAttribute(Qt::WA_TranslucentBackground);
     setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
 
+    // 浏览器控件
     view = new QWebEngineView(this->centralWidget());
     view->setZoomFactor(1.2);
     view->setGeometry(10,10, width() - 30 , height() - 30);
@@ -60,6 +62,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     in.setDevice(&file);
     this->html2 = in.readAll();
     file.close();
+
+    // 关闭按钮
+    QPushButton *closeButton = new QPushButton(this->centralWidget());
+    closeButton->setGeometry(this->width()- 40, 10, 25, 25);
+    closeButton->setFlat(true);
+    //closeButton->setStyleSheet("QPushButton{border:none;}");
+    closeButton->setIconSize(QSize(25, 25));
+    closeButton->setIcon(QIcon(":/pic/icons-x.png"));
+    closeButton->show();
+    connect(closeButton, &QPushButton::clicked, this, &MainWindow::hide);
+
+    // 固定按钮
+    QPushButton *fixButton = new QPushButton(this->centralWidget());
+    fixButton->setGeometry(this->width()- 70, 10, 25, 25);
+    fixButton->setFlat(true);
+    fixButton->setCheckable(true);
+    fixButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
+    fixButton->setIconSize(QSize(25, 25));
+    fixButton->setIcon(QIcon(":/pic/icons-pin-grey.png"));
+    fixButton->show();
+    //connect(fixButton, &QPushButton::clicked, this, &MainWindow::hide);
 
 }
 

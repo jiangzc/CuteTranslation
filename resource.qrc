@@ -4,5 +4,8 @@
         <file>pic/google-translate.png</file>
         <file>pic/icons-search.svg</file>
         <file>pic/icons-cancel.svg</file>
+        <file>pic/icons-x.png</file>
+        <file>pic/icons-pin.png</file>
+        <file>pic/icons-pin-grey.png</file>
     </qresource>
 </RCC>
