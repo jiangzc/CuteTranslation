@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
     // 检查配置文件一致性
     // token 验证有效性
     // pdf 换行，优化
+    // 全局 ... 三种模式不同的图片
+    // 刷新
 
     // BUG: 浏览器地址栏，重复出现FloatBtn  won't fix
 
@@ -146,7 +148,7 @@ int main(int argc, char *argv[])
 
     xdotool.eventMonitor.start();
 
-    // 弹出窗口通知桌面环境，应用已经加载完毕
+    // 通知桌面环境，应用已经加载完毕
     cw.show();
     cw.hide();
 
