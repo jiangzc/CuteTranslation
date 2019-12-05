@@ -22,15 +22,14 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 从配置文件加载token网址  排版
-    // 检查配置文件一致性
-    // token 验证有效性
+    // TODO 排版
     // 全局 ... 三种模式不同的图片
+    // 完善 Debug 信息
 
-    // BUG: 浏览器地址栏，重复出现FloatBtn  won't fix
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
-    QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出（弹框提醒）
+    QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
     // 防止应用多开
@@ -40,7 +39,7 @@ int main(int argc, char *argv[])
         qDebug() << "无法打开/tmp/cute.lock";
         return -1;
     }
-    int res = flock(fd, LOCK_EX | LOCK_NB); // 非阻塞放置互斥锁，一直占用不释放
+    int res = flock(fd, LOCK_EX | LOCK_NB); // 放置互斥锁，一直占用不释放
     if (res != 0)
     {
         qDebug() << "应用多开，自动退出。";
