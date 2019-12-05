@@ -58,8 +58,15 @@ void Picker::buttonReleased()
 
 QString Picker::getSelectedText()
 {
-    return clipboard->text(QClipboard::Selection);
-    //    return "Picker";
+    if (ignoreCRLF)
+    {
+        QString str = clipboard->text(QClipboard::Selection);
+        return str.replace("\n", " ");
+    }
+    else
+    {
+        return clipboard->text(QClipboard::Selection);
+    }
 }
 
 Picker *picker;

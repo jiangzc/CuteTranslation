@@ -39,6 +39,7 @@ class Picker : public QObject
     void buttonPressed();
     void buttonReleased();
     QString getSelectedText();
+    bool ignoreCRLF = false;
 
   private:
     QClipboard *clipboard;

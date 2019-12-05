@@ -111,6 +111,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     voiceButton->setIconSize(QSize(25, 25));
     voiceButton->setIcon(QIcon(":/pic/icons-voice.png"));
     voiceButton->show();
+
+    // 换行N按钮
+    QPushButton *newLineButton = new QPushButton(this->centralWidget());
+    newLineButton->setGeometry(this->width()- 190, 12, 25, 25);
+    newLineButton->setFlat(true);
+    newLineButton->setCheckable(true);
+    newLineButton->setChecked(false);
+    newLineButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
+    newLineButton->setIconSize(QSize(25, 25));
+    newLineButton->setIcon(QIcon(":/pic/icons-n.png"));
+    newLineButton->show();
+    connect(newLineButton, &QPushButton::clicked, this, [=](bool checked){
+        picker->ignoreCRLF = checked;
+    });
 }
 
 MainWindow::~MainWindow()

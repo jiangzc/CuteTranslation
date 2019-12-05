@@ -22,13 +22,10 @@ ConfigTool configTool;
 
 int main(int argc, char *argv[])
 {
-    // TODO 从配置文件加载token网址  排版  timeout retry
-    // 截图时，隐藏mainWin 等，截图 大小写问题等 转换按钮
+    // TODO 从配置文件加载token网址  排版
     // 检查配置文件一致性
     // token 验证有效性
-    // pdf 换行，优化
     // 全局 ... 三种模式不同的图片
-    // 刷新
 
     // BUG: 浏览器地址栏，重复出现FloatBtn  won't fix
 

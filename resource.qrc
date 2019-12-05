@@ -10,5 +10,6 @@
         <file>pic/icons-refresh.png</file>
         <file>pic/icons-star.png</file>
         <file>pic/icons-voice.png</file>
+        <file>pic/icons-n.png</file>
     </qresource>
 </RCC>
