@@ -12,6 +12,7 @@
 
 build/
 deb/CuteTranslation/opt/CuteTranslation
+deb/*.deb
 
 # Qt-es
 object_script.*.Release
