@@ -17,7 +17,7 @@ from configparser import ConfigParser
 cfg = ConfigParser()
 cfg.read(os.path.expanduser('~/.config/CuteTranslation/config.ini'))
 
-token_url = cfg.get('Genenal', "TokenURL")
+token_url = cfg.get('General', "TokenURL")
 access_token = None
 
 def get_token_from_url():
