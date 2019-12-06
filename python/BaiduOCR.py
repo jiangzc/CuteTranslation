@@ -12,9 +12,12 @@ import json
 import base64
 import requests
 import signal
+from configparser import ConfigParser
 
+cfg = ConfigParser()
+cfg.read(os.path.expanduser('~/.config/CuteTranslation/config.ini'))
 
-token_url = "http://67.216.199.87:5000/token"
+token_url = cfg.get('Genenal', "TokenURL")
 access_token = None
 
 def get_token_from_url():

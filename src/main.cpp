@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     depends.push_back("BaiduTranslate.py");
     depends.push_back("translate_demo.py");
     depends.push_back("BaiduOCR.py");
+    depends.push_back("update_token.py");
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
