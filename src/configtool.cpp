@@ -26,7 +26,8 @@ ConfigTool::ConfigTool()
     ChineseNotShow = settings.value("/Custom/ChineseNotShow", true).toBool();
     MainWindowIsPinning = settings.value("/MainWindow/IsPinning", false).toBool();
 
-    QString version = settings.value("/General/Version", "0.0.0").toString();
+    // top-level key -> /General/Version
+    QString version = settings.value("Version", "0.0.0").toString();
     if (version != "0.0.1")
     {
         qDebug() << "警告：程序和配置文件版本不匹配，程序版本：0.0.1，配置文件版本：" << version;
