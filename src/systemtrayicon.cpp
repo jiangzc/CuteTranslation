@@ -68,15 +68,15 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     });
 
     connect(&change_mode_all_action, &QAction::triggered, this, []{
-        configTool.Mode = "all";
+        configTool->Mode = "all";
     });
 
     connect(&change_mode_custom_action, &QAction::triggered, this, []{
-        configTool.Mode = "custom";
+        configTool->Mode = "custom";
     });
 
     connect(&change_mode_none_action, &QAction::triggered, this, []{
-        configTool.Mode = "none";
+        configTool->Mode = "none";
     });
     this->show();
 }

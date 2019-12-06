@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(configTool.MainWindowWidth, configTool.MainWindowHeight);
+    setFixedSize(configTool->MainWindowWidth, configTool->MainWindowHeight);
 
     // 浏览器控件
     view = new QWebEngineView(this->centralWidget());
@@ -78,13 +78,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     fixButton->setGeometry(this->width()- 70, 12, 25, 25);
     fixButton->setFlat(true);
     fixButton->setCheckable(true);
-    fixButton->setChecked(configTool.MainWindowIsPinning);
+    fixButton->setChecked(configTool->MainWindowIsPinning);
     fixButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
     fixButton->setIconSize(QSize(25, 25));
     fixButton->setIcon(QIcon(":/pic/icons-pin-grey.png"));
     fixButton->show();
     connect(fixButton, &QPushButton::clicked, this, [](bool checked){
-        configTool.MainWindowIsPinning = checked;
+        configTool->MainWindowIsPinning = checked;
     });
 
     // 刷新按钮
@@ -207,7 +207,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 void MainWindow::onMouseButtonPressed(int x, int y)
 {
     if (!this->isHidden() && (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height()))
-        if (!configTool.MainWindowIsPinning)
+        if (!configTool->MainWindowIsPinning)
             hide();
 
 }
@@ -232,7 +232,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     // 等待页面加载完成
     qel.exec();
     // 获取默认方向向 重置三角形偏移量
-    int direction = configTool.Direction;
+    int direction = configTool->Direction;
     TriangleOffset = 0;
 
     QPoint mid(0, 0);
@@ -256,21 +256,21 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     Direction = direction;
     // 判断是否超出屏幕左边界
-    if (mid.x() < configTool.Edge)
+    if (mid.x() < configTool->Edge)
     {
-        TriangleOffset = configTool.Edge - mid.x();
+        TriangleOffset = configTool->Edge - mid.x();
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = configTool.Edge;
+        mid.rx() = configTool->Edge;
         TriangleOffset = -TriangleOffset;
     }
     // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool.screenWidth - configTool.Edge)
+    if (mid.x() + this->width() > xdotool.screenWidth - configTool->Edge)
     {
-        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool.Edge);
+        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool->Edge);
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
+        mid.rx() = xdotool.screenWidth - configTool->Edge - this->width();
     }
     move(mid);
     showTriangle = true;
@@ -308,7 +308,7 @@ void MainWindow::onOCRShortCutPressed()
     qel.exec();
 
     // 获取默认方向向 重置三角形偏移量
-    int direction = configTool.Direction;
+    int direction = configTool->Direction;
     TriangleOffset = 0;
 
     QPoint mid(0, 0);
@@ -332,21 +332,21 @@ void MainWindow::onOCRShortCutPressed()
     }
     Direction = direction;
     // 判断是否超出屏幕左边界
-    if (mid.x() < configTool.Edge)
+    if (mid.x() < configTool->Edge)
     {
-        TriangleOffset = configTool.Edge - mid.x();
+        TriangleOffset = configTool->Edge - mid.x();
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = configTool.Edge;
+        mid.rx() = configTool->Edge;
         TriangleOffset = -TriangleOffset;
     }
     // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool.screenWidth - configTool.Edge)
+    if (mid.x() + this->width() > xdotool.screenWidth - configTool->Edge)
     {
-        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool.Edge);
+        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool->Edge);
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool.screenWidth - configTool.Edge - this->width();
+        mid.rx() = xdotool.screenWidth - configTool->Edge - this->width();
     }
     move(mid);
     this->show();

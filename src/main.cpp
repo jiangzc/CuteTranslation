@@ -18,15 +18,13 @@
 
 
 Xdotool xdotool;
-ConfigTool configTool;
+ConfigTool *configTool;
 
 int main(int argc, char *argv[])
 {
     // TODO 排版
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
-
-
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
@@ -75,6 +73,7 @@ int main(int argc, char *argv[])
     if (filesExist == false)
         return -1;
 
+    configTool = new ConfigTool();
 
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();

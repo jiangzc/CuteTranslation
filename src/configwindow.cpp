@@ -32,7 +32,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     });
 
     connect(&remove_action, &QAction::triggered, this, [=] {
-        configTool.NotShow -= ui->listWidget->currentItem()->text();
+        configTool->NotShow -= ui->listWidget->currentItem()->text();
         ui->listWidget->takeItem(ui->listWidget->currentRow());
     });
 
@@ -40,25 +40,25 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "全局")
         {
-            configTool.Mode = "all";
+            configTool->Mode = "all";
         }
         else if (text == "自定义")
         {
-            configTool.Mode = "custom";
+            configTool->Mode = "custom";
         }
         else if (text == "禁用")
         {
-            configTool.Mode = "none";
+            configTool->Mode = "none";
         }
     });
     connect(ui->comboBox_undefined, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "NotShow")
         {
-            configTool.Undefined = "NotShow";
+            configTool->Undefined = "NotShow";
         }
         else if (text == "Show")
         {
-            configTool.Undefined = "Show";
+            configTool->Undefined = "Show";
         }
 
     });
@@ -80,17 +80,17 @@ void ConfigWindow::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
     ui->listWidget->clear();
-    ui->listWidget->addItems(configTool.NotShow.value.split(":", QString::SkipEmptyParts));
-    if (configTool.Mode == "all")
+    ui->listWidget->addItems(configTool->NotShow.value.split(":", QString::SkipEmptyParts));
+    if (configTool->Mode == "all")
         ui->comboBox_mode->setCurrentIndex(0);
-    else if (configTool.Mode == "custom")
+    else if (configTool->Mode == "custom")
         ui->comboBox_mode->setCurrentIndex(1);
-    else if (configTool.Mode == "none")
+    else if (configTool->Mode == "none")
         ui->comboBox_mode->setCurrentIndex(2);
 
-    if (configTool.Undefined == "Show")
+    if (configTool->Undefined == "Show")
         ui->comboBox_undefined->setCurrentIndex(0);
-    else if (configTool.Undefined == "NotShow")
+    else if (configTool->Undefined == "NotShow")
         ui->comboBox_undefined->setCurrentIndex(1);
 }
 

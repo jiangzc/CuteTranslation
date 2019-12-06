@@ -19,7 +19,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    this->setFixedSize(configTool.FloatButtonWidth, configTool.FloatButtonHeight);
+    this->setFixedSize(configTool->FloatButtonWidth, configTool->FloatButtonHeight);
 
     QPixmap *pic = new QPixmap(":/pic/google-translate.png");
     QLabel *label = new QLabel(this);
@@ -31,10 +31,10 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
-        if (configTool.Mode == "all")
-            configTool.Mode = "custom";
-        if (configTool.NotShow.value.contains(picker->CurrentWindowsPath) == false)
-            configTool.NotShow += ":" + picker->CurrentWindowsPath;
+        if (configTool->Mode == "all")
+            configTool->Mode = "custom";
+        if (configTool->NotShow.value.contains(picker->CurrentWindowsPath) == false)
+            configTool->NotShow += ":" + picker->CurrentWindowsPath;
         this->hide();
     });
 
@@ -99,19 +99,19 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
 
 void FloatButton::onWordPicked(QString text)
 {
-    if (configTool.Mode == "none")
+    if (configTool->Mode == "none")
     {
         return;
     }
-    else if (configTool.Mode == "custom" && configTool.Undefined == "Show" && configTool.NotShow.value.contains(picker->CurrentWindowsPath))
+    else if (configTool->Mode == "custom" && configTool->Undefined == "Show" && configTool->NotShow.value.contains(picker->CurrentWindowsPath))
     {
         return;
     }
-    else if (configTool.Mode == "custom" && configTool.Undefined == "NotShow" && configTool.Show.value.contains(picker->CurrentWindowsPath) == false)
+    else if (configTool->Mode == "custom" && configTool->Undefined == "NotShow" && configTool->Show.value.contains(picker->CurrentWindowsPath) == false)
     {
         return;
     }
-    else if (configTool.Mode == "custom" && configTool.ChineseNotShow)
+    else if (configTool->Mode == "custom" && configTool->ChineseNotShow)
     {
         // 分析text中文比例是否超过70%
         int chineseChars = 0;
@@ -130,8 +130,8 @@ void FloatButton::onWordPicked(QString text)
     qDebug() << "Text from picker" << text;
 
     int y;
-    int direction = configTool.Direction;
-    int mainWindowHeight = configTool.MainWindowHeight;
+    int direction = configTool->Direction;
+    int mainWindowHeight = configTool->MainWindowHeight;
 
     if (direction == Direction_Up)
         y = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;

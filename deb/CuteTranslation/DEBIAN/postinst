@@ -1,5 +1,12 @@
 #!/bin/bash
 
-sudo -u \#1000 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple PyExecJS;
+sudo -u \#1000 pip3 show PyExecJS
+if [ $? -ne 0 ]; then
+    sudo -u \#1000 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple PyExecJS;
+fi
+
+sudo -u \#1000 pip3 show requests
+if [ $? -ne 0 ]; then
 sudo -u \#1000 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple  requests;
+fi
 exit 0;

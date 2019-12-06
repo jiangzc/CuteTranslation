@@ -9,6 +9,8 @@
  * 具体参考 https://stackoverflow.com/questions/8368512/does-c11-have-c-style-properties
  */
 
+extern QSettings *settings;
+
 class ConfigTool
 {
   public:
@@ -25,7 +27,6 @@ class ConfigTool
     QString ScreenShotShortCutString;
     bool ChineseNotShow;
 
-    static QSettings settings;
 
     // QString Mode ;
     class
@@ -35,7 +36,7 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            ConfigTool::settings.setValue("/Picker/Mode", i);
+            settings->setValue("/Picker/Mode", i);
             value = i;
             return value;
         }
@@ -58,7 +59,7 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            ConfigTool::settings.setValue("/Custom/Undefined", i);
+            settings->setValue("/Custom/Undefined", i);
             value = i;
             return value;
         }
@@ -81,7 +82,7 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            ConfigTool::settings.setValue("/Custom/NotShow", i);
+            settings->setValue("/Custom/NotShow", i);
             value = i;
             return value;
         }
@@ -92,13 +93,13 @@ class ConfigTool
         QString& operator+=(const QString &str)
         {
             value += str;
-            ConfigTool::settings.setValue("/Custom/NotShow", value);
+            settings->setValue("/Custom/NotShow", value);
             return value;
         }
         QString& operator-=(const QString &str)
         {
             value.remove(":" + str);
-            ConfigTool::settings.setValue("/Custom/NotShow", value);
+            settings->setValue("/Custom/NotShow", value);
             return value;
         }
         operator QString() const
@@ -116,7 +117,7 @@ class ConfigTool
         QString value;
         QString &operator=(const QString &i)
         {
-            ConfigTool::settings.setValue("/Custom/Show", i);
+            settings->setValue("/Custom/Show", i);
             value = i;
             return value;
         }
@@ -127,7 +128,7 @@ class ConfigTool
         QString& operator+=(const QString &str)
         {
             value += str;
-            ConfigTool::settings.setValue("/Custom/Show", value);
+            settings->setValue("/Custom/Show", value);
             return value;
         }
         operator QString() const
@@ -145,7 +146,7 @@ class ConfigTool
         bool value;
         bool &operator=(const bool &i)
         {
-            ConfigTool::settings.setValue("/MainWindow/IsPinning", i);
+            settings->setValue("/MainWindow/IsPinning", i);
             value = i;
             return value;
         }
@@ -162,6 +163,6 @@ class ConfigTool
 
 };
 
-extern ConfigTool configTool;
+extern ConfigTool *configTool;
 
 #endif // CONFIG_H

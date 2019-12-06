@@ -16,7 +16,7 @@ ShortCut::ShortCut()
     // 获取 keyName -> keyCode 映射
     auto keyMap = xdotool.getKeyMap();
     // 加载 FloatBarShortCut
-    auto shortcut = configTool.SearchBarShortCutString.split("+", QString::SkipEmptyParts);
+    auto shortcut = configTool->SearchBarShortCutString.split("+", QString::SkipEmptyParts);
     for (auto &it : shortcut)
     {
         if (keyMap.find(it) != keyMap.end())
@@ -28,7 +28,7 @@ ShortCut::ShortCut()
         }
     }
     // 加载 ScreenShotShortCut
-    shortcut = configTool.ScreenShotShortCutString.split("+", QString::SkipEmptyParts);
+    shortcut = configTool->ScreenShotShortCutString.split("+", QString::SkipEmptyParts);
     for (auto &it : shortcut)
     {
         if (keyMap.find(it) != keyMap.end())
