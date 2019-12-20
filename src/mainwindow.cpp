@@ -202,6 +202,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
         path.closeSubpath();
     }
     painter.drawPath(path);
+    event->accept();
 }
 
 void MainWindow::onMouseButtonPressed(int x, int y)

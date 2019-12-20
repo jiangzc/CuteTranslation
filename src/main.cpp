@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     }
     if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
     {
-        // 复制配置文件
+        qDebug("复制配置文件");
         QFile::copy(appDir.filePath("config.ini"), QDir::home().filePath(".config/CuteTranslation/config.ini"));
     }
     if (filesExist == false)
