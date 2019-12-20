@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>设置</string>
   </property>
   <widget class="QComboBox" name="comboBox_mode">
    <property name="geometry">
@@ -91,10 +91,31 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>150</y>
+     <y>180</y>
      <width>391</width>
-     <height>261</height>
+     <height>241</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>130</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>12</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>显示/不显示：</string>
    </property>
   </widget>
  </widget>
