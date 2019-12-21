@@ -18,8 +18,8 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_mode->addItem("自定义");
     ui->comboBox_mode->addItem("禁用");
     ui->comboBox_mode->setStyleSheet("combobox-popup: 0;");
-    ui->comboBox_undefined->addItem("Show");
-    ui->comboBox_undefined->addItem("NotShow");
+    ui->comboBox_undefined->addItem("显示");
+    ui->comboBox_undefined->addItem("不显示");
     ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
     ui->listWidget->setStyleSheet(" QListWidget {padding:5px; background-color:white;} QListWidget::item { padding: 5px; }");
 
@@ -79,15 +79,17 @@ void ConfigWindow::closeEvent(QCloseEvent *e)
 void ConfigWindow::showEvent(QShowEvent *e)
 {
     QWidget::showEvent(e);
+    // 更新 列表
     ui->listWidget->clear();
     ui->listWidget->addItems(configTool->NotShow.value.split(":", QString::SkipEmptyParts));
+    // 更新 取词模式
     if (configTool->Mode == "all")
         ui->comboBox_mode->setCurrentIndex(0);
     else if (configTool->Mode == "custom")
         ui->comboBox_mode->setCurrentIndex(1);
     else if (configTool->Mode == "none")
         ui->comboBox_mode->setCurrentIndex(2);
-
+    // 更新 未定义
     if (configTool->Undefined == "Show")
         ui->comboBox_undefined->setCurrentIndex(0);
     else if (configTool->Undefined == "NotShow")

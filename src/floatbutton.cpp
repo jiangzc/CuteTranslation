@@ -95,6 +95,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
         notShow.setText("不要在" + picker->CurrentWindowsPath + "显示");
         floatButtonMenu.exec(QCursor::pos());
     }
+    QWidget::mousePressEvent(event);
 }
 
 void FloatButton::onWordPicked(QString text)
