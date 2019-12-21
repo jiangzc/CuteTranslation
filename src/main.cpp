@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show);
+    QObject::connect(&tray, &SystemTrayIcon::activated, &cw, &ConfigWindow::show);
     QObject::connect(&searchBar, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
 
     // 快捷键
