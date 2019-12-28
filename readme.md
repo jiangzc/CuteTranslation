@@ -25,8 +25,8 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 为 Debian 系的发行版安装开发库
 ```bash
 # Qt, WebEngine, Xlib
-sudo apt install libxtst-dev libxcb-util0-dev g++  make
-sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev
+sudo apt install libxtst-dev libxcb-util0-dev build-essential
+sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev libqt5x11extras5-dev
 # JS
 sudo apt install nodejs
 # APP
@@ -54,10 +54,14 @@ sudo chmod 777 /opt/CuteTranslation
 ```
 ./CuteTranslation
 ```
-## 捐赠
-<img src="pic/alipay.png" width="250" height="250"><img src="pic/wechat.png" width="250" height="250">
+
+## 故障排查
+
 
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker)
 + [ScreenTranslation](https://github.com/ziqiangxu/words-picker)
 + [BaiduTranslate](https://github.com/ZCY01/BaiduTranslate)
+
+## 捐赠
+<img src="pic/alipay.png" width="200" height="200"><img src="pic/wechat.png" width="200" height="200">
