@@ -23,7 +23,7 @@ ShortCut::ShortCut()
             SearchBarShortCut.push_back(keyMap.at(it));
         else
         {
-            qDebug() << "Unknow keyName: " + it;
+            qInfo() << "Unknow keyName: " + it;
             qApp->quit();
         }
     }
@@ -35,7 +35,7 @@ ShortCut::ShortCut()
             ScreenShotShortCut.push_back(keyMap.at(it));
         else
         {
-            qDebug() << "Unknow keyName: " + it;
+            qInfo() << "Unknow keyName: " + it;
             qApp->quit();
         }
     }
@@ -48,14 +48,14 @@ void ShortCut::onKeyPressed(int keyCode)
     if (std::equal(SearchBarShortCut.cbegin(), SearchBarShortCut.cend(),
                    keyCodes.cbegin() + 3 - int(SearchBarShortCut.size())))
     {
-        qDebug() << "SearchBarShortCut";
+        qInfo() << "SearchBarShortCut";
         emit SearchBarShortCutPressed();
     }
 
     if (std::equal(ScreenShotShortCut.cbegin(), ScreenShotShortCut.cend(),
                    keyCodes.cbegin() + 3 - int(ScreenShotShortCut.size())))
     {
-        qDebug() << "ScreenShotShortCut";
+        qInfo() << "ScreenShotShortCut";
         emit OCRShortCutPressed();
 
     }

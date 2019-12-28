@@ -191,7 +191,7 @@ QString OCRTranslate()
                     close(pipes[0]);
                     int status;
                     wait(&status);
-                    qDebug() << result;
+                    qInfo() << result;
                     if (status == 0)
                     {
                         // word correction

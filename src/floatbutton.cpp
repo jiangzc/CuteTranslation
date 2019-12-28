@@ -50,7 +50,7 @@ FloatButton::~FloatButton()
 
 void FloatButton::onMouseButtonPressed(int x, int y)
 {
-    // qDebug() << "FloatButton::onMouseButtonPressed, press at :" << mousePressPosition;
+    // qInfo() << "FloatButton::onMouseButtonPressed, press at :" << mousePressPosition;
     if (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height())
     {
         mousePressPosition.setX(x);
@@ -86,7 +86,7 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         this->hide();
-        qDebug() << "floatButtonPressed";
+        qInfo() << "floatButtonPressed";
         emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
     }
     else if (event->button() == Qt::RightButton)
@@ -128,7 +128,7 @@ void FloatButton::onWordPicked(QString text)
             return;
     }
 
-    qDebug() << "Text from picker" << text;
+    qInfo() << "Text from picker" << text;
 
     int y;
     int direction = configTool->Direction;

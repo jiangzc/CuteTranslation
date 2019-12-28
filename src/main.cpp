@@ -20,6 +20,8 @@
 Xdotool xdotool;
 ConfigTool *configTool;
 
+int checkDependency();
+
 int main(int argc, char *argv[])
 {
     // TODO 排版
@@ -31,56 +33,15 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
-    // 防止应用多开
-    int fd = open("/tmp/cute.lock", O_CREAT, S_IRUSR | S_IRGRP);
-    if (fd == -1)
-    {
-        qDebug() << "无法打开/tmp/cute.lock";
+    if (checkDependency() < 0)
         return -1;
-    }
-    int res = flock(fd, LOCK_EX | LOCK_NB); // 放置互斥锁，一直占用不释放
-    if (res != 0)
-    {
-        qDebug() << "应用多开，自动退出。";
-        return -1;
-    }
-
-    // 检查依赖文件是否存在
-    QVector<QString> depends;
-    depends.push_back("BaiduTranslate.py");
-    depends.push_back("translate_demo.py");
-    depends.push_back("BaiduOCR.py");
-    depends.push_back("update_token.py");
-    depends.push_back("interpret_js_1.html");
-    depends.push_back("interpret_js_2.html");
-    depends.push_back("config.ini");
-    depends.push_back("screenshot.sh");
-
-    bool filesExist = true;
-    QDir appDir(QCoreApplication::applicationDirPath());
-    for (auto file : depends)
-    {
-        if (!appDir.exists(file))
-        {
-            qDebug() << "file is missing: " << appDir.filePath(file);
-            filesExist = false;
-        }
-    }
-    if (!QDir::home().exists(".config/CuteTranslation/config.ini"))
-    {
-        qDebug("复制配置文件");
-        QFile::copy(appDir.filePath("config.ini"), QDir::home().filePath(".config/CuteTranslation/config.ini"));
-    }
-    if (filesExist == false)
-        return -1;
-
-    configTool = new ConfigTool();
 
     // 获取屏幕可用的大小
     xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
 
-    /* Picker           取词功能
+    /* ConfigTool       配置工具
+     * Picker           取词功能
      * ConfigWindow     配置界面
      * MainWindow       翻译界面
      * FloatButton      悬浮按钮
@@ -89,6 +50,7 @@ int main(int argc, char *argv[])
      * SearchBar        悬浮搜索框
      */
 
+    configTool = new ConfigTool();
     picker = new Picker();
     ConfigWindow cw;
     MainWindow w;
@@ -149,6 +111,63 @@ int main(int argc, char *argv[])
     // 通知桌面环境，应用已经加载完毕
     cw.show();
     cw.hide();
-
+    qInfo() << "应用加载完毕";
     return a.exec();
+}
+
+int checkDependency()
+{
+    qInfo() << "检查依赖";
+    // 防止应用多开
+    int fd = open("/tmp/cute.lock", O_CREAT, S_IRUSR | S_IRGRP);
+    if (fd == -1)
+    {
+        qInfo() << "无法打开/tmp/cute.lock";
+        return -1;
+    }
+    int res = flock(fd, LOCK_EX | LOCK_NB); // 放置互斥锁，一直占用不释放
+    if (res != 0)
+    {
+        qInfo() << "应用多开，自动退出。";
+        return -1;
+    }
+
+    // 检查依赖文件是否存在
+    QVector<QString> depends;
+    depends.push_back("BaiduTranslate.py");
+    depends.push_back("translate_demo.py");
+    depends.push_back("BaiduOCR.py");
+    depends.push_back("update_token.py");
+    depends.push_back("interpret_js_1.html");
+    depends.push_back("interpret_js_2.html");
+    depends.push_back("config.ini");
+    depends.push_back("screenshot.sh");
+
+    bool filesExist = true;
+    QDir appDir(QCoreApplication::applicationDirPath());
+    for (auto file : depends)
+    {
+        if (!appDir.exists(file))
+        {
+            qInfo() << "file is missing: " << appDir.filePath(file);
+            filesExist = false;
+        }
+    }
+    if (QDir::home().exists(".config/CuteTranslation/config.ini") == false)
+    {
+        // 认为是第一次开启
+        qInfo() << "复制配置文件";
+        QFile::copy(appDir.filePath("config.ini"), QDir::home().filePath(".config/CuteTranslation/config.ini"));
+
+        qInfo() << "检查python3依赖";
+        int res = system("pip3 show requests &&  pip3 show PyExecJS");
+        if (res != 0)
+        {
+            qWarning() << "缺少python3依赖";
+        }
+    }
+    if (filesExist == false)
+        return -1;
+
+    return 0;
 }

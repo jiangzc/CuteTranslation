@@ -32,6 +32,6 @@ ConfigTool::ConfigTool()
     QString version = settings->value("Version", "0.0.0").toString();
     if (version != "0.0.1")
     {
-        qDebug() << "警告：程序和配置文件版本不匹配，程序版本：0.0.1，配置文件版本：" << version;
+        qInfo() << "警告：程序和配置文件版本不匹配，程序版本：0.0.1，配置文件版本：" << version;
     }
 }

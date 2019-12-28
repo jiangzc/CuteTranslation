@@ -51,14 +51,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_1.html");
     if (!file.open(QFile::ReadOnly | QFile::Text))
-        qDebug() << "fail to open";
+        qInfo() << "fail to open";
     QTextStream in(&file);
     this->html1 = in.readAll();
     file.close();
 
     file.setFileName(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
     if (!file.open(QFile::ReadOnly | QFile::Text))
-        qDebug() << "fail to open";
+        qInfo() << "fail to open";
     in.setDevice(&file);
     this->html2 = in.readAll();
     file.close();
@@ -219,7 +219,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
     QString json = TranslateText(picker->getSelectedText());
-    qDebug() << json;
+    qInfo() << json;
     if (json.startsWith("{"))
     {
         QString html = this->html2;
@@ -290,7 +290,7 @@ void MainWindow::onOCRShortCutPressed()
     QPoint mouseReleasedPosition = xdotool.eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    qDebug() << res;
+    qInfo() << res;
     if (res.startsWith("{"))
     {
         QString html = this->html2;
