@@ -10,12 +10,20 @@
 #include "errno.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
-    quit_action("退出"), config_action("配置"), help_action("用户手册"), search_action("文字翻译"), ocr_action("截图翻译"),
-    change_mode_all_action("全局"), change_mode_none_action("禁用"), change_mode_custom_action("自定义"),
-    homepage_action("项目主页"), donate_action("捐赠"),
-    modeSubMenu("取词模式", &menu), helpSubMenu("帮助", &menu),
-    autostart_action("开机启动")
+    modeSubMenu("取词模式", &menu), helpSubMenu("帮助", &menu)
 {
+    quit_action.setText("退出");
+    config_action.setText("配置");
+    help_action.setText("用户手册");
+    homepage_action.setText("项目主页");
+    donate_action.setText("捐赠");
+    autostart_action.setText("开机启动");
+    change_mode_all_action.setText("全局");
+    change_mode_none_action.setText("禁用");
+    change_mode_custom_action.setText("自定义");
+    search_action.setText("文字翻译 " + configTool->SearchBarShortCutString);
+    ocr_action.setText("截图翻译 " + configTool->ScreenShotShortCutString);
+
     QIcon icon(":/pic/icon.png");
     setIcon(icon);
 
