@@ -5,6 +5,9 @@
 #include <QDir>
 #include <QFile>
 #include <QVector>
+#include <QTime>
+#include <QMessageBox>
+#include <iostream>
 
 #include "floatbutton.h"
 #include "xdotool.h"
@@ -19,8 +22,9 @@
 
 Xdotool xdotool;
 ConfigTool *configTool;
-
+const QString CUTETRANSLATION_VERSION = "0.0.1";
 int checkDependency();
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +36,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
+
+    qInstallMessageHandler(myMessageOutput);
 
     if (checkDependency() < 0)
         return -1;
@@ -122,13 +128,13 @@ int checkDependency()
     int fd = open("/tmp/cute.lock", O_CREAT, S_IRUSR | S_IRGRP);
     if (fd == -1)
     {
-        qInfo() << "无法打开/tmp/cute.lock";
+        qCritical() << "无法打开/tmp/cute.lock";
         return -1;
     }
     int res = flock(fd, LOCK_EX | LOCK_NB); // 放置互斥锁，一直占用不释放
     if (res != 0)
     {
-        qInfo() << "应用多开，自动退出。";
+        qCritical() << "应用多开，自动退出。";
         return -1;
     }
 
@@ -167,7 +173,37 @@ int checkDependency()
         }
     }
     if (filesExist == false)
+    {
+        qCritical() << "文件缺失";
         return -1;
+    }
+
 
     return 0;
+}
+
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    std::string time = QDateTime::currentDateTime().toString(Qt::ISODate).toStdString();
+    switch (type) {
+    case QtDebugMsg:
+        std::cout << time << " Debug: " << msg.toStdString() << std::endl;
+        break;
+    case QtInfoMsg:
+        std::cout << time << " Info: " << msg.toStdString() << std::endl;
+        break;
+    case QtWarningMsg:
+        std::cout << time << " Warning: " << msg.toStdString() << std::endl;
+        QMessageBox::warning(nullptr, "警告", msg, QMessageBox::Ignore);
+        break;
+    case QtCriticalMsg:
+        std::cout << time << " Critical: " << msg.toStdString() << std::endl;
+        QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
+        abort();
+    case QtFatalMsg:
+        std::cout << time << " Fatal: " << msg.toStdString() << std::endl;
+        QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
+        abort();
+    }
+
 }
