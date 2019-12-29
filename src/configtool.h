@@ -10,7 +10,7 @@
  */
 
 extern QSettings *settings;
-
+extern const QString CUTETRANSLATION_VERSION;
 class ConfigTool
 {
   public:
