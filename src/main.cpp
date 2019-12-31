@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
     // 托盘栏 选中提示
+    // 检查 /opt/Cu.. 权限
+    // /opt/Cu../log  日志文件
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
@@ -94,6 +96,10 @@ int main(int argc, char *argv[])
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
+    QObject::connect(&configTool->Mode, &Mode_Class::ModeChanged, &tray, [&](QString i){
+        if (i == "all")
+            tray.change_mode_all_action.setText("aaa");
+    });
 
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
