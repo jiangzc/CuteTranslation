@@ -31,8 +31,8 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
-        if (configTool->Mode == "all")
-            configTool->Mode = "custom";
+        if (configTool->GetMode2() == Mode_ALL)
+            configTool->SetMode2(Mode_CUSTOM);
         if (configTool->NotShow.value.contains(picker->CurrentWindowsPath) == false)
             configTool->NotShow += ":" + picker->CurrentWindowsPath;
         this->hide();
@@ -100,19 +100,19 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
 
 void FloatButton::onWordPicked(QString text)
 {
-    if (configTool->Mode == "none")
+    if (configTool->GetMode2() == Mode_NONE)
     {
         return;
     }
-    else if (configTool->Mode == "custom" && configTool->Undefined == "Show" && configTool->NotShow.value.contains(picker->CurrentWindowsPath))
+    else if (configTool->GetMode2() == Mode_CUSTOM && configTool->Undefined == "Show" && configTool->NotShow.value.contains(picker->CurrentWindowsPath))
     {
         return;
     }
-    else if (configTool->Mode == "custom" && configTool->Undefined == "NotShow" && configTool->Show.value.contains(picker->CurrentWindowsPath) == false)
+    else if (configTool->GetMode2() == Mode_CUSTOM && configTool->Undefined == "NotShow" && configTool->Show.value.contains(picker->CurrentWindowsPath) == false)
     {
         return;
     }
-    else if (configTool->Mode == "custom" && configTool->ChineseNotShow)
+    else if (configTool->GetMode2() == Mode_CUSTOM && configTool->ChineseNotShow)
     {
         // 分析text中文比例是否超过70%
         int chineseChars = 0;

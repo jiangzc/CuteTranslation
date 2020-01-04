@@ -14,9 +14,9 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->move((xdotool.screenWidth - this->width()) / 2, (xdotool.screenHeight - this->height()) / 2);
-    ui->comboBox_mode->addItem("全局");
-    ui->comboBox_mode->addItem("自定义");
-    ui->comboBox_mode->addItem("禁用");
+    ui->comboBox_mode->addItem("全局", Mode_ALL);
+    ui->comboBox_mode->addItem("自定义", Mode_CUSTOM);
+    ui->comboBox_mode->addItem("禁用", Mode_NONE);
     ui->comboBox_mode->setStyleSheet("combobox-popup: 0;");
     ui->comboBox_undefined->addItem("显示");
     ui->comboBox_undefined->addItem("不显示");
@@ -36,20 +36,10 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
         ui->listWidget->takeItem(ui->listWidget->currentRow());
     });
 
-
-    connect(ui->comboBox_mode, &QComboBox::currentTextChanged, this, [=](QString text){
-        if (text == "全局")
-        {
-            configTool->Mode = "all";
-        }
-        else if (text == "自定义")
-        {
-            configTool->Mode = "custom";
-        }
-        else if (text == "禁用")
-        {
-            configTool->Mode = "none";
-        }
+    void (QComboBox::*fp)(int) = &QComboBox::currentIndexChanged ;
+    connect(ui->comboBox_mode, fp, this, [=](int index){
+        ModeSet mode = ModeSet(ui->comboBox_mode->itemData(index).toInt());
+        configTool->SetMode2(mode);
     });
     connect(ui->comboBox_undefined, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "NotShow")
@@ -83,11 +73,11 @@ void ConfigWindow::showEvent(QShowEvent *e)
     ui->listWidget->clear();
     ui->listWidget->addItems(configTool->NotShow.value.split(":", QString::SkipEmptyParts));
     // 更新 取词模式
-    if (configTool->Mode == "all")
+    if (configTool->GetMode2() == Mode_ALL)
         ui->comboBox_mode->setCurrentIndex(0);
-    else if (configTool->Mode == "custom")
+    else if (configTool->GetMode2() == Mode_CUSTOM)
         ui->comboBox_mode->setCurrentIndex(1);
-    else if (configTool->Mode == "none")
+    else if (configTool->GetMode2() == Mode_NONE)
         ui->comboBox_mode->setCurrentIndex(2);
     // 更新 未定义
     if (configTool->Undefined == "Show")

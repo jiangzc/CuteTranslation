@@ -7,7 +7,16 @@ QSettings *settings;
 ConfigTool::ConfigTool()
 {
     settings = new QSettings(QDir::homePath() + "/.config/CuteTranslation/config.ini", QSettings::IniFormat);
-    Mode.value = settings->value("/Picker/Mode", "all").toString();
+
+    QString mode = settings->value("/Picker/Mode", "all").toString().toLower();
+    if (mode == "all")
+        Mode2 = Mode_ALL;
+    else if (mode == "custom")
+        Mode2 = Mode_CUSTOM;
+    else if (mode == "none")
+        Mode2 = Mode_NONE;
+
+
     Undefined.value = settings->value("/Custom/Undefined").toString();
 
     TriangleWidth = settings->value("/MainWindow/TriangleWidth", 15).toInt();

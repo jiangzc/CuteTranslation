@@ -29,11 +29,15 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 int main(int argc, char *argv[])
 {
     // TODO 排版
+    // 重写 configTool Mode 等用 get set 函数设置
+    // 调整文件位置  用户相关的全到 ~/.config/Cu..
+    // 增加配置 缩放比例
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
     // 托盘栏 选中提示
-    // 检查 /opt/Cu.. 权限
-    // /opt/Cu../log  日志文件
+    // 检查 可执行文件所在目录 权限
+    // .config/log  日志文件
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
@@ -96,9 +100,16 @@ int main(int argc, char *argv[])
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
-    QObject::connect(&configTool->Mode, &Mode_Class::ModeChanged, &tray, [&](QString i){
-        if (i == "all")
-            tray.change_mode_all_action.setText("aaa");
+    QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, [&tray](ModeSet mode){
+        tray.change_mode_all_action.setText("全局");
+        tray.change_mode_custom_action.setText("自定义");
+        tray.change_mode_none_action.setText("禁用");
+        if (configTool->GetMode2() == Mode_ALL)
+            tray.change_mode_all_action.setText("✓ 全局");
+        else if (configTool->GetMode2() == Mode_CUSTOM)
+            tray.change_mode_custom_action.setText("✓ 自定义");
+        else if (configTool->GetMode2() == Mode_NONE)
+            tray.change_mode_none_action.setText("✓ 禁用");
     });
 
     // 全局鼠标监听

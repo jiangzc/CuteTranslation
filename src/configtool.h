@@ -2,6 +2,7 @@
 #define CONFIG_H
 #include <QSettings>
 #include <QString>
+#include <QObject>
 
 /* ConfigTool 中使用了匿名类来实现C#-style类的属性的功能
  * 重载了匿名类的赋值运算符作为set函数
@@ -11,8 +12,15 @@
 
 extern QSettings *settings;
 extern const QString CUTETRANSLATION_VERSION;
-class ConfigTool
+enum ModeSet { Mode_ALL, Mode_CUSTOM, Mode_NONE };
+
+
+class ConfigTool : public QObject
 {
+     Q_OBJECT
+
+ private:
+     ModeSet Mode2;
   public:
     ConfigTool();
     int TriangleHeight;
@@ -29,27 +37,27 @@ class ConfigTool
 
 
     // QString Mode ;
-    class
+    ModeSet GetMode2() const
     {
-
-      public:
-        QString value;
-        QString &operator=(const QString &i)
+        return this->Mode2;
+    }
+    void SetMode2(ModeSet mode)
+    {
+        this->Mode2 = mode;
+        if (mode == Mode_ALL)
         {
-            settings->setValue("/Picker/Mode", i);
-            value = i;
-            return value;
+           settings->setValue("/Picker/Mode", "all");
         }
-        bool operator==(const QString str)
+        else if(mode == Mode_CUSTOM)
         {
-            return (str == value);
+           settings->setValue("/Picker/Mode", "custom");
         }
-        operator QString() const
+        else if(mode == Mode_NONE)
         {
-            return value;
+            settings->setValue("/Picker/Mode", "none");
         }
-
-    } Mode;
+        emit ModeChanged(mode);
+    }
 
     // QString Undefined;
     class
@@ -161,7 +169,10 @@ class ConfigTool
 
     } MainWindowIsPinning;
 
+signals:
+    void ModeChanged(ModeSet mode);
 };
+
 
 extern ConfigTool *configTool;
 

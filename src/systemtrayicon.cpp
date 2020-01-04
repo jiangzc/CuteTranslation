@@ -19,10 +19,17 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     donate_action.setText("捐赠");
     autostart_action.setText("开机启动");
     change_mode_all_action.setText("全局");
-    change_mode_none_action.setText("禁用");
     change_mode_custom_action.setText("自定义");
+    change_mode_none_action.setText("禁用");
     search_action.setText("文字翻译 " + configTool->SearchBarShortCutString);
     ocr_action.setText("截图翻译 " + configTool->ScreenShotShortCutString);
+
+    if (configTool->GetMode2() == Mode_ALL)
+        change_mode_all_action.setText("✓ 全局");
+    else if (configTool->GetMode2() == Mode_CUSTOM)
+        change_mode_custom_action.setText("✓ 自定义");
+    else if (configTool->GetMode2() == Mode_NONE)
+        change_mode_none_action.setText("✓ 禁用");
 
     QIcon icon(":/pic/icon.png");
     setIcon(icon);
@@ -76,15 +83,15 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     });
 
     connect(&change_mode_all_action, &QAction::triggered, this, []{
-        configTool->Mode = "all";
+        configTool->SetMode2(Mode_ALL);
     });
 
     connect(&change_mode_custom_action, &QAction::triggered, this, []{
-        configTool->Mode = "custom";
+        configTool->SetMode2(Mode_CUSTOM);
     });
 
     connect(&change_mode_none_action, &QAction::triggered, this, []{
-        configTool->Mode = "none";
+        configTool->SetMode2(Mode_NONE);
     });
     this->show();
 }
