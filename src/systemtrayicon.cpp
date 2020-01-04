@@ -24,11 +24,11 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     search_action.setText("文字翻译 " + configTool->SearchBarShortCutString);
     ocr_action.setText("截图翻译 " + configTool->ScreenShotShortCutString);
 
-    if (configTool->GetMode2() == Mode_ALL)
+    if (configTool->GetMode() == Mode_ALL)
         change_mode_all_action.setText("✓ 全局");
-    else if (configTool->GetMode2() == Mode_CUSTOM)
+    else if (configTool->GetMode() == Mode_CUSTOM)
         change_mode_custom_action.setText("✓ 自定义");
-    else if (configTool->GetMode2() == Mode_NONE)
+    else if (configTool->GetMode() == Mode_NONE)
         change_mode_none_action.setText("✓ 禁用");
 
     QIcon icon(":/pic/icon.png");
@@ -83,15 +83,15 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     });
 
     connect(&change_mode_all_action, &QAction::triggered, this, []{
-        configTool->SetMode2(Mode_ALL);
+        configTool->SetMode(Mode_ALL);
     });
 
     connect(&change_mode_custom_action, &QAction::triggered, this, []{
-        configTool->SetMode2(Mode_CUSTOM);
+        configTool->SetMode(Mode_CUSTOM);
     });
 
     connect(&change_mode_none_action, &QAction::triggered, this, []{
-        configTool->SetMode2(Mode_NONE);
+        configTool->SetMode(Mode_NONE);
     });
     this->show();
 }

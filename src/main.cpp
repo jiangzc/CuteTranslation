@@ -104,11 +104,11 @@ int main(int argc, char *argv[])
         tray.change_mode_all_action.setText("全局");
         tray.change_mode_custom_action.setText("自定义");
         tray.change_mode_none_action.setText("禁用");
-        if (configTool->GetMode2() == Mode_ALL)
+        if (configTool->GetMode() == Mode_ALL)
             tray.change_mode_all_action.setText("✓ 全局");
-        else if (configTool->GetMode2() == Mode_CUSTOM)
+        else if (configTool->GetMode() == Mode_CUSTOM)
             tray.change_mode_custom_action.setText("✓ 自定义");
-        else if (configTool->GetMode2() == Mode_NONE)
+        else if (configTool->GetMode() == Mode_NONE)
             tray.change_mode_none_action.setText("✓ 禁用");
     });
 

@@ -20,7 +20,7 @@ class ConfigTool : public QObject
      Q_OBJECT
 
  private:
-     ModeSet Mode2;
+     ModeSet Mode;
   public:
     ConfigTool();
     int TriangleHeight;
@@ -37,13 +37,13 @@ class ConfigTool : public QObject
 
 
     // QString Mode ;
-    ModeSet GetMode2() const
+    ModeSet GetMode() const
     {
-        return this->Mode2;
+        return this->Mode;
     }
-    void SetMode2(ModeSet mode)
+    void SetMode(ModeSet mode)
     {
-        this->Mode2 = mode;
+        this->Mode = mode;
         if (mode == Mode_ALL)
         {
            settings->setValue("/Picker/Mode", "all");

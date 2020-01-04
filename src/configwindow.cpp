@@ -39,7 +39,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     void (QComboBox::*fp)(int) = &QComboBox::currentIndexChanged ;
     connect(ui->comboBox_mode, fp, this, [=](int index){
         ModeSet mode = ModeSet(ui->comboBox_mode->itemData(index).toInt());
-        configTool->SetMode2(mode);
+        configTool->SetMode(mode);
     });
     connect(ui->comboBox_undefined, &QComboBox::currentTextChanged, this, [=](QString text){
         if (text == "NotShow")
@@ -73,11 +73,11 @@ void ConfigWindow::showEvent(QShowEvent *e)
     ui->listWidget->clear();
     ui->listWidget->addItems(configTool->NotShow.value.split(":", QString::SkipEmptyParts));
     // 更新 取词模式
-    if (configTool->GetMode2() == Mode_ALL)
+    if (configTool->GetMode() == Mode_ALL)
         ui->comboBox_mode->setCurrentIndex(0);
-    else if (configTool->GetMode2() == Mode_CUSTOM)
+    else if (configTool->GetMode() == Mode_CUSTOM)
         ui->comboBox_mode->setCurrentIndex(1);
-    else if (configTool->GetMode2() == Mode_NONE)
+    else if (configTool->GetMode() == Mode_NONE)
         ui->comboBox_mode->setCurrentIndex(2);
     // 更新 未定义
     if (configTool->Undefined == "Show")

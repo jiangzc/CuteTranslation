@@ -10,11 +10,11 @@ ConfigTool::ConfigTool()
 
     QString mode = settings->value("/Picker/Mode", "all").toString().toLower();
     if (mode == "all")
-        Mode2 = Mode_ALL;
+        Mode = Mode_ALL;
     else if (mode == "custom")
-        Mode2 = Mode_CUSTOM;
+        Mode = Mode_CUSTOM;
     else if (mode == "none")
-        Mode2 = Mode_NONE;
+        Mode = Mode_NONE;
 
 
     Undefined.value = settings->value("/Custom/Undefined").toString();
