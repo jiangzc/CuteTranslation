@@ -35,7 +35,7 @@ ConfigTool::ConfigTool()
     ScreenShotShortCutString = settings->value("/ShortCut/ScreenShot", "alt+q").toString().toLower();
 
     ChineseNotShow = settings->value("/Custom/ChineseNotShow", true).toBool();
-    MainWindowIsPinning = settings->value("/MainWindow/IsPinning", false).toBool();
+    MainWindowPin = settings->value("/MainWindow/IsPinning", false).toBool();
 
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();
@@ -43,4 +43,38 @@ ConfigTool::ConfigTool()
     {
         qWarning() << "程序和配置文件版本不匹配，程序版本：" << CUTETRANSLATION_VERSION << "，配置文件版本：" << version;
     }
+}
+
+ModeSet ConfigTool::GetMode() const
+{
+    return this->Mode;
+}
+
+void ConfigTool::SetMode(ModeSet mode)
+{
+    this->Mode = mode;
+    if (mode == Mode_ALL)
+    {
+        settings->setValue("/Picker/Mode", "all");
+    }
+    else if(mode == Mode_CUSTOM)
+    {
+        settings->setValue("/Picker/Mode", "custom");
+    }
+    else if(mode == Mode_NONE)
+    {
+        settings->setValue("/Picker/Mode", "none");
+    }
+    emit ModeChanged(mode);
+}
+
+bool ConfigTool::GetMainWindowPin() const
+{
+    return this->MainWindowPin;
+}
+
+void ConfigTool::SetMainWindowPin(bool pin)
+{
+    this->MainWindowPin = pin;
+    settings->setValue("/MainWindow/IsPinning", pin);
 }

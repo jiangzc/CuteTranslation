@@ -78,13 +78,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     fixButton->setGeometry(this->width()- 70, 12, 25, 25);
     fixButton->setFlat(true);
     fixButton->setCheckable(true);
-    fixButton->setChecked(configTool->MainWindowIsPinning);
+    fixButton->setChecked(configTool->GetMainWindowPin());
     fixButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
     fixButton->setIconSize(QSize(25, 25));
     fixButton->setIcon(QIcon(":/pic/icons-pin-grey.png"));
     fixButton->show();
     connect(fixButton, &QPushButton::clicked, this, [](bool checked){
-        configTool->MainWindowIsPinning = checked;
+        configTool->SetMainWindowPin(checked);
     });
 
     // 刷新按钮
@@ -208,7 +208,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 void MainWindow::onMouseButtonPressed(int x, int y)
 {
     if (!this->isHidden() && (x < this->x() || x > this->x() + width() || y < this->y() || y > this->y() + height()))
-        if (!configTool->MainWindowIsPinning)
+        if (!configTool->GetMainWindowPin())
             hide();
 
 }

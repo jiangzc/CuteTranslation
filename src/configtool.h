@@ -17,11 +17,12 @@ enum ModeSet { Mode_ALL, Mode_CUSTOM, Mode_NONE };
 
 class ConfigTool : public QObject
 {
-     Q_OBJECT
+    Q_OBJECT
 
- private:
-     ModeSet Mode;
-  public:
+private:
+    ModeSet Mode;
+    bool MainWindowPin;
+public:
     ConfigTool();
     int TriangleHeight;
     int TriangleWidth;
@@ -37,27 +38,9 @@ class ConfigTool : public QObject
 
 
     // QString Mode ;
-    ModeSet GetMode() const
-    {
-        return this->Mode;
-    }
-    void SetMode(ModeSet mode)
-    {
-        this->Mode = mode;
-        if (mode == Mode_ALL)
-        {
-           settings->setValue("/Picker/Mode", "all");
-        }
-        else if(mode == Mode_CUSTOM)
-        {
-           settings->setValue("/Picker/Mode", "custom");
-        }
-        else if(mode == Mode_NONE)
-        {
-            settings->setValue("/Picker/Mode", "none");
-        }
-        emit ModeChanged(mode);
-    }
+    ModeSet GetMode() const;
+    void SetMode(ModeSet mode);
+
 
     // QString Undefined;
     class
@@ -146,28 +129,8 @@ class ConfigTool : public QObject
 
     } Show;
 
-    // bool MainWindowIsPinning;
-    class
-    {
-
-    public:
-        bool value;
-        bool &operator=(const bool &i)
-        {
-            settings->setValue("/MainWindow/IsPinning", i);
-            value = i;
-            return value;
-        }
-        bool operator==(const bool i)
-        {
-            return (i == value);
-        }
-        operator bool() const
-        {
-            return value;
-        }
-
-    } MainWindowIsPinning;
+    bool GetMainWindowPin() const;
+    void SetMainWindowPin(bool);
 
 signals:
     void ModeChanged(ModeSet mode);
