@@ -30,6 +30,9 @@ private:
 
 signals:
     void returnPressed(QPoint pos, QPoint size, QString res);
+
+public slots:
+    void OnSearchBarShortCutPressed();
 };
 
 #endif // SEARCHBAR_H

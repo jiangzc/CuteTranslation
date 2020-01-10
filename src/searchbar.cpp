@@ -102,3 +102,8 @@ void SearchBar::ClearLineEdit()
     this->ui->lineEdit->clear();
     this->ui->lineEdit->setFocus();
 }
+
+void SearchBar::OnSearchBarShortCutPressed()
+{
+
+}

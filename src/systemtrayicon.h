@@ -3,6 +3,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QSystemTrayIcon>
+#include "configtool.h"
 
 class SystemTrayIcon : public QSystemTrayIcon
 {
@@ -25,6 +26,9 @@ class SystemTrayIcon : public QSystemTrayIcon
     QMenu menu;
     QMenu modeSubMenu;
     QMenu helpSubMenu;
+
+public slots:
+    void OnModeChanged(ModeSet mode);
 
 };
 

@@ -97,17 +97,7 @@ int main(int argc, char *argv[])
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
-    QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, [&tray](ModeSet mode){
-        tray.change_mode_all_action.setText("全局");
-        tray.change_mode_custom_action.setText("自定义");
-        tray.change_mode_none_action.setText("禁用");
-        if (configTool->GetMode() == Mode_ALL)
-            tray.change_mode_all_action.setText("✓ 全局");
-        else if (configTool->GetMode() == Mode_CUSTOM)
-            tray.change_mode_custom_action.setText("✓ 自定义");
-        else if (configTool->GetMode() == Mode_NONE)
-            tray.change_mode_none_action.setText("✓ 禁用");
-    });
+    QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, &SystemTrayIcon::OnModeChanged);
 
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);

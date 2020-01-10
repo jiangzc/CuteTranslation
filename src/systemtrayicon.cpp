@@ -96,4 +96,16 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     this->show();
 }
 
+void SystemTrayIcon::OnModeChanged(ModeSet mode)
+{
+    change_mode_all_action.setText("全局");
+    change_mode_custom_action.setText("自定义");
+    change_mode_none_action.setText("禁用");
+    if (mode == Mode_ALL)
+        change_mode_all_action.setText("✓ 全局");
+    else if (mode == Mode_CUSTOM)
+        change_mode_custom_action.setText("✓ 自定义");
+    else if (mode == Mode_NONE)
+        change_mode_none_action.setText("✓ 禁用");
+}
 
