@@ -7,18 +7,8 @@ QSettings *settings;
 ConfigTool::ConfigTool()
 {
     settings = new QSettings(QDir::homePath() + "/.config/CuteTranslation/config.ini", QSettings::IniFormat);
-
-    QString mode = settings->value("/Picker/Mode", "all").toString().toLower();
-    if (mode == "all")
-        Mode = Mode_ALL;
-    else if (mode == "custom")
-        Mode = Mode_CUSTOM;
-    else if (mode == "none")
-        Mode = Mode_NONE;
-
-
+    Mode = GetMode(settings->value("/Picker/Mode", "all").toString().toLower());
     Undefined.value = settings->value("/Custom/Undefined").toString();
-
     TriangleWidth = settings->value("/MainWindow/TriangleWidth", 15).toInt();
     TriangleHeight = settings->value("/MainWindow/TriangleHeight", 15).toInt();
     Edge = settings->value("/MainWindow/Edge", 15).toInt();
@@ -37,6 +27,8 @@ ConfigTool::ConfigTool()
     ChineseNotShow = settings->value("/Custom/ChineseNotShow", true).toBool();
     MainWindowPin = settings->value("/MainWindow/IsPinning", false).toBool();
 
+    WebPageZoomFactor = settings->value("/MainWindow/WebPageZoomFactor", 1.2).toFloat();
+
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();
     if (version != CUTETRANSLATION_VERSION)
@@ -48,6 +40,17 @@ ConfigTool::ConfigTool()
 ModeSet ConfigTool::GetMode() const
 {
     return this->Mode;
+}
+
+ModeSet ConfigTool::GetMode(QString modeStr) const
+{
+    if (modeStr == "all")
+        return Mode_ALL;
+    else if (modeStr == "custom")
+        return Mode_CUSTOM;
+    else if (modeStr == "none")
+        return Mode_NONE;
+    return Mode_CUSTOM;
 }
 
 void ConfigTool::SetMode(ModeSet mode)

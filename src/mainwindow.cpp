@@ -34,13 +34,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 浏览器控件
     view = new QWebEngineView(this->centralWidget());
-    view->setZoomFactor(1.2);
+    view->setZoomFactor(qreal(configTool->WebPageZoomFactor));
     view->setGeometry(10,10, width() - 30 , height() - 30);
 
     // 当页面加载完成后，获取html页面高度调整自身高度
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.offsetHeight;",[=](QVariant result){
-            int newHeight = int(result.toInt() * 1.2 + 10);
+            int newHeight = int(result.toInt() * configTool->WebPageZoomFactor + 10);
             view->setFixedSize(view->width(),newHeight);
             this->setFixedHeight(newHeight + 30);
             emit gotHeight();

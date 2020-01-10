@@ -35,11 +35,17 @@ public:
     QString SearchBarShortCutString;
     QString ScreenShotShortCutString;
     bool ChineseNotShow;
+    float WebPageZoomFactor;
 
 
     // QString Mode ;
     ModeSet GetMode() const;
+    ModeSet GetMode(QString modeStr) const;
     void SetMode(ModeSet mode);
+
+    // bool MainWindowPin;
+    bool GetMainWindowPin() const;
+    void SetMainWindowPin(bool);
 
 
     // QString Undefined;
@@ -129,8 +135,6 @@ public:
 
     } Show;
 
-    bool GetMainWindowPin() const;
-    void SetMainWindowPin(bool);
 
 signals:
     void ModeChanged(ModeSet mode);

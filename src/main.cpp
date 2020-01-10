@@ -29,12 +29,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 int main(int argc, char *argv[])
 {
     // TODO 排版
-    // 重写 configTool Mode 等用 get set 函数设置
     // 调整文件位置  用户相关的全到 ~/.config/Cu..
-    // 增加配置 缩放比例
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
-    // 托盘栏 选中提示
     // 检查 可执行文件所在目录 权限
     // .config/log  日志文件
 
@@ -130,6 +127,7 @@ int main(int argc, char *argv[])
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyRelease, &shortcut, &ShortCut::onKeyReleased, Qt::QueuedConnection);
 
     xdotool.eventMonitor.start();
+    configTool->SetMode(configTool->GetMode()); // 触发ModeChanged，修改托盘文字
 
     // 通知桌面环境，应用已经加载完毕
     cw.show();
