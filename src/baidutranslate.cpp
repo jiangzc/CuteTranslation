@@ -195,7 +195,9 @@ QString OCRTranslate(float timeLeft, bool screenshot=true)
                     close(pipes[0]);
                     int status;
                     wait(&status);
-                    qInfo() << result;
+                    QString res_short = result;
+                    res_short.truncate(20);
+                    qInfo() << res_short;
                     if (status == 0)
                     {
                         // word correction
