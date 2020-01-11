@@ -34,9 +34,6 @@ int main(int argc, char *argv[])
     // 调整文件位置  用户相关的全到 ~/.config/Cu..
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
-    // 检查 可执行文件所在目录 权限
-    // 用*.py检查python依赖，强制退出等
-
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
@@ -48,7 +45,7 @@ int main(int argc, char *argv[])
         qCritical() << "无法记录日志";
     }
     qInstallMessageHandler(myMessageOutput);
-
+    qInfo() << "---------- Start --------------";
     if (checkDependency() < 0)
         return -1;
 
@@ -110,7 +107,7 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{
         xdotool->eventMonitor.terminate();
         xdotool->eventMonitor.wait();
-
+        qInfo() << "---------- Exit --------------";
         logFile->close();
         qApp->quit();
     });
