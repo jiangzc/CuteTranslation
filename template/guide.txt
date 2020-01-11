@@ -1,0 +1,15 @@
+CuteTranslation 用户手册
+
+安装方法
+因为要自动下载很多依赖，用图形界面的安装器可能会有问题。
+推荐用命令安装 sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
+
+功能
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。当你用鼠标选中一段文字后，鼠标旁边会出现一个小方块(FloatButton)，点击后触发翻译功能。
+
+故障排查
+1. 配置文件版本v0.0.0，与程序版本不符合
+    检查 ~/.config/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则需要删除config.ini后重启程序。
+2. 
+
+
