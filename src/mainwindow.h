@@ -34,6 +34,12 @@ class MainWindow : public QMainWindow
     QString html1;
     QString html2;
     bool showTriangle = true;
+    class PreviousAction{
+        public:
+        enum { PICK, OCR, Search } Action;
+        QPoint point1, point2;
+        QString text1;
+    } previousAction;
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
 
@@ -46,6 +52,7 @@ class MainWindow : public QMainWindow
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
     void onOCRShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
+    void onRefreshButtonPressed();
 };
 
 #endif // MAINWINDOW_H

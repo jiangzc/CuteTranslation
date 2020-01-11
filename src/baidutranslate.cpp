@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 
 
-QString TranslateText(QString word, float timeLeft=2.0)
+QString TranslateText(QString word, float timeLeft=0.7)
 {
     auto byteArray = word.toUtf8();
     const char *word_chars = byteArray.constData();
@@ -113,7 +113,7 @@ QString TranslateText(QString word, float timeLeft=2.0)
     return QString(""); // if failed
 }
 
-QString OCRTranslate(float timeLeft=3.0)
+QString OCRTranslate(float timeLeft=1.0)
 {
     // 截图,如果成功f1和f2不相等，返回0
     QString cmd = "bash " + QCoreApplication::applicationDirPath() + "/screenshot.sh";

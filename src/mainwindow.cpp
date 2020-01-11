@@ -21,8 +21,8 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateText(QString word, float timeLeft=2.0);
-extern QString OCRTranslate(float timeLeft=3.0);
+extern QString TranslateText(QString word, float timeLeft=0.7);
+extern QString OCRTranslate(float timeLeft=1.0);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     refreshButton->setIconSize(QSize(25, 25));
     refreshButton->setIcon(QIcon(":/pic/icons-refresh.png"));
     refreshButton->show();
-    //connect(closeButton, &QPushButton::clicked, this, &MainWindow::hide);
+    connect(refreshButton, &QPushButton::clicked, this, &MainWindow::onRefreshButtonPressed);
 
     // 星星按钮
     QPushButton *starButton = new QPushButton(this->centralWidget());
@@ -275,10 +275,9 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     move(mid);
     showTriangle = true;
-    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
-    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
-        this->onFloatButtonPressed(mousePressPosition, mouseReleasedPosition);
-    });
+    previousAction.Action = PreviousAction::PICK;
+    previousAction.point1 = mousePressPosition;
+    previousAction.point2 = mouseReleasedPosition;
     this->show();
 
 }
@@ -352,10 +351,9 @@ void MainWindow::onOCRShortCutPressed()
     move(mid);
     this->show();
     showTriangle = true;
-    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
-    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
-        this->onOCRShortCutPressed();
-    });
+    previousAction.Action = PreviousAction::OCR;
+    previousAction.point1 = mousePressPosition;
+    previousAction.point2 = mouseReleasedPosition;
     this->activateWindow();
 }
 
@@ -387,9 +385,28 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
         mid.ry() = pos.y() - this->height();
     }
     move(mid);
+    previousAction.Action = PreviousAction::Search;
+    previousAction.point1 = pos;
+    previousAction.point2 = size;
+    previousAction.text1 = text;
     this->show();
-    disconnect(this->refreshButton, &QPushButton::clicked, nullptr, nullptr);
-    connect(this->refreshButton, &QPushButton::clicked, this, [=]{
-        this->onSearchBarReturned(pos, size, text);
-    });
+
+}
+
+void MainWindow::onRefreshButtonPressed()
+{
+    if (previousAction.Action == PreviousAction::PICK)
+    {
+        this->onFloatButtonPressed(previousAction.point1, previousAction.point2);
+    }
+    else if ( previousAction.Action == PreviousAction::OCR)
+    {
+        xdotool->eventMonitor.mousePressPosition = previousAction.point1;
+        xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
+        this->onOCRShortCutPressed();
+    }
+    else if (previousAction.Action == PreviousAction::Search)
+    {
+        this->onSearchBarReturned(previousAction.point1, previousAction.point2, previousAction.text1);
+    }
 }
