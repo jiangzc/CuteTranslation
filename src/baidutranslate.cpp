@@ -14,14 +14,14 @@
 #include <sys/wait.h>
 
 
-QString TranslateText(QString word)
+QString TranslateText(QString word, float timeLeft=2.0)
 {
     auto byteArray = word.toUtf8();
     const char *word_chars = byteArray.constData();
     QString python_path = QCoreApplication::applicationDirPath() + "/translate_demo.py";
 
     QString result;
-    float timeLeft = 2.0; // max delay of sub process
+    // float timeLeft = 2.0; // max delay of sub process
     int pipes[2];
     pid_t pid;
     if (pipe(pipes) == 0)
@@ -113,7 +113,7 @@ QString TranslateText(QString word)
     return QString(""); // if failed
 }
 
-QString OCRTranslate()
+QString OCRTranslate(float timeLeft=3.0)
 {
     // 截图,如果成功f1和f2不相等，返回0
     QString cmd = "bash " + QCoreApplication::applicationDirPath() + "/screenshot.sh";
@@ -124,7 +124,7 @@ QString OCRTranslate()
     QString python_path = QCoreApplication::applicationDirPath() + "/BaiduOCR.py";
     pid_t pid;
     QString result;
-    float timeLeft = 3.0; // max delay of sub process
+    // float timeLeft = 3.0; // max delay of sub process
     int pipes[2];
 
     if (pipe(pipes) == 0)

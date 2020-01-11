@@ -31,11 +31,10 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 int main(int argc, char *argv[])
 {
     // TODO 排版
-    // 调整文件位置  用户相关的全到 ~/.config/Cu..
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
     // 截图的refresh
-    // 开始就获取token
+    // 配置延时控制
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
@@ -186,6 +185,8 @@ int checkDependency()
         // 认为是第一次开启
         qInfo() << "复制配置文件";
         QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
+        qInfo() << "获取token";
+        res = system(appDir.filePath("update_token.py").toStdString().c_str());
     }
     if (filesExist == false)
     {
