@@ -21,8 +21,8 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateText(QString word, float timeLeft=1.0);
-extern QString OCRTranslate(float timeLeft=1.4, bool screenshot=true);
+extern QString TranslateText(QString word, float timeLeft);
+extern QString OCRTranslate(float timeLeft, bool screenshot=true);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -218,7 +218,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
-    QString json = TranslateText(picker->getSelectedText());
+    QString json = TranslateText(picker->getSelectedText(), configTool->TextTimeout);
     qInfo() << json;
     if (json.startsWith("{"))
     {
@@ -284,7 +284,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 
 void MainWindow::onOCRShortCutPressed(bool screenshot)
 {
-    QString res = OCRTranslate(0.7, screenshot);
+    QString res = OCRTranslate(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
@@ -361,7 +361,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 {
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    QString res = TranslateText(text);
+    QString res = TranslateText(text, configTool->TextTimeout);
     if (res.startsWith("{"))
     {
         QString html = this->html2;

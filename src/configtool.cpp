@@ -28,6 +28,8 @@ ConfigTool::ConfigTool()
     MainWindowPin = settings->value("/MainWindow/IsPinning", false).toBool();
 
     WebPageZoomFactor = settings->value("/MainWindow/WebPageZoomFactor", 1.2).toFloat();
+    TextTimeout = settings->value("/Translate/TextTimeout", 2.0).toFloat();
+    OCRTimeout = settings->value("/Translate/OCRTimeout", 3.0).toFloat();
 
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();

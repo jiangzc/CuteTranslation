@@ -37,6 +37,8 @@ public:
     QString ScreenShotShortCutString;
     bool ChineseNotShow;
     float WebPageZoomFactor;
+    float TextTimeout;
+    float OCRTimeout;
 
 
     // QString Mode ;

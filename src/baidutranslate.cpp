@@ -3,7 +3,7 @@
 #include <QString>
 #include <QByteArray>
 #include <QDebug>
-
+#include "configtool.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 
 
-QString TranslateText(QString word, float timeLeft=1.0)
+QString TranslateText(QString word, float timeLeft)
 {
     auto byteArray = word.toUtf8();
     const char *word_chars = byteArray.constData();
@@ -120,7 +120,7 @@ int ScreenShot()
     int cmd_res = system(cmd.toStdString().c_str());
     return cmd_res;
 }
-QString OCRTranslate(float timeLeft=1.4, bool screenshot=true)
+QString OCRTranslate(float timeLeft, bool screenshot=true)
 {
     if (screenshot && ScreenShot() != 0)
         return QString("");
@@ -220,7 +220,7 @@ QString OCRTranslate(float timeLeft=1.4, bool screenshot=true)
                             if (front < back)
                                 result = result.mid(front, back - front + 1);
                         }
-                        return TranslateText(result); // success
+                        return TranslateText(result, configTool->TextTimeout); // success
                     }
                     else
                         return QString("error"); // fail

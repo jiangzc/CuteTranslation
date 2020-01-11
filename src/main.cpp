@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
     // TODO 排版
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
-    // 截图的refresh
     // 配置延时控制
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
