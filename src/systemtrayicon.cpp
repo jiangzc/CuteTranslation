@@ -54,7 +54,10 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
     setContextMenu(&menu);
 
-
+    if (QFile::exists(QDir::homePath() + "/.config/autostart/CuteTranslation.desktop"))
+    {
+        autostart_action.setText("✓ 开机启动");
+    }
 
 
 
@@ -68,13 +71,33 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
         QMessageBox::information(nullptr, "提示", "已在浏览器中打开网页");
     });
 
-    connect(&autostart_action, &QAction::triggered, this, []{
-        int res = system("cp /opt/CuteTranslation/CuteTranslation.desktop ~/.config/autostart/CuteTranslation.desktop");
-        if (res == 0)
-            QMessageBox::information(nullptr, "提示", "添加成功");
+    connect(&autostart_action, &QAction::triggered, this, [this]{
+        if (QFile::exists(QDir::homePath() + "/.config/autostart/CuteTranslation.desktop") == false)
+        {
+            int res = QFile::copy(appDir.filePath("CuteTranslation.desktop"),
+                        QDir::homePath() + "/.config/autostart/CuteTranslation.desktop");
+            if (res)
+            {
+                QMessageBox::information(nullptr, "提示", "添加成功");
+                this->autostart_action.setText("✓ 开机启动");
+            }
+            else
+            {
+                QMessageBox::warning(nullptr, "提示", "无法添加 " + QString::number(res));
+            }
+        }
         else
         {
-            QMessageBox::warning(nullptr, "提示", "错误：return " + QString::number(res));
+            int res = QFile::remove(QDir::homePath() + "/.config/autostart/CuteTranslation.desktop");
+            if (res)
+            {
+                QMessageBox::information(nullptr, "提示", "取消成功");
+                this->autostart_action.setText("开机启动");
+            }
+            else
+            {
+                QMessageBox::warning(nullptr, "提示", "无法取消 " + QString::number(res));
+            }
         }
     });
 

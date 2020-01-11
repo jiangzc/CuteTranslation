@@ -169,7 +169,6 @@ int checkDependency()
     depends.push_back("screenshot.sh");
 
     bool filesExist = true;
-    QDir appDir(QCoreApplication::applicationDirPath());
     for (auto file : depends)
     {
         if (!appDir.exists(file))

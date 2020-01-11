@@ -1,8 +1,10 @@
 #include <QDebug>
+#include <QCoreApplication>
 #include "configtool.h"
 
 QSettings *settings;
 QDir dataDir(QDir::homePath() + "/.config/CuteTranslation");
+QDir appDir(QCoreApplication::applicationDirPath());
 
 ConfigTool::ConfigTool()
 {
