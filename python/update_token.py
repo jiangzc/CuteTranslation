@@ -8,7 +8,7 @@ cfg.read(os.path.expanduser('~/.config/CuteTranslation/config.ini'))
 
 token_url = cfg.get('General', "TokenURL")
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(os.path.expanduser('~/.config/CuteTranslation/'))
 
 res = requests.get(token_url, timeout=5)
 print(res.text)
