@@ -145,7 +145,7 @@ void FloatButton::onWordPicked(QString text)
         direction = Direction_Up;
     }
     // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && y + mainWindowHeight > xdotool.screenHeight)
+    if (direction == Direction_Up && y + mainWindowHeight > xdotool->screenHeight)
     {
         direction = Direction_Down;
     }

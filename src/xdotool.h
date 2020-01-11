@@ -30,5 +30,5 @@ class Xdotool
     unsigned long get_long_property(const char *property_name, Window window);
 };
 
-extern Xdotool xdotool;
+extern Xdotool *xdotool;
 #endif // XDOTOOL_H

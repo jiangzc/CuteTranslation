@@ -250,7 +250,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     }
     // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
+    if (direction == Direction_Up && mid.y() + this->height() > xdotool->screenHeight)
     {
         direction = Direction_Down;
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
@@ -266,12 +266,12 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         TriangleOffset = -TriangleOffset;
     }
     // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool.screenWidth - configTool->Edge)
+    if (mid.x() + this->width() > xdotool->screenWidth - configTool->Edge)
     {
-        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool->Edge);
+        TriangleOffset = mid.x() + this->width() - (xdotool->screenWidth - configTool->Edge);
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool.screenWidth - configTool->Edge - this->width();
+        mid.rx() = xdotool->screenWidth - configTool->Edge - this->width();
     }
     move(mid);
     showTriangle = true;
@@ -286,8 +286,8 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 void MainWindow::onOCRShortCutPressed()
 {
     QString res = OCRTranslate();
-    QPoint mousePressPosition = xdotool.eventMonitor.mousePressPosition;
-    QPoint mouseReleasedPosition = xdotool.eventMonitor.mouseReleasedPosition;
+    QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
+    QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     qInfo() << res;
@@ -326,7 +326,7 @@ void MainWindow::onOCRShortCutPressed()
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     }
     // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && mid.y() + this->height() > xdotool.screenHeight)
+    if (direction == Direction_Up && mid.y() + this->height() > xdotool->screenHeight)
     {
         direction = Direction_Down;
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
@@ -342,12 +342,12 @@ void MainWindow::onOCRShortCutPressed()
         TriangleOffset = -TriangleOffset;
     }
     // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool.screenWidth - configTool->Edge)
+    if (mid.x() + this->width() > xdotool->screenWidth - configTool->Edge)
     {
-        TriangleOffset = mid.x() + this->width() - (xdotool.screenWidth - configTool->Edge);
+        TriangleOffset = mid.x() + this->width() - (xdotool->screenWidth - configTool->Edge);
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool.screenWidth - configTool->Edge - this->width();
+        mid.rx() = xdotool->screenWidth - configTool->Edge - this->width();
     }
     move(mid);
     this->show();
@@ -382,7 +382,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
     mid.ry() = pos.y() + size.y();
     mid.rx() = pos.x() + size.x() / 2 - this->width() / 2;
     // 判断是否超出屏幕下边界
-    if (mid.y() + this->height() > xdotool.screenHeight)
+    if (mid.y() + this->height() > xdotool->screenHeight)
     {
         mid.ry() = pos.y() - this->height();
     }

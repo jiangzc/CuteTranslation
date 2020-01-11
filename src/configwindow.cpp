@@ -11,7 +11,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui(new Ui::ConfigWindow), rightClickMenu(this), remove_action("删除", this)
 {
     ui->setupUi(this);
-    this->move((xdotool.screenWidth - this->width()) / 2, (xdotool.screenHeight - this->height()) / 2);
+    this->move((xdotool->screenWidth - this->width()) / 2, (xdotool->screenHeight - this->height()) / 2);
     ui->comboBox_mode->addItem("全局", Mode_ALL);
     ui->comboBox_mode->addItem("自定义", Mode_CUSTOM);
     ui->comboBox_mode->addItem("禁用", Mode_NONE);

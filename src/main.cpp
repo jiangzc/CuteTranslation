@@ -20,7 +20,7 @@
 #include <sys/file.h>
 
 
-Xdotool xdotool;
+Xdotool *xdotool;
 ConfigTool *configTool;
 const QString CUTETRANSLATION_VERSION = "0.0.1";
 int checkDependency();
@@ -54,8 +54,9 @@ int main(int argc, char *argv[])
         return -1;
 
     // 获取屏幕可用的大小
-    xdotool.screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
-    xdotool.screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
+    xdotool = new Xdotool();
+    xdotool->screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
+    xdotool->screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
 
     /* ConfigTool       配置工具
      * Picker           取词功能
@@ -108,30 +109,30 @@ int main(int argc, char *argv[])
     QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, &SystemTrayIcon::OnModeChanged);
 
     QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{
-        xdotool.eventMonitor.terminate();
-        xdotool.eventMonitor.wait();
+        xdotool->eventMonitor.terminate();
+        xdotool->eventMonitor.wait();
         logFile->close();
         qApp->quit();
     });
 
     // 全局鼠标监听
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
 
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonPress, &f, &FloatButton::onMouseButtonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonPress, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
 
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, &f, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonRelease, picker, &Picker::buttonReleased, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonRelease, &f, &FloatButton::onMouseButtonReleased, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonRelease, picker, &Picker::buttonReleased, Qt::QueuedConnection);
 
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::mouseWheel, &f, &FloatButton::hide, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::mouseWheel, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::mouseWheel, &f, &FloatButton::hide, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::mouseWheel, &w, &MainWindow::onMouseButtonPressed, Qt::QueuedConnection);
 
     // 全局键盘监听
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &f, &FloatButton::onKeyPressed, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyPress, &shortcut, &ShortCut::onKeyPressed, Qt::QueuedConnection);
-    QObject::connect(&xdotool.eventMonitor, &EventMonitor::keyRelease, &shortcut, &ShortCut::onKeyReleased, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::keyPress, &f, &FloatButton::onKeyPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::keyPress, &shortcut, &ShortCut::onKeyPressed, Qt::QueuedConnection);
+    QObject::connect(&xdotool->eventMonitor, &EventMonitor::keyRelease, &shortcut, &ShortCut::onKeyReleased, Qt::QueuedConnection);
 
-    xdotool.eventMonitor.start();
+    xdotool->eventMonitor.start();
     configTool->SetMode(configTool->GetMode()); // 触发ModeChanged，修改托盘文字
 
     // 通知桌面环境，应用已经加载完毕
