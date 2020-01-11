@@ -22,7 +22,7 @@ extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
 extern QString TranslateText(QString word, float timeLeft=0.7);
-extern QString OCRTranslate(float timeLeft=1.0);
+extern QString OCRTranslate(float timeLeft=1.0, bool screenshot=true);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)

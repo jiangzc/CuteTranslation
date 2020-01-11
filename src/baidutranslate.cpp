@@ -113,12 +113,16 @@ QString TranslateText(QString word, float timeLeft=0.7)
     return QString(""); // if failed
 }
 
-QString OCRTranslate(float timeLeft=1.0)
+int ScreenShot()
 {
     // 截图,如果成功f1和f2不相等，返回0
     QString cmd = "bash " + QCoreApplication::applicationDirPath() + "/screenshot.sh";
     int cmd_res = system(cmd.toStdString().c_str());
-    if (cmd_res != 0) // 截图失败
+    return cmd_res;
+}
+QString OCRTranslate(float timeLeft=1.0, bool screenshot=true)
+{
+    if (screenshot && ScreenShot() != 0)
         return QString("");
 
     QString python_path = QCoreApplication::applicationDirPath() + "/BaiduOCR.py";
