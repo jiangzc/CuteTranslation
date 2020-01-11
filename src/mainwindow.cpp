@@ -21,8 +21,8 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateText(QString word);
-extern QString OCRTranslate();
+extern QString TranslateText(QString word, float timeLeft=2.0);
+extern QString OCRTranslate(float timeLeft=3.0);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
