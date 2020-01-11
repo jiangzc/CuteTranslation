@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
     // 调整文件位置  用户相关的全到 ~/.config/Cu..
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
+    // 截图的refresh
+    // 开始就获取token
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出

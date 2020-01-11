@@ -8,7 +8,7 @@ import pickle
 import time
 
 if __name__ == "__main__":
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    os.chdir(os.path.expanduser('~/.config/CuteTranslation/'))
 
     if os.path.exists("dict_object"):
         with open("dict_object", "rb") as f:

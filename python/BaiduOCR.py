@@ -60,7 +60,7 @@ def recognize_image(picture_path): # picture_path 是绝对路径
 
 
 def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(os.path.expanduser('~/.config/CuteTranslation/'))
     check_local_token()
     #os.system("gnome-screenshot -a -f /tmp/ocr > /dev/null 2>&1")
     recognize_image("/tmp/ocr")
