@@ -22,10 +22,10 @@
 
 Xdotool *xdotool;
 ConfigTool *configTool;
+static QFile *logFile;
 const QString CUTETRANSLATION_VERSION = "0.0.1";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-static QFile *logFile;
 
 
 int main(int argc, char *argv[])
@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
     // 全局 ... 三种模式不同的图片
     // 完善 Debug 信息
     // 检查 可执行文件所在目录 权限
-    // .config/log  日志文件
     // 用*.py检查python依赖，强制退出等
 
 
@@ -111,6 +110,7 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{
         xdotool->eventMonitor.terminate();
         xdotool->eventMonitor.wait();
+
         logFile->close();
         qApp->quit();
     });
@@ -166,6 +166,7 @@ int checkDependency()
     depends.push_back("translate_demo.py");
     depends.push_back("BaiduOCR.py");
     depends.push_back("update_token.py");
+    depends.push_back("check_depends.py");
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
@@ -186,13 +187,6 @@ int checkDependency()
         // 认为是第一次开启
         qInfo() << "复制配置文件";
         QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
-
-        qInfo() << "检查python3依赖";
-        int res = system("pip3 show requests &&  pip3 show PyExecJS");
-        if (res != 0)
-        {
-            qWarning() << "缺少python3依赖";
-        }
     }
     if (filesExist == false)
     {
@@ -200,7 +194,13 @@ int checkDependency()
         return -1;
     }
 
-
+    qInfo() << "检查python3依赖";
+    res = system(appDir.filePath("check_depends.py").toStdString().c_str());
+    if (res != 0)
+    {
+        qCritical() << "缺少python3依赖requests PyExecJS";
+        return -1;
+    }
     return 0;
 }
 
