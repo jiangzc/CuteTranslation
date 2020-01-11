@@ -127,8 +127,9 @@ void FloatButton::onWordPicked(QString text)
         if (1.0 * chineseChars / text.size() > 0.7)
             return;
     }
-
-    qInfo() << "Text from picker" << text;
+    QString text_short = text;
+    text_short.truncate(20);
+    qInfo() << "Text from picker" << text_short << "...";
 
     int y;
     int direction = configTool->Direction;

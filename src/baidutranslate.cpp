@@ -120,6 +120,7 @@ int ScreenShot()
     int cmd_res = system(cmd.toStdString().c_str());
     return cmd_res;
 }
+
 QString OCRTranslate(float timeLeft, bool screenshot=true)
 {
     if (screenshot && ScreenShot() != 0)
@@ -128,6 +129,7 @@ QString OCRTranslate(float timeLeft, bool screenshot=true)
     QString python_path = QCoreApplication::applicationDirPath() + "/BaiduOCR.py";
     pid_t pid;
     QString result;
+    QString res_short;
     // float timeLeft = 3.0; // max delay of sub process
     int pipes[2];
 
@@ -195,9 +197,9 @@ QString OCRTranslate(float timeLeft, bool screenshot=true)
                     close(pipes[0]);
                     int status;
                     wait(&status);
-                    QString res_short = result;
+                    res_short = result;
                     res_short.truncate(20);
-                    qInfo() << res_short;
+                    qInfo() << res_short << "...";
                     if (status == 0)
                     {
                         // word correction
