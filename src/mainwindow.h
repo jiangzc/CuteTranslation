@@ -50,7 +50,7 @@ class MainWindow : public QMainWindow
   public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
-    void onOCRShortCutPressed();
+    void onOCRShortCutPressed(bool screenshot=true);
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
     void onRefreshButtonPressed();
 };

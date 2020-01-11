@@ -20,7 +20,7 @@ public slots:
     void onKeyReleased(int keyCode);
 
 signals:
-    void OCRShortCutPressed();
+    void OCRShortCutPressed(bool);
     void SearchBarShortCutPressed();
 };
 

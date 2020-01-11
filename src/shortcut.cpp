@@ -56,7 +56,7 @@ void ShortCut::onKeyPressed(int keyCode)
                    keyCodes.cbegin() + 3 - int(ScreenShotShortCut.size())))
     {
         qInfo() << "ScreenShotShortCut";
-        emit OCRShortCutPressed();
+        emit OCRShortCutPressed(true);
 
     }
 }

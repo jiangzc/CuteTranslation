@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 
 
-QString TranslateText(QString word, float timeLeft=0.7)
+QString TranslateText(QString word, float timeLeft=1.0)
 {
     auto byteArray = word.toUtf8();
     const char *word_chars = byteArray.constData();
@@ -120,7 +120,7 @@ int ScreenShot()
     int cmd_res = system(cmd.toStdString().c_str());
     return cmd_res;
 }
-QString OCRTranslate(float timeLeft=1.0, bool screenshot=true)
+QString OCRTranslate(float timeLeft=1.4, bool screenshot=true)
 {
     if (screenshot && ScreenShot() != 0)
         return QString("");

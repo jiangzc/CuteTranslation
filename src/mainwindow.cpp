@@ -21,8 +21,8 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateText(QString word, float timeLeft=0.7);
-extern QString OCRTranslate(float timeLeft=1.0, bool screenshot=true);
+extern QString TranslateText(QString word, float timeLeft=1.0);
+extern QString OCRTranslate(float timeLeft=1.4, bool screenshot=true);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -282,9 +282,9 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 
 }
 
-void MainWindow::onOCRShortCutPressed()
+void MainWindow::onOCRShortCutPressed(bool screenshot)
 {
-    QString res = OCRTranslate();
+    QString res = OCRTranslate(0.7, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
@@ -403,7 +403,7 @@ void MainWindow::onRefreshButtonPressed()
     {
         xdotool->eventMonitor.mousePressPosition = previousAction.point1;
         xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
-        this->onOCRShortCutPressed();
+        this->onOCRShortCutPressed(false);
     }
     else if (previousAction.Action == PreviousAction::Search)
     {
