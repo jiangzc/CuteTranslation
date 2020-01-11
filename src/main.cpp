@@ -30,7 +30,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
-    // TODO 排版
+    // TODO 排版  web字体
     // 全局 ... 三种模式不同的图片
     // 多屏幕支持
 
@@ -157,8 +157,8 @@ int checkDependency()
         return -1;
     }
     // 必须文件夹
-    QDir::home().mkpath(dataDir.path());
-    QDir::home().mkpath("/.config/autostart");
+    QDir::home().mkpath(dataDir.absolutePath());
+    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
     // 检查依赖文件是否存在
     QVector<QString> depends;
     depends.push_back("BaiduTranslate.py");
