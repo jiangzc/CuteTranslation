@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 {
     // TODO 排版
     // 全局 ... 三种模式不同的图片
-    // 完善 Debug 信息
+    // 多屏幕支持
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
