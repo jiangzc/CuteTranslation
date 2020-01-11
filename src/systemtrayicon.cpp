@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QDir>
+#include <QProcess>
 #include "systemtrayicon.h"
 #include "shortcut.h"
 #include "xdotool.h"
@@ -69,6 +70,10 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     connect(&homepage_action, &QAction::triggered, this, []{
         QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation"));
         QMessageBox::information(nullptr, "提示", "已在浏览器中打开网页");
+    });
+
+    connect(&help_action, &QAction::triggered, this, []{
+        QProcess::startDetached("xdg-open", QStringList(appDir.filePath("guide.txt")));
     });
 
     connect(&autostart_action, &QAction::triggered, this, [this]{
