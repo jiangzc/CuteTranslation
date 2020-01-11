@@ -10,6 +10,3 @@ sudo apt install nodejs
 pip3 install PyExecJS
 pip3 install requests
 # pip 镜像 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
-
-mkdir ~/CuteTranslation
-mv config.ini ~/CuteTranslation
