@@ -1,12 +1,10 @@
 #include <QCloseEvent>
 #include <QComboBox>
 #include <QMenu>
-
-#include "xdotool.h"
-#include "ui_configwindow.h"
-#include "configwindow.h"
 #include "configtool.h"
-
+#include "configwindow.h"
+#include "ui_configwindow.h"
+#include "xdotool.h"
 
 ConfigWindow::ConfigWindow(QWidget *parent) :
     QWidget(parent),

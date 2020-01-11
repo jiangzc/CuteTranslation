@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QString>
 #include <QObject>
+#include <QDir>
 
 /* ConfigTool 中使用了匿名类来实现C#-style类的属性的功能
  * 重载了匿名类的赋值运算符作为set函数
@@ -13,7 +14,7 @@
 extern QSettings *settings;
 extern const QString CUTETRANSLATION_VERSION;
 enum ModeSet { Mode_ALL, Mode_CUSTOM, Mode_NONE };
-
+extern QDir dataDir;
 
 class ConfigTool : public QObject
 {

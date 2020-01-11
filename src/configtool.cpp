@@ -1,12 +1,12 @@
 #include <QDebug>
-#include <QDir>
 #include "configtool.h"
 
 QSettings *settings;
+QDir dataDir(QDir::homePath() + "/.config/CuteTranslation");
 
 ConfigTool::ConfigTool()
 {
-    settings = new QSettings(QDir::homePath() + "/.config/CuteTranslation/config.ini", QSettings::IniFormat);
+    settings = new QSettings(dataDir.filePath("config.ini"), QSettings::IniFormat);
     Mode = GetMode(settings->value("/Picker/Mode", "all").toString().toLower());
     Undefined.value = settings->value("/Custom/Undefined").toString();
     TriangleWidth = settings->value("/MainWindow/TriangleWidth", 15).toInt();

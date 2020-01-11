@@ -54,11 +54,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
     setContextMenu(&menu);
 
-    connect(&quit_action, &QAction::triggered, this, []{
-        xdotool.eventMonitor.terminate();
-        xdotool.eventMonitor.wait();
-        qApp->quit();
-    });
+
 
 
 

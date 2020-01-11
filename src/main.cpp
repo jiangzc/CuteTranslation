@@ -25,6 +25,8 @@ ConfigTool *configTool;
 const QString CUTETRANSLATION_VERSION = "0.0.1";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+static QFile *logFile;
+
 
 int main(int argc, char *argv[])
 {
@@ -34,12 +36,18 @@ int main(int argc, char *argv[])
     // 完善 Debug 信息
     // 检查 可执行文件所在目录 权限
     // .config/log  日志文件
+    // 用*.py检查python依赖，强制退出等
 
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
+    logFile = new QFile(dataDir.filePath("log.txt"));
+    if (logFile->open(QIODevice::Append | QIODevice::Text) == false)
+    {
+        qCritical() << "无法记录日志";
+    }
     qInstallMessageHandler(myMessageOutput);
 
     if (checkDependency() < 0)
@@ -99,6 +107,13 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.ocr_action, &QAction::triggered, &shortcut, &ShortCut::OCRShortCutPressed);
     QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, &SystemTrayIcon::OnModeChanged);
 
+    QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{
+        xdotool.eventMonitor.terminate();
+        xdotool.eventMonitor.wait();
+        logFile->close();
+        qApp->quit();
+    });
+
     // 全局鼠标监听
     QObject::connect(&xdotool.eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
 
@@ -125,6 +140,7 @@ int main(int argc, char *argv[])
     qInfo() << "应用加载完毕";
     return a.exec();
 }
+
 
 int checkDependency()
 {
@@ -164,11 +180,11 @@ int checkDependency()
             filesExist = false;
         }
     }
-    if (QDir::home().exists(".config/CuteTranslation/config.ini") == false)
+    if (QFile::exists(dataDir.filePath("config.ini")) == false)
     {
         // 认为是第一次开启
         qInfo() << "复制配置文件";
-        QFile::copy(appDir.filePath("config.ini"), QDir::home().filePath(".config/CuteTranslation/config.ini"));
+        QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
 
         qInfo() << "检查python3依赖";
         int res = system("pip3 show requests &&  pip3 show PyExecJS");
@@ -187,26 +203,43 @@ int checkDependency()
     return 0;
 }
 
+QTextStream& qStdOut()
+{
+    static QTextStream ts(stdout);
+    return ts;
+}
+
+QTextStream& logOutput()
+{
+    static QTextStream ts(logFile);
+    return ts;
+}
+
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    std::string time = QDateTime::currentDateTime().toString(Qt::ISODate).toStdString();
+    QString time =  QDateTime::currentDateTime().toString(Qt::ISODate);
     switch (type) {
     case QtDebugMsg:
-        std::cout << time << " Debug: " << msg.toStdString() << std::endl;
+        qStdOut() << time << " Debug: " << msg << endl;
+        logOutput() << time<< " Debug: " << msg << endl;
         break;
     case QtInfoMsg:
-        std::cout << time << " Info: " << msg.toStdString() << std::endl;
+        qStdOut() << time << " Info: " << msg << endl;
+        logOutput() << time<< " Info: " << msg << endl;
         break;
     case QtWarningMsg:
-        std::cout << time << " Warning: " << msg.toStdString() << std::endl;
+        qStdOut() << time << " Warning: " << msg << endl;
+        logOutput() << time<< " Warning: " << msg << endl;
         QMessageBox::warning(nullptr, "警告", msg, QMessageBox::Ignore);
         break;
     case QtCriticalMsg:
-        std::cout << time << " Critical: " << msg.toStdString() << std::endl;
+        qStdOut() << time << " Critical: " << msg << endl;
+        logOutput() << time<< " Critical: " << msg << endl;
         QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
         abort();
     case QtFatalMsg:
-        std::cout << time << " Fatal: " << msg.toStdString() << std::endl;
+        qStdOut() << time << " Fatal: " << msg << endl;
+        logOutput() << time<< " Fatal: " << msg << endl;
         QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
         abort();
     }
