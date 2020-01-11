@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
+    appDir.setPath(QCoreApplication::applicationDirPath());
     logFile = new QFile(dataDir.filePath("log.txt"));
     if (logFile->open(QIODevice::Append | QIODevice::Text) == false)
     {
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(picker, &Picker::wordsPicked, &f, &FloatButton::onWordPicked);
     QObject::connect(&f, &FloatButton::floatButtonPressed, &w, &MainWindow::onFloatButtonPressed);
-    QObject::connect(&tray.config_action, &QAction::triggered, &cw, &ConfigWindow::show);
+    QObject::connect(&tray.config_action, &QAction::triggered, &cw, [&cw]{ cw.show(); cw.activateWindow(); });
     QObject::connect(&tray, &SystemTrayIcon::activated, &cw, &ConfigWindow::show);
     QObject::connect(&searchBar, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
 
@@ -155,7 +156,9 @@ int checkDependency()
         qCritical() << "应用多开，自动退出。";
         return -1;
     }
-
+    // 必须文件夹
+    QDir::home().mkpath(dataDir.path());
+    QDir::home().mkpath("/.config/autostart");
     // 检查依赖文件是否存在
     QVector<QString> depends;
     depends.push_back("BaiduTranslate.py");

@@ -86,7 +86,7 @@ void ConfigWindow::showEvent(QShowEvent *e)
 
 bool ConfigWindow::event(QEvent *e)
 {
-    if (e->type() == QEvent::WindowDeactivate)
+    if (e->type() == QEvent::Close)
     {
         this->hide();
     }

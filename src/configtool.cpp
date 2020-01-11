@@ -4,7 +4,7 @@
 
 QSettings *settings;
 QDir dataDir(QDir::homePath() + "/.config/CuteTranslation");
-QDir appDir(QCoreApplication::applicationDirPath());
+QDir appDir;
 
 ConfigTool::ConfigTool()
 {
