@@ -219,7 +219,9 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
     QString json = TranslateText(picker->getSelectedText(), configTool->TextTimeout);
-    qInfo() << json;
+    QString json_short = json;
+    json_short.truncate(30);
+    qInfo() << json_short << "...";
     if (json.startsWith("{"))
     {
         QString html = this->html2;
