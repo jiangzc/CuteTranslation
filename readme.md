@@ -2,8 +2,7 @@
 ## 简介
 CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户减少英文阅读障碍。
 
-
-功能：
+功能：  
 1. 取词翻译   
 	<img src="pic/demo1.gif" width="600" height="300">  
 2. 截图翻译  
@@ -18,9 +17,48 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 + 百度AI：OCR识别图片内容并翻译
 + 个性化的配置
 + 快捷键 悬浮窗口
++ 只支持X11，不支持wayland
 
 ## 使用
-正在开发中，预计2020年1月-2月正式发布。
+**安装**
+
+因为要自动下载很多依赖包，用图形界面的安装器可能会有问题。推荐下载deb包后用命令安装。
+```bash
+sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
+```
+
+**基本功能**
+
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。打开软件，系统托盘栏会出现一个圆形图标。当你用鼠标选中一段文字后，鼠标旁边会出现一个小方块(FloatButton)，点击后触发翻译功能。双击、右键托盘图标可以查看更多功能。
+
+测试文本：  
+
+Players around the world join forces on one of two teams of four in the Great Ghoul Duel. Exploring one of several spooky maps, players must collect as many wandering spirit flames as they can in two minutes and return them to their homebase. After time’s up, the team that has collected the most spirit flames wins. But beware! - opponents can intercept spirits from one another as they bring them back to homebase.
+
+パン業界では、品切れを嫌って多めに作るために売れ残りの廃棄が常態化しており、ロス率は平均３～５％といわれている。「食べ物を大事にしなさい」としつけられた前田さんは、「売れ残りや廃棄の問題に目をつぶったままで店を続けられない」。智美さんと新しい業態を考え、昨年６月にいったん休業。２カ月ほど後に新しい店として再出発した。
+
+**截图翻译**
+
+按下快捷键 alt+q 或 右键托盘栏图标选择“截图翻译” 触发截图翻译。
+
+**悬浮搜索框**  
+
+按下快捷键 alt+w 或 右键托盘栏图标选择“文字翻译” 打开悬浮搜索框。输入文字后按下回车键触发翻译。
+
+**取词模式**  
+
+有三种取词模式可供选择：全局、自定义、禁用。
+自定义指的是只在某些窗口上启动取词功能，或只在某些窗口上禁用取词功能。
+选中一段文字，右键鼠标旁边的小方块(FloatButton)，点击“不要在XXX中显示”。被禁止取词的软件可以在配置窗口中看到。配置窗口中右键列表可移除选项。
+
+**附加功能** 
+
+翻译界面右上角有一排按钮：刷新、固定、关闭等。
+
+**配置文件**
+
+CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.config/CuteTranslation/config.ini 
+
 ## 编译
 为 Debian 系的发行版安装开发库
 ```bash
@@ -56,7 +94,22 @@ sudo chmod 777 /opt/CuteTranslation
 ```
 
 ## 故障排查
-
+1. 配置文件版本v0.0.0，与程序版本不符合  
+    检查 ~/.config/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
+2. 文件缺失  
+    分析日志 ~/.config/CuteTranslation/log.txt  考虑重装软件
+3. 缺少python3依赖  
+    pip3 install PyExecJS
+    pip3 install requests
+    sudo apt install nodejs
+4. 缺少其他依赖  
+    Depends: nodejs, python3 (>=3.5), libqt5x11extras5, libqt5webengine5, 
+    libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
+    libqt5core5a, libqt5gui5, gnome-screenshot, python3-pip
+5. 截图翻译出错  
+    分析日志 ~/.config/CuteTranslation/log.txt ，检查 ~/.config/CuteTranslation/token 是否正确
+6. 文字翻译出错  
+    分析日志 ~/.config/CuteTranslation/log.txt ，删除 ~/.config/CuteTranslation/dict_object 试试
 
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker)
@@ -64,4 +117,4 @@ sudo chmod 777 /opt/CuteTranslation
 + [BaiduTranslate](https://github.com/ZCY01/BaiduTranslate)
 
 ## 捐赠
-<img src="pic/alipay.png" width="200" height="200"><img src="pic/wechat.png" width="200" height="200">
+<img src="pic/alipay.png" width="200" height="200"><img src="pic/wechat.png" width="200" height="200" style="margin-left:60px">

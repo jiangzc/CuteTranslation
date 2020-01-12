@@ -17,6 +17,10 @@ CuteTranslation 用户手册
     Depends: nodejs, python3 (>=3.5), libqt5x11extras5, libqt5webengine5, 
     libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
     libqt5core5a, libqt5gui5, gnome-screenshot, python3-pip
+5. 截图翻译出错
+    分析日志 ~/.config/CuteTranslation/log.txt ，检查 ~/.config/CuteTranslation/token 是否正确
+6. 文字翻译出错
+    分析日志 ~/.config/CuteTranslation/log.txt ，删除 ~/.config/CuteTranslation/dict_object 试试
 
 基本功能
 CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。打开软件，系统托盘栏会出现一个圆形图标。当你用鼠标选中一段文字后，鼠标旁边会出现一个小方块(FloatButton)，点击后触发翻译功能。双击、右键托盘图标可以查看更多功能。
@@ -35,9 +39,14 @@ Players around the world join forces on one of two teams of four in the Great Gh
 取词模式
 有三种取词模式可供选择：全局、自定义、禁用。
 自定义指的是只在某些窗口上启动取词功能，或只在某些窗口上禁用取词功能。
-选中一段文字，右键鼠标旁边的小方块(FloatButton)，点击“不要在XXX中显示”。被禁止取词的窗口可以在配置窗口中看到。
+选中一段文字，右键鼠标旁边的小方块(FloatButton)，点击“不要在XXX中显示”。被禁止取词的软件可以在配置窗口中看到。配置窗口中右键列表可移除选项。
+
+附加功能
+翻译界面右上角有一排按钮：刷新、固定、关闭等。
 
 配置文件
+CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.config/CuteTranslation/config.ini 
+
 
 
 
