@@ -33,9 +33,9 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。打开�
 
 测试文本：  
 
-Players around the world join forces on one of two teams of four in the Great Ghoul Duel. Exploring one of several spooky maps, players must collect as many wandering spirit flames as they can in two minutes and return them to their homebase. After time’s up, the team that has collected the most spirit flames wins. But beware! - opponents can intercept spirits from one another as they bring them back to homebase.
+>Players around the world join forces on one of two teams of four in the Great Ghoul Duel. Exploring one of several spooky maps, players must collect as many wandering spirit flames as they can in two minutes and return them to their homebase. After time’s up, the team that has collected the most spirit flames wins. But beware! - opponents can intercept spirits from one another as they bring them back to homebase.
 
-パン業界では、品切れを嫌って多めに作るために売れ残りの廃棄が常態化しており、ロス率は平均３～５％といわれている。「食べ物を大事にしなさい」としつけられた前田さんは、「売れ残りや廃棄の問題に目をつぶったままで店を続けられない」。智美さんと新しい業態を考え、昨年６月にいったん休業。２カ月ほど後に新しい店として再出発した。
+>パン業界では、品切れを嫌って多めに作るために売れ残りの廃棄が常態化しており、ロス率は平均３～５％といわれている。「食べ物を大事にしなさい」としつけられた前田さんは、「売れ残りや廃棄の問題に目をつぶったままで店を続けられない」。智美さんと新しい業態を考え、昨年６月にいったん休業。２カ月ほど後に新しい店として再出発した。
 
 **截图翻译**
 
@@ -47,7 +47,7 @@ Players around the world join forces on one of two teams of four in the Great Gh
 
 **取词模式**  
 
-有三种取词模式可供选择：全局、自定义、禁用。
+有三种取词模式可供选择：全局、自定义、禁用。  
 自定义指的是只在某些窗口上启动取词功能，或只在某些窗口上禁用取词功能。
 选中一段文字，右键鼠标旁边的小方块(FloatButton)，点击“不要在XXX中显示”。被禁止取词的软件可以在配置窗口中看到。配置窗口中右键列表可移除选项。
 
