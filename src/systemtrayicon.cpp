@@ -11,7 +11,7 @@
 #include "errno.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
-    modeSubMenu("取词模式", &menu), helpSubMenu("帮助", &menu)
+    modeSubMenu("取词模式", &menu), helpSubMenu("帮助", &menu), icon(":/pic/icon.png"), icon_grey(":/pic/icon-grey.png")
 {
     quit_action.setText("退出");
     config_action.setText("配置");
@@ -24,16 +24,18 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     change_mode_none_action.setText("禁用");
     search_action.setText("文字翻译 " + configTool->SearchBarShortCutString);
     ocr_action.setText("截图翻译 " + configTool->ScreenShotShortCutString);
-
+    setIcon(icon);
     if (configTool->GetMode() == Mode_ALL)
         change_mode_all_action.setText("✓ 全局");
     else if (configTool->GetMode() == Mode_CUSTOM)
         change_mode_custom_action.setText("✓ 自定义");
     else if (configTool->GetMode() == Mode_NONE)
+    {
         change_mode_none_action.setText("✓ 禁用");
+        setIcon(icon_grey);
+    }
 
-    QIcon icon(":/pic/icon.png");
-    setIcon(icon);
+
 
     modeSubMenu.addAction(&change_mode_all_action);
     modeSubMenu.addAction(&change_mode_custom_action);
@@ -125,11 +127,15 @@ void SystemTrayIcon::OnModeChanged(ModeSet mode)
     change_mode_all_action.setText("全局");
     change_mode_custom_action.setText("自定义");
     change_mode_none_action.setText("禁用");
+    setIcon(icon);
     if (mode == Mode_ALL)
         change_mode_all_action.setText("✓ 全局");
     else if (mode == Mode_CUSTOM)
         change_mode_custom_action.setText("✓ 自定义");
     else if (mode == Mode_NONE)
+    {
         change_mode_none_action.setText("✓ 禁用");
+        setIcon(icon_grey);
+    }
 }
 

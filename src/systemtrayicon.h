@@ -26,6 +26,8 @@ class SystemTrayIcon : public QSystemTrayIcon
     QMenu menu;
     QMenu modeSubMenu;
     QMenu helpSubMenu;
+    QIcon icon;
+    QIcon icon_grey;
 
 public slots:
     void OnModeChanged(ModeSet mode);

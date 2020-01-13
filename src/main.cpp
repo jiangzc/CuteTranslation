@@ -30,8 +30,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
-    // TODO 排版  web字体
-    // 全局 ... 三种模式不同的图片
+    // TODO 排版  音频
     // 多屏幕支持
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放

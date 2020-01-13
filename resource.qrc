@@ -11,5 +11,6 @@
         <file>pic/icons-star.png</file>
         <file>pic/icons-voice.png</file>
         <file>pic/icons-n.png</file>
+        <file>pic/icon-grey.png</file>
     </qresource>
 </RCC>
