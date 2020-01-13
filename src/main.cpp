@@ -19,6 +19,10 @@
 #include <unistd.h>
 #include <sys/file.h>
 
+/* appDir   可执行文件所在目录, /opt/CuteTranslation
+ * dataDir  数据文件目录，~/.config/CuteTranslation
+ * logFile  日志文件，~/.config/CuteTranslation/log.txt
+ */
 
 Xdotool *xdotool;
 ConfigTool *configTool;
@@ -48,7 +52,6 @@ int main(int argc, char *argv[])
     if (checkDependency() < 0)
         return -1;
 
-    // 获取屏幕可用的大小
     xdotool = new Xdotool();
     xdotool->screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
     xdotool->screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
