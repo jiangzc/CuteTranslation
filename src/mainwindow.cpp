@@ -105,16 +105,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     starButton->show();
 
     // 声音按钮
-    QPushButton *voiceButton = new QPushButton(this->centralWidget());
-    voiceButton->setGeometry(this->width()- 160, 13, 25, 25);
-    voiceButton->setFlat(true);
-    voiceButton->setIconSize(QSize(25, 25));
-    voiceButton->setIcon(QIcon(":/pic/icons-voice.png"));
-    voiceButton->show();
+//    QPushButton *voiceButton = new QPushButton(this->centralWidget());
+//    voiceButton->setGeometry(this->width()- 160, 13, 25, 25);
+//    voiceButton->setFlat(true);
+//    voiceButton->setIconSize(QSize(25, 25));
+//    voiceButton->setIcon(QIcon(":/pic/icons-voice.png"));
+//    voiceButton->show();
 
     // 换行N按钮
     QPushButton *newLineButton = new QPushButton(this->centralWidget());
-    newLineButton->setGeometry(this->width()- 190, 12, 25, 25);
+    newLineButton->setGeometry(this->width()- 160, 12, 25, 25);
     newLineButton->setFlat(true);
     newLineButton->setCheckable(true);
     newLineButton->setChecked(false);
