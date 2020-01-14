@@ -84,7 +84,7 @@ SearchBar        悬浮搜索框
 ```
 CuteTranslation 默认配置   [config.ini](https://github.com/jiangzc/CuteTranslation/blob/master/template/config.ini)
 
-因为每个人显示器大小和缩放比例不同，所以要把窗口大小调到合适的值。例如15.6寸笔记本电脑用以下配置比较合适。
+因为每个人显示器大小和缩放比例不同，所以要把窗口大小调到合适的值。例如15.6寸笔记本电脑用以下配置比较合适。24寸左右屏幕推荐WebPageZoomFactor=1.0，增加 MainWindowWidth。
 ```ini
 [MainWindow]
 MainWindowHeight=400
