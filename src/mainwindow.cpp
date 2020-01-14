@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // 当页面加载完成后，获取html页面高度调整自身高度
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.offsetHeight;",[=](QVariant result){
-            int newHeight = int(result.toInt() * configTool->WebPageZoomFactor + 10);
-            view->setFixedSize(view->width(),newHeight);
+            int newHeight = int(result.toFloat() * configTool->WebPageZoomFactor + 10);
+            view->setFixedHeight(newHeight);
             this->setFixedHeight(newHeight + 30);
             emit gotHeight();
         });
@@ -64,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     in.setDevice(&file);
     this->html2 = in.readAll();
     file.close();
+
+    // 否则第一次 document.body.offsetHeight 有问题。
+    this->show();
+    this->hide();
+
 
     // 关闭按钮
     QPushButton *closeButton = new QPushButton(this->centralWidget());
