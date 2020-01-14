@@ -7,6 +7,8 @@
 #include <QEventLoop>
 #include <QShowEvent>
 #include <QPushButton>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -218,20 +220,11 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
-    QString json = TranslateText(picker->getSelectedText(), configTool->TextTimeout);
-    QString json_short = json;
-    json_short.truncate(30);
-    qInfo() << json_short << "...";
-    if (json.startsWith("{"))
-    {
-        QString html = this->html2;
-        this->view->setHtml(html.replace("\"{0}\"", json));
-    }
-    else
-    {
-        QString html = this->html1;
-        this->view->setHtml(html.replace("\"{0}\"", json));
-    }
+    QString res = TranslateText(picker->getSelectedText(), configTool->TextTimeout);
+    QString res_short = res;
+    res_short.truncate(30);
+    qInfo() << res_short << "...";
+    htmlParser(res);
     // 等待页面加载完成
     qel.exec();
     // 获取默认方向向 重置三角形偏移量
@@ -291,21 +284,10 @@ void MainWindow::onOCRShortCutPressed(bool screenshot)
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    qInfo() << res;
-    if (res.startsWith("{"))
-    {
-        QString html = this->html2;
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
-    else if(res.isEmpty())
-    {
-        return;
-    }
-    else
-    {
-        QString html = this->html1;
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
+    QString res_short = res;
+    res_short.truncate(30);
+    qInfo() << res_short << "...";
+    htmlParser(res);
     // 等待页面加载完成
     qel.exec();
 
@@ -364,16 +346,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     QString res = TranslateText(text, configTool->TextTimeout);
-    if (res.startsWith("{"))
-    {
-        QString html = this->html2;
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
-    else
-    {
-        QString html = this->html1;
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
+    htmlParser(res);
     // 等待页面加载完成
     qel.exec();
 
@@ -410,5 +383,40 @@ void MainWindow::onRefreshButtonPressed()
     else if (previousAction.Action == PreviousAction::Search)
     {
         this->onSearchBarReturned(previousAction.point1, previousAction.point2, previousAction.text1);
+    }
+}
+
+void MainWindow::htmlParser(QString &res)
+{
+    if (res.startsWith("{"))
+    {
+        QString text = "null";
+        QJsonParseError error;
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
+        if (error.error == QJsonParseError::NoError)
+        {
+            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
+            {
+                text = jsonDocument.object()["word_name"].toString();
+            }
+        }
+        else
+        {
+            // 检查错误类型
+        }
+        QString html = this->html2;
+        html.replace("\"{0}\"", res);
+        html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
+        html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
+        this->view->setHtml(html.replace("\"{0}\"", res));
+    }
+    else if(res.isEmpty())
+    {
+        return;
+    }
+    else
+    {
+        QString html = this->html1;
+        this->view->setHtml(html.replace("\"{0}\"", res));
     }
 }

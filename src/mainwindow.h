@@ -42,6 +42,7 @@ class MainWindow : public QMainWindow
     } previousAction;
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
+    void htmlParser(QString &res);
 
   signals:
     void gotHeight();
