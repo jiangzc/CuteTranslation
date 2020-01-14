@@ -27,7 +27,7 @@
 Xdotool *xdotool;
 ConfigTool *configTool;
 static QFile *logFile;
-const QString CUTETRANSLATION_VERSION = "0.0.1";
+const QString CUTETRANSLATION_VERSION = "0.1.0";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
     appDir.setPath(QCoreApplication::applicationDirPath());
     logFile = new QFile(dataDir.filePath("log.txt"));
-    if (logFile->open(QIODevice::Append | QIODevice::Text) == false)
+    if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
     {
         qCritical() << "无法记录日志";
     }
@@ -187,6 +187,8 @@ int checkDependency()
         // 认为是第一次开启
         qInfo() << "复制配置文件";
         QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
+        // 打开指南文本文件
+        system(("xdg-open " + appDir.filePath("guide.txt")).toStdString().c_str());
         qInfo() << "获取token";
         res = system(appDir.filePath("update_token.py").toStdString().c_str());
     }
