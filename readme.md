@@ -112,9 +112,10 @@ sudo chmod 777 /opt/CuteTranslation
     分析日志 ~/.config/CuteTranslation/log.txt ，删除 ~/.config/CuteTranslation/dict_object 试试
 
 ## 感谢
-+ [words-picker](https://github.com/ziqiangxu/words-picker)
-+ [ScreenTranslation](https://github.com/ziqiangxu/words-picker)
-+ [BaiduTranslate](https://github.com/ZCY01/BaiduTranslate)
++ [words-picker](https://github.com/ziqiangxu/words-picker) by [@ziqiangxu](https://github.com/ziqiangxu)  
++ [ScreenTranslation](https://github.com/poemdistance/ScreenTranslation) by [@poemdistance](https://github.com/poemdistance)  
++ [BaiduTranslate](https://github.com/ZCY01/BaiduTranslate) by [@ZCY01](https://github.com/ZCY01)
++ HTML and CSS Support by [@lilixuelian](https://github.com/lilixuelian)
 
 ## 捐赠
 <img src="pic/alipay.png" width="200" height="200"><img src="pic/wechat.png" width="200" height="200" style="margin-left:60px">
