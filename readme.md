@@ -82,11 +82,27 @@ SystemTrayIcon   托盘栏
 ShortCut         快捷键
 SearchBar        悬浮搜索框
 ```
-CuteTranslation 默认配置   
-[c]
+CuteTranslation 默认配置   [config.ini](https://github.com/jiangzc/CuteTranslation/blob/master/template/config.ini)
 
-
-
+因为每个人显示器大小和缩放比例不同，所以要把窗口大小调到合适的值。例如15.6寸笔记本电脑用以下配置比较合适。
+```ini
+[MainWindow]
+MainWindowHeight=400
+MainWindowWidth=500
+WebPageZoomFactor=1.2
+```
+您可以根据自己的喜好设置截图翻译和悬浮搜索框的快捷键
+```ini
+[ShortCut]
+ScreenShot=alt+q
+SearchBar=alt+w
+```
+设置网络请求最大延时
+```ini
+[Translate]
+OCRTimeout=2.0
+TextTimeout=3.0
+```
 ## 编译
 为 Debian 系的发行版安装开发库
 ```bash
