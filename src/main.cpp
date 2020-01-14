@@ -32,20 +32,20 @@ int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 
+// TODO 多屏幕支持
+
 int main(int argc, char *argv[])
 {
-    // TODO 排版  音频
-    // 多屏幕支持
-
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
     // 必须文件夹
+    appDir.setPath(QCoreApplication::applicationDirPath());
     QDir::home().mkpath(dataDir.absolutePath());
     QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
 
-    appDir.setPath(QCoreApplication::applicationDirPath());
+
     logFile = new QFile(dataDir.filePath("log.txt"));
     if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
     {
