@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     this->html2 = in.readAll();
     file.close();
 
-    // 否则第一次 document.body.offsetHeight 有问题。
+    // 否则第一次 document.body.offsetHeight 有问题。奇怪的bug
     this->show();
     this->hide();
 
