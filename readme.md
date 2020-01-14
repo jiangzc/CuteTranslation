@@ -82,44 +82,9 @@ SystemTrayIcon   托盘栏
 ShortCut         快捷键
 SearchBar        悬浮搜索框
 ```
-CuteTranslation v0.0.1默认配置
-```ini
-[General]
-TokenURL=http://67.216.199.87:5000/token
-Version=0.0.1
+CuteTranslation 默认配置   
+[c]
 
-[Custom]
-ChineseNotShow=false
-NotShow=:qtcreator
-Show=app1:app2:app3:...
-Undefined=Show
-
-[FloatButton]
-FloatButtonHeight=40
-FloatButtonWidth=40
-
-[MainWindow]
-Direction=down
-Edge=15
-IsPinning=false
-MainWindowHeight=400
-MainWindowWidth=410
-TriangleHeight=15
-TriangleWidth=15
-WebPageZoomFactor=1.0
-
-[Picker]
-Mode=all
-
-[ShortCut]
-ScreenShot=alt+q
-SearchBar=alt+w
-
-[Translate]
-OCRTimeout=2.0
-TextTimeout=3.0
-
-```
 
 
 ## 编译
