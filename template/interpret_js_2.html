@@ -155,10 +155,14 @@
             new_characterBox.className = "characterBox";
             var new_character = document.createElement("div");
             new_character.className = "character";
-            new_character.innerText = data.symbols[0].parts[i].part;
-
             var new_translation = document.createElement("div");
             new_translation.className = "translation";
+
+            if (data.symbols[0].parts[i].part != "")
+                new_character.innerText = data.symbols[0].parts[i].part;
+            else
+                new_translation.innerText += "\n";
+
             for (var j in data.symbols[0].parts[i].means) {
                 new_translation.innerText += data.symbols[0].parts[i].means[j] + "; ";
             }
