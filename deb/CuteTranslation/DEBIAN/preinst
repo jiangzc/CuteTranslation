@@ -1,0 +1,18 @@
+echo -e "CuteTranslation 安装手册 \n " > /tmp/install_guide.txt
+echo -e "Depends: " >> /tmp/install_guide.txt
+echo "# Qt, WebEngine, Xlib " >> /tmp/install_guide.txt
+echo "sudo apt install libqt5x11extras5  libqt5webengine5   libqt5webenginewidgets5   libqt5widgets5   libqt5x11extras5  libqt5network5  libqt5core5a   libqt5gui5  " >> /tmp/install_guide.txt
+
+echo "# JS "  >> /tmp/install_guide.txt
+echo "sudo apt install nodejs "  >> /tmp/install_guide.txt
+
+echo "#APP "  >> /tmp/install_guide.txt
+
+echo "sudo apt install gnome-screenshot python3-pip " >> /tmp/install_guide.txt
+echo "# Python3 " >> /tmp/install_guide.txt
+echo "pip3 install PyExecJS " >> /tmp/install_guide.txt
+echo "pip3 install requests " >> /tmp/install_guide.txt
+
+xdg-open /tmp/install_guide.txt > /dev/null 2>&1 &
+exit 0
+
