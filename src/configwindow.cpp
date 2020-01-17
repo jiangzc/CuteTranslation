@@ -2,6 +2,7 @@
 #include <QComboBox>
 #include <QMenu>
 #include <QDebug>
+#include <QMessageBox>
 #include "configtool.h"
 #include "configwindow.h"
 #include "ui_configwindow.h"
@@ -55,15 +56,19 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     connect(ui->pushButton, &QPushButton::clicked, this, [=]{
         float zoom = ui->lineEdit->text().toFloat();
         int width = ui->lineEdit_2->text().toInt();
-        if (double(zoom) == 0.0 || width == 0)
+        if (double(zoom) <= 0.0 || width <= 0)
         {
             qWarning() << "输入错误";
+            ui->lineEdit->setText(QString::number(double(configTool->GetWebPageZoomFactor())));
+            ui->lineEdit_2->setText(QString::number(configTool->GetMainWindowWidth()));
         }
         else
         {
             configTool->SetWebPageZoomFactor(zoom);
             configTool->SetMainWindowWidth(width);
             emit SizeChanged(zoom, width);
+            this->hide();
+            QMessageBox::information(nullptr, "提示", "请重新启动程序");
         }
     });
 
@@ -98,6 +103,9 @@ void ConfigWindow::showEvent(QShowEvent *e)
         ui->comboBox_undefined->setCurrentIndex(0);
     else if (configTool->Undefined == "NotShow")
         ui->comboBox_undefined->setCurrentIndex(1);
+    // 更新缩放和宽度
+    ui->lineEdit->setText(QString::number(double(configTool->GetWebPageZoomFactor())));
+    ui->lineEdit_2->setText(QString::number(configTool->GetMainWindowWidth()));
 }
 
 bool ConfigWindow::event(QEvent *e)
