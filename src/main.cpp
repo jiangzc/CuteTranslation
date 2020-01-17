@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.config_action, &QAction::triggered, &cw, [&cw]{ cw.show(); cw.activateWindow(); });
     QObject::connect(&tray, &SystemTrayIcon::activated, &cw, [&cw]{ cw.show(); cw.activateWindow(); });
     QObject::connect(&searchBar, &SearchBar::returnPressed, &w, &MainWindow::onSearchBarReturned);
+    QObject::connect(&cw, &ConfigWindow::SizeChanged, &w, &MainWindow::onAdjustSize);
 
     // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRShortCutPressed, &w, &MainWindow::onOCRShortCutPressed);

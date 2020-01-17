@@ -85,3 +85,25 @@ void ConfigTool::SetMainWindowPin(bool pin)
     this->MainWindowPin = pin;
     settings->setValue("/MainWindow/IsPinning", pin);
 }
+
+int ConfigTool::GetMainWindowWidth() const
+{
+    return this->MainWindowWidth;
+}
+
+void ConfigTool::SetMainWindowWidth(int width)
+{
+    this->MainWindowWidth = width;
+    settings->setValue("/MainWindow/MainWindowWidth", width);
+}
+
+float ConfigTool::GetWebPageZoomFactor() const
+{
+    return this->WebPageZoomFactor;
+}
+
+void ConfigTool::SetWebPageZoomFactor(float zoom)
+{
+    this->WebPageZoomFactor = zoom;
+    settings->setValue("/MainWindow/WebPageZoomFactor", zoom);
+}

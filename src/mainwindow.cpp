@@ -32,17 +32,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(configTool->MainWindowWidth, configTool->MainWindowHeight);
+    setFixedSize(configTool->GetMainWindowWidth(), configTool->MainWindowHeight);
 
     // 浏览器控件
     view = new QWebEngineView(this->centralWidget());
-    view->setZoomFactor(qreal(configTool->WebPageZoomFactor));
+    view->setZoomFactor(qreal(configTool->GetWebPageZoomFactor()));
     view->setGeometry(10,10, width() - 30 , height() - 30);
 
     // 当页面加载完成后，获取html页面高度调整自身高度
     connect(view, &QWebEngineView::loadFinished, this, [=]{
         view->page()->runJavaScript("document.body.offsetHeight;",[=](QVariant result){
-            int newHeight = int(result.toFloat() * configTool->WebPageZoomFactor + 10);
+            int newHeight = int(result.toFloat() * configTool->GetWebPageZoomFactor() + 10);
             view->setFixedHeight(newHeight);
             this->setFixedHeight(newHeight + 30);
             emit gotHeight();
@@ -424,4 +424,13 @@ void MainWindow::htmlParser(QString &res)
         QString html = this->html1;
         this->view->setHtml(html.replace("\"{0}\"", res));
     }
+}
+
+void MainWindow::onAdjustSize(float zoom, int width)
+{
+    this->view->setZoomFactor(qreal(zoom));
+    this->setFixedWidth(width);
+    this->view->setFixedWidth(width - 30);
+    this->show();
+    this->hide();
 }

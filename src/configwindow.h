@@ -26,6 +26,9 @@ private:
     QMenu rightClickMenu;
     QAction remove_action;
 
+signals:
+    void SizeChanged(float zoom, int width);
+
 };
 
 #endif // CONFIGWINDOW_H

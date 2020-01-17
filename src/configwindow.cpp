@@ -1,6 +1,7 @@
 #include <QCloseEvent>
 #include <QComboBox>
 #include <QMenu>
+#include <QDebug>
 #include "configtool.h"
 #include "configwindow.h"
 #include "ui_configwindow.h"
@@ -49,6 +50,21 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
             configTool->Undefined = "Show";
         }
 
+    });
+
+    connect(ui->pushButton, &QPushButton::clicked, this, [=]{
+        float zoom = ui->lineEdit->text().toFloat();
+        int width = ui->lineEdit_2->text().toInt();
+        if (double(zoom) == 0.0 || width == 0)
+        {
+            qWarning() << "输入错误";
+        }
+        else
+        {
+            configTool->SetWebPageZoomFactor(zoom);
+            configTool->SetMainWindowWidth(width);
+            emit SizeChanged(zoom, width);
+        }
     });
 
 }

@@ -24,20 +24,20 @@ class ConfigTool : public QObject
 private:
     ModeSet Mode;
     bool MainWindowPin;
+    int MainWindowWidth;
+    float WebPageZoomFactor;
 public:
     ConfigTool();
     int TriangleHeight;
     int TriangleWidth;
     int Edge;
     int Direction;
-    int MainWindowWidth;
-    int MainWindowHeight;
+    int MainWindowHeight; // 过时
     int FloatButtonWidth;
     int FloatButtonHeight;
     QString SearchBarShortCutString;
     QString ScreenShotShortCutString;
     bool ChineseNotShow;
-    float WebPageZoomFactor;
     float TextTimeout;
     float OCRTimeout;
 
@@ -50,6 +50,12 @@ public:
     // bool MainWindowPin;
     bool GetMainWindowPin() const;
     void SetMainWindowPin(bool);
+
+    int GetMainWindowWidth() const;
+    void SetMainWindowWidth(int width);
+
+    float GetWebPageZoomFactor() const;
+    void SetWebPageZoomFactor(float zoom);
 
 
     // QString Undefined;
@@ -142,6 +148,7 @@ public:
 
 signals:
     void ModeChanged(ModeSet mode);
+
 };
 
 

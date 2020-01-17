@@ -54,6 +54,7 @@ class MainWindow : public QMainWindow
     void onOCRShortCutPressed(bool screenshot=true);
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
     void onRefreshButtonPressed();
+    void onAdjustSize(float zoom, int width);
 };
 
 #endif // MAINWINDOW_H
