@@ -143,9 +143,9 @@ sudo chmod 777 /opt/CuteTranslation
 2. 文件缺失  
     分析日志 ~/.config/CuteTranslation/log.txt  考虑重装软件
 3. 缺少python3依赖  
-    pip3 install PyExecJS
-    pip3 install requests
-    sudo apt install nodejs
+    pip3 install PyExecJS   
+    pip3 install requests    
+    sudo apt-get install nodejs      
 4. 缺少其他依赖  
     Depends: nodejs, python3 (>=3.5), libqt5x11extras5, libqt5webengine5, 
     libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
