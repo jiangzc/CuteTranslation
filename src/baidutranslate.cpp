@@ -3,6 +3,9 @@
 #include <QString>
 #include <QByteArray>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QUrlQuery>
 #include "configtool.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -12,7 +15,138 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "baidutranslate.h"
 
+BaiduTranslate::BaiduTranslate()
+{
+    manager = new QNetworkAccessManager();
+    connect(qApp, &QCoreApplication::aboutToQuit, this, [=]{
+        delete manager;
+        manager = nullptr;
+    });
+    loadMainPage();
+    QFile jsFile(appDir.filePath("baidu.js"));
+    if (jsFile.open(QIODevice::ReadOnly))
+    {
+        jsCode = QString::fromUtf8(jsFile.readAll());
+        jsFile.close();
+    }
+    qInfo() << getSign("hello");
+}
+
+QString BaiduTranslate::getUrl(QString url_str)
+{
+    QUrl url(url_str);
+    QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
+                                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+    QNetworkReply *reply = manager->get(req);
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QString res = QString::fromUtf8(reply->readAll());
+    reply->deleteLater();
+    return res;
+}
+
+void BaiduTranslate::loadMainPage()
+{
+    QString res;
+    res = getUrl("https://fanyi.baidu.com/");
+    res = getUrl("https://fanyi.baidu.com/");
+    QRegExp regToken("token: '(.*)'");
+    QRegExp regGtk("window.gtk = '(.*)'");
+    regToken.setMinimal(true);
+    regGtk.setMinimal(true);
+
+    if (regToken.indexIn(res) != -1 && regGtk.indexIn(res) != -1)
+    {
+        token = regToken.cap(1);
+        gtk = regGtk.cap(1);
+    }
+    else
+    {
+        qInfo() << "无法获取token gtk";
+    }
+}
+
+QString BaiduTranslate::langDetect(QString query)
+{
+    QUrlQuery data;
+    data.addQueryItem("query", query);
+
+    QNetworkRequest req(QUrl("https://fanyi.baidu.com/langdetect"));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
+                                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+    QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+    QJsonObject obj = doc.object();
+    if (obj["error"].toInt() == 0)
+    {
+        return obj["lan"].toString();
+    }
+    reply->deleteLater();
+    return QString();
+}
+
+QString BaiduTranslate::getSign(QString query)
+{
+    QString result;
+    // float timeLeft = 2.0; // max delay of sub process
+    int pipes[2];
+    pid_t pid;
+    if (pipe(pipes) == 0)
+    {
+        pid = fork();
+        if (pid < 0)
+        {
+            perror("cannot fork.\n");
+            exit(2);
+        }
+        else if (pid == 0)
+        {
+            // sub process
+
+            // redirect stdout to the pipe
+            close(1);
+            dup(pipes[1]);
+            close(pipes[0]);
+            close(pipes[1]);
+            execlp("nodejs", "nodejs", "-e",
+                  (jsCode + QString("token(\"%1\",\"%2\");").arg(query).arg(gtk)).toStdString().c_str(),
+                  "-p", nullptr);
+        }
+        else
+        {
+            int nread;
+            char buf[100];
+            close(pipes[1]);
+
+            nread = read(pipes[0], buf, 100);
+            buf[nread] = '\0';
+            result = buf;
+            close(pipes[0]);
+            int status;
+            wait(&status);
+            return result.trimmed();
+        }
+    }
+    else
+    {
+        perror("fail to create pipe.\n");
+    }
+    return QString(""); // if failed
+}
+
+QString BaiduTranslate::dictionary(QString query, QString dst, QString src)
+{
+    QUrl url("https://fanyi.baidu.com/v2transapi");
+
+}
 
 QString TranslateText(QString word, float timeLeft)
 {

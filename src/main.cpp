@@ -18,6 +18,7 @@
 #include "searchbar.h"
 #include <unistd.h>
 #include <sys/file.h>
+#include "baidutranslate.h"
 
 /* appDir   可执行文件所在目录, /opt/CuteTranslation
  * dataDir  数据文件目录，~/.config/CuteTranslation
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
+
 
     // 必须文件夹
     appDir.setPath(QCoreApplication::applicationDirPath());
@@ -143,6 +145,9 @@ int main(int argc, char *argv[])
     cw.show();
     cw.hide();
     qInfo() << "应用加载完毕";
+
+     BaiduTranslate::instance();
+
     return a.exec();
 }
 
