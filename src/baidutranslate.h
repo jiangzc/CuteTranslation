@@ -17,7 +17,7 @@ public:
     }
     BaiduTranslate(const BaiduTranslate& bai) = delete;
     BaiduTranslate& operator==(const BaiduTranslate& bai) = delete;
-
+    QString TranslateText(QString text, float timeleft);
 
 private:
     BaiduTranslate();
@@ -28,7 +28,7 @@ private:
     QString getSign(QString query);
     void loadMainPage();
     QString langDetect(QString query);
-    QString dictionary(QString query, QString dst="zh", QString src="");
+    QJsonObject dictionary(QString query, QString dst="zh", QString src="");
     QString getUrl(QString url);
 
 };

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QUrlQuery>
 #include "configtool.h"
 #include <unistd.h>
@@ -31,7 +32,8 @@ BaiduTranslate::BaiduTranslate()
         jsCode = QString::fromUtf8(jsFile.readAll());
         jsFile.close();
     }
-    qInfo() << getSign("hello");
+    qInfo() << this->TranslateText("hello, my name is jiangzc",1);
+
 }
 
 QString BaiduTranslate::getUrl(QString url_str)
@@ -142,10 +144,70 @@ QString BaiduTranslate::getSign(QString query)
     return QString(""); // if failed
 }
 
-QString BaiduTranslate::dictionary(QString query, QString dst, QString src)
+QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src)
 {
     QUrl url("https://fanyi.baidu.com/v2transapi");
+    if (src.isEmpty())
+        src = langDetect(query);
+    QUrlQuery data;
+    data.addQueryItem("from", src);
+    data.addQueryItem("to", dst);
+    data.addQueryItem("query", query);
+    data.addQueryItem("simple_means_flag", "3");
+    data.addQueryItem("sign", getSign(query));
+    data.addQueryItem("token", token);
 
+    QNetworkRequest req(QUrl("https://fanyi.baidu.com/v2transapi"));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
+                                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+    QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+    QJsonObject obj = doc.object();
+    if (obj.contains("error"))
+    {
+        qWarning() << "baidu sdk error";
+    }
+    reply->deleteLater();
+    return obj;
+
+}
+
+QString BaiduTranslate::TranslateText(QString text, float timeleft)
+{
+    bool is_latin = true;
+    for (const auto &c : text)
+    {
+        if (c.unicode() > 127)
+            is_latin = false;
+    }
+    QJsonObject obj;
+    if (is_latin)
+        obj = dictionary(text, "zh", "en");
+    else
+        obj = dictionary(text, "zh");
+
+    if (obj.contains("dict_result"))
+    {
+        obj = obj["dict_result"].toObject()["simple_means"].toObject();
+        QJsonDocument doc;
+        doc.setObject(obj);
+        return doc.toJson(QJsonDocument::Compact);
+    }
+    else if (obj.contains("trans_result"))
+    {
+       auto data_list = obj["trans_result"].toObject()["data"].toArray();
+       QString res;
+       for (const auto item : data_list)
+       {
+           res += item.toObject()["dst"].toString() + "<br/>";
+       }
+       return res;
+    }
+    return QString("error");
 }
 
 QString TranslateText(QString word, float timeLeft)
