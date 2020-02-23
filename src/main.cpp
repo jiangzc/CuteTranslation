@@ -188,7 +188,11 @@ int checkDependency()
         qCritical() << "文件缺失";
         return -1;
     }
-
+    res = system("which nodejs && which gnome-screenshot");
+    if (res != 0)
+    {
+        qCritical() << "缺少依赖nodejs gnome-screenshot";
+    }
     return 0;
 }
 
