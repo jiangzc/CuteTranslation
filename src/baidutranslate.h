@@ -32,7 +32,7 @@ private:
     QString getSign(QString query);
     void loadMainPage();
     QString langDetect(QString query);
-    QJsonObject dictionary(QString query, QString dst="zh", QString src="");
+    QJsonObject dictionary(QString query, QString dst="zh", QString src="", float timeLeft=2.5);
     QString getUrl(QString url);
     bool getAccessTokenFromURL(QString url);
     bool checkAccessToken();
