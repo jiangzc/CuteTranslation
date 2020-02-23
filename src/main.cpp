@@ -180,6 +180,7 @@ int checkDependency()
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
     depends.push_back("screenshot.sh");
+    depends.push_back("baidu.js");
 
     bool filesExist = true;
     for (auto file : depends)

@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "baidutranslate.h"
+#include "configtool.h"
 
 BaiduTranslate::BaiduTranslate()
 {
@@ -32,8 +33,17 @@ BaiduTranslate::BaiduTranslate()
         jsCode = QString::fromUtf8(jsFile.readAll());
         jsFile.close();
     }
-    qInfo() << this->TranslateText("hello, my name is jiangzc",1);
+    tokenURL = configTool->TokenURL;
+    checkAccessToken();
 
+}
+
+int BaiduTranslate::ScreenShot()
+{
+    // 截图,如果成功f1和f2不相等，返回0
+    QString cmd = "bash " + appDir.filePath("screenshot.sh");
+    int cmd_res = system(cmd.toStdString().c_str());
+    return cmd_res;
 }
 
 QString BaiduTranslate::getUrl(QString url_str)
@@ -124,7 +134,7 @@ QString BaiduTranslate::getSign(QString query)
         }
         else
         {
-            int nread;
+            long nread;
             char buf[100];
             close(pipes[1]);
 
@@ -208,6 +218,101 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
        return res;
     }
     return QString("error");
+}
+
+bool BaiduTranslate::checkAccessToken()
+{
+    QFile file(dataDir.filePath("token"));
+    if (file.exists() == false)
+        getAccessTokenFromURL(tokenURL);
+    else
+    {
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+            if (time(nullptr) > doc.object()["expires_at"].toString().toLong())
+                getAccessTokenFromURL(tokenURL);
+            else
+                access_token =  doc.object()["access_token"].toString();
+        }
+    }
+    return true;
+}
+
+bool BaiduTranslate::getAccessTokenFromURL(QString url)
+{
+    QString res = getUrl(url);
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8());
+    access_token = doc.object()["access_token"].toString();
+    QFile file(dataDir.filePath("token"));
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(res.toUtf8());
+        file.close();
+    }
+    return true;
+}
+
+QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
+{
+    if (screenshot && ScreenShot() != 0)
+        return QString("");
+    QString image_string;
+    QFile picture_file("/tmp/ocr");
+    if (picture_file.open(QIODevice::ReadOnly))
+    {
+        image_string = picture_file.readAll().toBase64(QByteArray::Base64Encoding).toPercentEncoding();
+        picture_file.close();
+    }
+    QUrlQuery data;
+    data.addQueryItem("image", image_string);
+    data.addQueryItem("detect_language", "true");
+    qInfo() << image_string;
+    QNetworkRequest req(QUrl("https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=" + access_token));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
+                                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+    QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+    QJsonObject obj = doc.object();
+    if (obj.contains("error"))
+    {
+        qWarning() << "baidu sdk error" << obj;
+    }
+    reply->deleteLater();
+    QString result_string;
+    auto array = obj["words_result"].toArray();
+    for (auto item : array)
+    {
+        result_string += item.toObject()["words"].toString() + " ";
+    }
+    qInfo() << result_string;
+    // word correction
+    if (result_string.size() < 20)
+    {
+        auto front = 0;
+        auto back = result_string.size() - 1;
+        while (front < result_string.size())
+        {
+            if (result_string[front].isLetter() == false)
+                front++;
+            else
+                break;
+        }
+        while (back > 0)
+        {
+            if (result_string[back].isLetter() == false)
+                back--;
+            else
+                break;
+        }
+        if (front < back)
+            result_string = result_string.mid(front, back - front + 1);
+    }
+    return TranslateText(result_string, configTool->TextTimeout);
 }
 
 QString TranslateText(QString word, float timeLeft)

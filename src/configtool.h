@@ -40,6 +40,7 @@ public:
     bool ChineseNotShow;
     float TextTimeout;
     float OCRTimeout;
+    QString TokenURL;
 
 
     // QString Mode ;

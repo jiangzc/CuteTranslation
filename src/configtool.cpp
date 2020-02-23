@@ -35,6 +35,7 @@ ConfigTool::ConfigTool()
 
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();
+    TokenURL = settings->value("TokenURL", "http://67.216.199.87:5000/token").toString();
     if (version != CUTETRANSLATION_VERSION)
     {
         qWarning() << "程序和配置文件版本不匹配，程序版本：" << CUTETRANSLATION_VERSION << "，配置文件版本：" << version;
