@@ -109,13 +109,9 @@ TextTimeout=3.0
 # Qt, WebEngine, Xlib
 sudo apt install libxtst-dev libxcb-util0-dev build-essential
 sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev libqt5x11extras5-dev
-# JS
-sudo apt install nodejs
+
 # APP
-sudo apt install gnome-screenshot python3-pip
-# Python3
-pip3 install PyExecJS
-pip3 install requests
+sudo apt install gnome-screenshot nodejs
 ```
 qmake 编译
 ```bash
@@ -142,18 +138,16 @@ sudo chmod 777 /opt/CuteTranslation
     检查 ~/.config/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
 2. 文件缺失  
     分析日志 ~/.config/CuteTranslation/log.txt  考虑重装软件
-3. 缺少python3依赖  
-    pip3 install PyExecJS   
-    pip3 install requests    
+3. 缺少nodejs依赖  
     sudo apt-get install nodejs      
 4. 缺少其他依赖  
-    Depends: nodejs, python3 (>=3.5), libqt5x11extras5, libqt5webengine5, 
+    Depends: nodejs, libqt5x11extras5, libqt5webengine5, 
     libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
-    libqt5core5a, libqt5gui5, gnome-screenshot, python3-pip
+    libqt5core5a, libqt5gui5, gnome-screenshot 
 5. 截图翻译出错  
     分析日志 ~/.config/CuteTranslation/log.txt ，检查 ~/.config/CuteTranslation/token 是否正确
 6. 文字翻译出错  
-    分析日志 ~/.config/CuteTranslation/log.txt ，删除 ~/.config/CuteTranslation/dict_object 试试
+    分析日志 ~/.config/CuteTranslation/log.txt  
 
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker) by [@ziqiangxu](https://github.com/ziqiangxu)  

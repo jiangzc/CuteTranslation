@@ -86,21 +86,48 @@ SearchBar=alt+w
 OCRTimeout=2.0
 TextTimeout=3.0
 ```
+## 编译
+为 Debian 系的发行版安装开发库
+```bash
+# Qt, WebEngine, Xlib
+sudo apt install libxtst-dev libxcb-util0-dev build-essential
+sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev libqt5x11extras5-dev
+
+# APP
+sudo apt install gnome-screenshot nodejs
+```
+qmake 编译
+```bash
+mkdir build && cd build
+qmake ..
+make
+```
+安装
+```
+# 安装到build目录
+bash install.sh build
+
+# 安装到 /opt/CuteTranslation
+sudo bash install.sh
+sudo chmod 777 /opt/CuteTranslation
+```
+运行
+```
+./CuteTranslation
+```
 
 ## 故障排查<span id="jump"></span>
 1. 配置文件版本v0.0.0，与程序版本不符合  
     检查 ~/.config/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
 2. 文件缺失  
     分析日志 ~/.config/CuteTranslation/log.txt  考虑重装软件
-3. 缺少python3依赖  
-    pip3 install PyExecJS
-    pip3 install requests
-    sudo apt install nodejs
+3. 缺少nodejs依赖  
+    sudo apt-get install nodejs      
 4. 缺少其他依赖  
-    Depends: nodejs, python3 (>=3.5), libqt5x11extras5, libqt5webengine5, 
+    Depends: nodejs, libqt5x11extras5, libqt5webengine5, 
     libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
-    libqt5core5a, libqt5gui5, gnome-screenshot, python3-pip
+    libqt5core5a, libqt5gui5, gnome-screenshot 
 5. 截图翻译出错  
     分析日志 ~/.config/CuteTranslation/log.txt ，检查 ~/.config/CuteTranslation/token 是否正确
 6. 文字翻译出错  
-    分析日志 ~/.config/CuteTranslation/log.txt ，删除 ~/.config/CuteTranslation/dict_object 试试
+    分析日志 ~/.config/CuteTranslation/log.txt  

@@ -15,6 +15,7 @@
 #include "ui_mainwindow.h"
 #include "xdotool.h"
 #include "picker.h"
+#include "baidutranslate.h"
 
 // Why does “extern const int n;” not work as expected?
 // https://stackoverflow.com/questions/14894698/why-does-extern-const-int-n-not-work-as-expected
@@ -23,7 +24,7 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-extern QString TranslateText(QString word, float timeLeft);
+// extern QString TranslateText(QString word, float timeLeft);
 extern QString OCRTranslate(float timeLeft, bool screenshot=true);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
@@ -51,14 +52,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 读取html模板
 
-    QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_1.html");
+    QFile file(appDir.filePath("interpret_js_1.html"));
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qInfo() << "fail to open";
     QTextStream in(&file);
     this->html1 = in.readAll();
     file.close();
 
-    file.setFileName(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
+    file.setFileName(appDir.filePath("interpret_js_2.html"));
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qInfo() << "fail to open";
     in.setDevice(&file);
@@ -225,7 +226,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
     // 获取翻译
-    QString res = TranslateText(picker->getSelectedText(), configTool->TextTimeout);
+    QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
@@ -284,7 +285,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 
 void MainWindow::onOCRShortCutPressed(bool screenshot)
 {
-    QString res = OCRTranslate(configTool->OCRTimeout, screenshot);
+    QString res = BaiduTranslate::instance().OCRTranslate(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
@@ -350,7 +351,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 {
     QEventLoop qel;
     connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
-    QString res = TranslateText(text, configTool->TextTimeout);
+    QString res = BaiduTranslate::instance().TranslateText(text, configTool->TextTimeout);
     htmlParser(res);
     // 等待页面加载完成
     qel.exec();

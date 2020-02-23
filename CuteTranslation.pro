@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui x11extras webenginewidgets
+QT       += core gui x11extras webenginewidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -41,6 +41,7 @@ SOURCES += \
         src/xdotool.cpp
 
 HEADERS += \
+        src/baidutranslate.h \
         src/configtool.h \
         src/configwindow.h \
         src/event_monitor.h \

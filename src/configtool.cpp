@@ -3,11 +3,19 @@
 #include "configtool.h"
 
 QSettings *settings;
-QDir dataDir(QDir::homePath() + "/.config/CuteTranslation");
+QDir dataDir;
 QDir appDir;
+ConfigTool *configTool;
 
 ConfigTool::ConfigTool()
 {
+    // 必须文件夹
+    appDir.setPath(QCoreApplication::applicationDirPath());
+    dataDir.setPath(QDir::homePath() + "/.local/share/CuteTranslation");
+    QDir::home().mkpath(dataDir.absolutePath());
+    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
+
+
     settings = new QSettings(dataDir.filePath("config.ini"), QSettings::IniFormat);
     Mode = GetMode(settings->value("/Picker/Mode", "all").toString().toLower());
     Undefined.value = settings->value("/Custom/Undefined").toString();
@@ -35,9 +43,10 @@ ConfigTool::ConfigTool()
 
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();
-    if (version != CUTETRANSLATION_VERSION)
+    TokenURL = settings->value("TokenURL", "http://67.216.199.87:5000/token").toString();
+    if (version != qApp->applicationVersion())
     {
-        qWarning() << "程序和配置文件版本不匹配，程序版本：" << CUTETRANSLATION_VERSION << "，配置文件版本：" << version;
+        qWarning() << "程序和配置文件版本不匹配，程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version;
     }
 }
 

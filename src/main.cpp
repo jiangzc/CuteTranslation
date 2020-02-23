@@ -1,7 +1,5 @@
 #include <QApplication>
 #include <QDebug>
-#include <QGuiApplication>
-#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QVector>
@@ -18,16 +16,16 @@
 #include "searchbar.h"
 #include <unistd.h>
 #include <sys/file.h>
+#include "baidutranslate.h"
 
 /* appDir   可执行文件所在目录, /opt/CuteTranslation
- * dataDir  数据文件目录，~/.config/CuteTranslation
- * logFile  日志文件，~/.config/CuteTranslation/log.txt
+ * dataDir  数据文件目录，~/.local/share/CuteTranslation
+ * logFile  日志文件，~/.local/share/CuteTranslation/log.txt
  */
 
-Xdotool *xdotool;
-ConfigTool *configTool;
+
 static QFile *logFile;
-const QString CUTETRANSLATION_VERSION = "0.1.0";
+const QString CUTETRANSLATION_VERSION = "0.2.0";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
@@ -39,14 +37,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
+    a.setApplicationName("CuteTranslation");
+    a.setApplicationVersion("0.2.0");
 
-    // 必须文件夹
-    appDir.setPath(QCoreApplication::applicationDirPath());
-    QDir::home().mkpath(dataDir.absolutePath());
-    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
-
-
+    xdotool = new Xdotool();
+    configTool = new ConfigTool();
     logFile = new QFile(dataDir.filePath("log.txt"));
+
     if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
     {
         qCritical() << "无法记录日志";
@@ -56,9 +53,6 @@ int main(int argc, char *argv[])
     if (checkDependency() < 0)
         return -1;
 
-    xdotool = new Xdotool();
-    xdotool->screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
-    xdotool->screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
 
     /* ConfigTool       配置工具
      * Picker           取词功能
@@ -70,7 +64,6 @@ int main(int argc, char *argv[])
      * SearchBar        悬浮搜索框
      */
 
-    configTool = new ConfigTool();
     picker = new Picker();
     ConfigWindow cw;
     MainWindow w;
@@ -143,6 +136,9 @@ int main(int argc, char *argv[])
     cw.show();
     cw.hide();
     qInfo() << "应用加载完毕";
+
+    BaiduTranslate::instance();
+
     return a.exec();
 }
 
@@ -166,15 +162,11 @@ int checkDependency()
 
     // 检查依赖文件是否存在
     QVector<QString> depends;
-    depends.push_back("BaiduTranslate.py");
-    depends.push_back("translate_demo.py");
-    depends.push_back("BaiduOCR.py");
-    depends.push_back("update_token.py");
-    depends.push_back("check_depends.py");
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
     depends.push_back("screenshot.sh");
+    depends.push_back("baidu.js");
 
     bool filesExist = true;
     for (auto file : depends)
@@ -192,21 +184,16 @@ int checkDependency()
         QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
         // 打开指南文本文件
         system(("xdg-open " + appDir.filePath("guide.txt")).toStdString().c_str());
-        qInfo() << "获取token";
-        res = system(appDir.filePath("update_token.py").toStdString().c_str());
     }
     if (filesExist == false)
     {
         qCritical() << "文件缺失";
         return -1;
     }
-
-    qInfo() << "检查python3依赖";
-    res = system(appDir.filePath("check_depends.py").toStdString().c_str());
+    res = system("which nodejs && which gnome-screenshot");
     if (res != 0)
     {
-        qCritical() << "缺少python3依赖requests PyExecJS";
-        return -1;
+        qCritical() << "缺少依赖nodejs gnome-screenshot";
     }
     return 0;
 }
@@ -225,6 +212,7 @@ QTextStream& logOutput()
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    Q_UNUSED(context)
     QString time =  QDateTime::currentDateTime().toString(Qt::ISODate);
     switch (type) {
     case QtDebugMsg:
