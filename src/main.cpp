@@ -25,7 +25,7 @@
 
 
 static QFile *logFile;
-const QString CUTETRANSLATION_VERSION = "0.1.0";
+const QString CUTETRANSLATION_VERSION = "0.2.0";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
