@@ -135,19 +135,19 @@ sudo chmod 777 /opt/CuteTranslation
 
 ## 故障排查<span id="jump"></span>
 1. 配置文件版本v0.0.0，与程序版本不符合  
-    检查 ~/.config/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
+    检查 ~/.local/share/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
 2. 文件缺失  
-    分析日志 ~/.config/CuteTranslation/log.txt  考虑重装软件
-3. 缺少nodejs依赖  
-    sudo apt-get install nodejs      
+    分析日志 ~/.local/share/CuteTranslation/log.txt  考虑重装软件
+3. 缺少nodejs  gnome-screenshot依赖  
+    sudo apt-get install nodejs  gnome-screenshot
 4. 缺少其他依赖  
     Depends: nodejs, libqt5x11extras5, libqt5webengine5, 
     libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
     libqt5core5a, libqt5gui5, gnome-screenshot 
 5. 截图翻译出错  
-    分析日志 ~/.config/CuteTranslation/log.txt ，检查 ~/.config/CuteTranslation/token 是否正确
+    分析日志 ~/.local/share/CuteTranslation/log.txt ，检查 ~/.local/share/CuteTranslation/token 是否正确
 6. 文字翻译出错  
-    分析日志 ~/.config/CuteTranslation/log.txt  
+    分析日志 ~/.local/share/CuteTranslation/log.txt  
 
 ## 感谢
 + [words-picker](https://github.com/ziqiangxu/words-picker) by [@ziqiangxu](https://github.com/ziqiangxu)  
