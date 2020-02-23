@@ -19,8 +19,8 @@
 #include "baidutranslate.h"
 
 /* appDir   可执行文件所在目录, /opt/CuteTranslation
- * dataDir  数据文件目录，~/.config/CuteTranslation
- * logFile  日志文件，~/.config/CuteTranslation/log.txt
+ * dataDir  数据文件目录，~/.local/share/CuteTranslation
+ * logFile  日志文件，~/.local/share/CuteTranslation/log.txt
  */
 
 
@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
+    a.setApplicationName("CuteTranslation");
+    a.setApplicationVersion("0.2.0");
 
     xdotool = new Xdotool();
     configTool = new ConfigTool();
