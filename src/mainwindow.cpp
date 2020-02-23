@@ -52,14 +52,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 读取html模板
 
-    QFile file(QCoreApplication::applicationDirPath() + "/interpret_js_1.html");
+    QFile file(appDir.filePath("interpret_js_1.html"));
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qInfo() << "fail to open";
     QTextStream in(&file);
     this->html1 = in.readAll();
     file.close();
 
-    file.setFileName(QCoreApplication::applicationDirPath() + "/interpret_js_2.html");
+    file.setFileName(appDir.filePath("interpret_js_2.html"));
     if (!file.open(QFile::ReadOnly | QFile::Text))
         qInfo() << "fail to open";
     in.setDevice(&file);

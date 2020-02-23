@@ -8,13 +8,7 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QTimer>
-#include "configtool.h"
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "baidutranslate.h"
