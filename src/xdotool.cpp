@@ -1,3 +1,5 @@
+#include <QGuiApplication>
+#include <QScreen>
 #include <QDebug>
 #include "xdotool.h"
 #include <stdio.h>
@@ -16,6 +18,8 @@ Xdotool::Xdotool()
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
+    screenWidth = QGuiApplication::primaryScreen()->availableSize().width();
+    screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
     getKeyMap();
 }
 

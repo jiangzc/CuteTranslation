@@ -8,6 +8,9 @@ QDir appDir;
 
 ConfigTool::ConfigTool()
 {
+    // 必须文件夹
+    QDir::home().mkpath(dataDir.absolutePath());
+    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
     appDir.setPath(QCoreApplication::applicationDirPath());
     dataDir.setPath(QDir::homePath() + "/.config/CuteTranslation");
 
