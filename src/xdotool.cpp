@@ -8,6 +8,7 @@
 
 #define MAXSTR 1000
 
+Xdotool *xdotool;
 
 Xdotool::Xdotool()
 {

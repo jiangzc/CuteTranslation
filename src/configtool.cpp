@@ -5,6 +5,7 @@
 QSettings *settings;
 QDir dataDir;
 QDir appDir;
+ConfigTool *configTool;
 
 ConfigTool::ConfigTool()
 {

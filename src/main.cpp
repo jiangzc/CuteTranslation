@@ -1,7 +1,5 @@
 #include <QApplication>
 #include <QDebug>
-#include <QGuiApplication>
-#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QVector>
@@ -25,8 +23,7 @@
  * logFile  日志文件，~/.config/CuteTranslation/log.txt
  */
 
-Xdotool *xdotool;
-ConfigTool *configTool;
+
 static QFile *logFile;
 const QString CUTETRANSLATION_VERSION = "0.1.0";
 int checkDependency();
@@ -41,10 +38,10 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
 
+    xdotool = new Xdotool();
     configTool = new ConfigTool();
-
-
     logFile = new QFile(dataDir.filePath("log.txt"));
+
     if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
     {
         qCritical() << "无法记录日志";
@@ -53,8 +50,6 @@ int main(int argc, char *argv[])
     qInfo() << "---------- Start --------------";
     if (checkDependency() < 0)
         return -1;
-
-    xdotool = new Xdotool();
 
 
     /* ConfigTool       配置工具
@@ -66,7 +61,6 @@ int main(int argc, char *argv[])
      * ShortCut         快捷键
      * SearchBar        悬浮搜索框
      */
-
 
     picker = new Picker();
     ConfigWindow cw;
@@ -141,7 +135,7 @@ int main(int argc, char *argv[])
     cw.hide();
     qInfo() << "应用加载完毕";
 
-     BaiduTranslate::instance();
+    BaiduTranslate::instance();
 
     return a.exec();
 }
@@ -226,6 +220,7 @@ QTextStream& logOutput()
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    Q_UNUSED(context)
     QString time =  QDateTime::currentDateTime().toString(Qt::ISODate);
     switch (type) {
     case QtDebugMsg:
