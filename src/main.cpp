@@ -160,11 +160,6 @@ int checkDependency()
 
     // 检查依赖文件是否存在
     QVector<QString> depends;
-    depends.push_back("BaiduTranslate.py");
-    depends.push_back("translate_demo.py");
-    depends.push_back("BaiduOCR.py");
-    depends.push_back("update_token.py");
-    depends.push_back("check_depends.py");
     depends.push_back("interpret_js_1.html");
     depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
@@ -187,8 +182,6 @@ int checkDependency()
         QFile::copy(appDir.filePath("config.ini"), dataDir.filePath("config.ini"));
         // 打开指南文本文件
         system(("xdg-open " + appDir.filePath("guide.txt")).toStdString().c_str());
-        qInfo() << "获取token";
-        res = system(appDir.filePath("update_token.py").toStdString().c_str());
     }
     if (filesExist == false)
     {
@@ -196,13 +189,6 @@ int checkDependency()
         return -1;
     }
 
-    qInfo() << "检查python3依赖";
-    res = system(appDir.filePath("check_depends.py").toStdString().c_str());
-    if (res != 0)
-    {
-        qCritical() << "缺少python3依赖requests PyExecJS";
-        return -1;
-    }
     return 0;
 }
 
