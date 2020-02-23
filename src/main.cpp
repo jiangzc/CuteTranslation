@@ -37,6 +37,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
+
+    configTool = new ConfigTool();
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
@@ -72,7 +75,7 @@ int main(int argc, char *argv[])
      * SearchBar        悬浮搜索框
      */
 
-    configTool = new ConfigTool();
+
     picker = new Picker();
     ConfigWindow cw;
     MainWindow w;

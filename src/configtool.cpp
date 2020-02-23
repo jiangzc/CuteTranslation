@@ -3,11 +3,14 @@
 #include "configtool.h"
 
 QSettings *settings;
-QDir dataDir(QDir::homePath() + "/.config/CuteTranslation");
+QDir dataDir;
 QDir appDir;
 
 ConfigTool::ConfigTool()
 {
+    appDir.setPath(QCoreApplication::applicationDirPath());
+    dataDir.setPath(QDir::homePath() + "/.config/CuteTranslation");
+
     settings = new QSettings(dataDir.filePath("config.ini"), QSettings::IniFormat);
     Mode = GetMode(settings->value("/Picker/Mode", "all").toString().toLower());
     Undefined.value = settings->value("/Custom/Undefined").toString();
