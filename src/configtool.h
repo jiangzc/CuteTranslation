@@ -12,7 +12,6 @@
  */
 
 extern QSettings *settings;
-extern const QString CUTETRANSLATION_VERSION;
 enum ModeSet { Mode_ALL, Mode_CUSTOM, Mode_NONE };
 extern QDir dataDir;
 extern QDir appDir;
