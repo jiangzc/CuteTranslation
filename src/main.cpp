@@ -29,7 +29,7 @@ int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 
-// TODO 多屏幕支持
+// TODO 多屏幕支持  单中文字注音
 
 int main(int argc, char *argv[])
 {
