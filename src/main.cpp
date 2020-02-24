@@ -25,7 +25,6 @@
 
 
 static QFile *logFile;
-const QString CUTETRANSLATION_VERSION = "0.2.0";
 int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
@@ -38,7 +37,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.2.0");
+    a.setApplicationVersion("0.2.1");
 
     xdotool = new Xdotool();
     configTool = new ConfigTool();

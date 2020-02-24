@@ -123,6 +123,18 @@ QString BaiduTranslate::getSign(QString query)
             dup(pipes[1]);
             close(pipes[0]);
             close(pipes[1]);
+            // Fix Bug: 字符串构造脚本,特殊字符要处理
+            QString escape = "\\";
+            query.replace(QChar(92), escape + escape);
+            query.replace(QChar(39), escape + QChar(39));
+            query.replace(QChar(34), escape + QChar(34));
+            query.replace(QChar(38), escape + QChar(38));
+            query.replace(QChar(10), escape + 'n');
+            query.replace(QChar(13), escape + 'r');
+            query.replace(QChar(9), escape + 't');
+            query.replace(QChar(8), escape + 'b');
+            query.replace(QChar(12), escape + 'f');
+
             execlp("nodejs", "nodejs", "-e",
                   (jsCode + QString("token(\"%1\",\"%2\");").arg(query).arg(gtk)).toStdString().c_str(),
                   "-p", nullptr);
@@ -220,6 +232,7 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
     {
         return QString("time out");
     }
+    qInfo() << obj;
     return QString("error");
 }
 
