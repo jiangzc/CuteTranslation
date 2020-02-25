@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h>
 #include "baidutranslate.h"
 #include "configtool.h"
 
@@ -108,6 +110,9 @@ QString BaiduTranslate::getSign(QString query)
     pid_t pid;
     if (pipe(pipes) == 0)
     {
+        if (fcntl(pipes[0], F_SETFL, O_NONBLOCK) < 0) // 非阻塞读取
+            exit(1);
+
         pid = fork();
         if (pid < 0)
         {
@@ -141,16 +146,40 @@ QString BaiduTranslate::getSign(QString query)
         }
         else
         {
-            long nread;
+            long nread = 0;
             char buf[100];
             close(pipes[1]);
+            double timeout = 0.2;
+            while(timeout > 0)
+            {
+                nread = read(pipes[0], buf, 100);
+                switch (nread)
+                {
+                    case -1:
+                        if (errno == EAGAIN)
+                        {
+                            usleep(50 * 1000);
+                            timeout -= 0.05;
+                        }
+                        else
+                        {
+                            perror("fail to read from pipe.\n");
+                            return QString();
+                        }
+                        break;
+                    case 0:
+                        timeout = -1;
+                        break;
+                    default:
+                        buf[nread] = '\0';
+                        result += buf;
+                        timeout -= 0.05;
+                }
+            }
 
-            nread = read(pipes[0], buf, 100);
-            buf[nread] = '\0';
-            result = buf;
             close(pipes[0]);
             int status;
-            wait(&status);
+            waitpid(-1, &status, WNOHANG);
             return result.trimmed();
         }
     }
