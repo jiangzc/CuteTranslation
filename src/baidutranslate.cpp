@@ -253,6 +253,11 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
         return QString("time out");
     }
     qInfo() << obj;
+
+    // 998错误则意味需要重新加载主页获取新的token
+    if (obj.contains("errno") && obj["error"].toInt() == 998)
+        loadMainPage();
+
     return QString("error");
 }
 
