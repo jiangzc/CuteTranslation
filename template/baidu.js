@@ -30,3 +30,5 @@ var token = function(r, _gtk) {
     S.toString() + "." + (S ^ h)
 }
 
+var res = token(process.argv[2],  process.argv[3]);
+console.log(res);

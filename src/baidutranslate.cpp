@@ -88,7 +88,7 @@ QString BaiduTranslate::langDetect(QString query)
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
-    QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
+    QNetworkReply *reply = manager->post(req, data.toString(QUrl::FullyEncoded).replace("+", "%2B").toUtf8());
     QEventLoop loop;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
@@ -113,6 +113,8 @@ QString BaiduTranslate::getSign(QString query)
         if (fcntl(pipes[0], F_SETFL, O_NONBLOCK) < 0) // 非阻塞读取
             exit(1);
 
+        qInfo() << appDir.absoluteFilePath("baidu.js").toUtf8().data() <<
+            query.toUtf8().data() << gtk.toUtf8().data();
         pid = fork();
         if (pid < 0)
         {
@@ -128,21 +130,9 @@ QString BaiduTranslate::getSign(QString query)
             dup(pipes[1]);
             close(pipes[0]);
             close(pipes[1]);
-            // Fix Bug: 字符串构造脚本,特殊字符要处理
-            QString escape = "\\";
-            query.replace(QChar(92), escape + escape);
-            query.replace(QChar(39), escape + QChar(39));
-            query.replace(QChar(34), escape + QChar(34));
-            query.replace(QChar(38), escape + QChar(38));
-            query.replace(QChar(10), escape + 'n');
-            query.replace(QChar(13), escape + 'r');
-            query.replace(QChar(9), escape + 't');
-            query.replace(QChar(8), escape + 'b');
-            query.replace(QChar(12), escape + 'f');
 
-            execlp("nodejs", "nodejs", "-e",
-                  (jsCode + QString("token(\"%1\",\"%2\");").arg(query).arg(gtk)).toStdString().c_str(),
-                  "-p", nullptr);
+            execlp("nodejs", "nodejs", appDir.absoluteFilePath("baidu.js").toUtf8().data(),
+                   query.toUtf8().data(), gtk.toUtf8().data(), nullptr);
         }
         else
         {
@@ -207,7 +197,8 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
-    QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
+
+    QNetworkReply *reply = manager->post(req, data.toString(QUrl::FullyEncoded).replace("+", "%2B").toUtf8());
     QEventLoop loop;
     QTimer::singleShot(int(timeLeft * 1000), &loop, &QEventLoop::quit);
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
