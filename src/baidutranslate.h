@@ -31,7 +31,6 @@ private:
     QString gtk;
     QString token;
     QString access_token;
-    QString jsCode;
     QString tokenURL;
     QString getSign(QString query);
     void loadMainPage();

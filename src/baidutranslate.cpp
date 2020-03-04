@@ -27,12 +27,6 @@ BaiduTranslate::BaiduTranslate()
         manager = nullptr;
     });
     loadMainPage();
-    QFile jsFile(appDir.filePath("baidu.js"));
-    if (jsFile.open(QIODevice::ReadOnly))
-    {
-        jsCode = QString::fromUtf8(jsFile.readAll());
-        jsFile.close();
-    }
     tokenURL = configTool->TokenURL;
     checkAccessToken();
 
@@ -260,9 +254,11 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
     qInfo() << obj;
 
     // 998错误则意味需要重新加载主页获取新的token
-    if (obj.contains("errno") && obj["error"].toInt() == 998)
+    if (obj.contains("errno") && obj["errno"].toInt() == 998)
+    {
         loadMainPage();
-
+        qInfo() << "loadMainPage";
+    }
     return QString("error");
 }
 
