@@ -4,6 +4,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
 
 class BaiduTranslate : QObject
 {
@@ -23,6 +25,8 @@ public:
 
 private:
     BaiduTranslate();
+    QEventLoop loop;
+    QTimer timer;
     QNetworkAccessManager *manager;
     QString gtk;
     QString token;

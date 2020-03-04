@@ -18,6 +18,9 @@
 
 BaiduTranslate::BaiduTranslate()
 {
+    timer.setSingleShot(true);
+    timer.setInterval(3000);
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
     manager = new QNetworkAccessManager();
     connect(qApp, &QCoreApplication::aboutToQuit, this, [=]{
         delete manager;
@@ -50,7 +53,6 @@ QString BaiduTranslate::getUrl(QString url_str)
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
     QNetworkReply *reply = manager->get(req);
-    QEventLoop loop;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
     QString res = QString::fromUtf8(reply->readAll());
@@ -89,7 +91,6 @@ QString BaiduTranslate::langDetect(QString query)
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
     QNetworkReply *reply = manager->post(req, data.toString(QUrl::FullyEncoded).replace("+", "%2B").toUtf8());
-    QEventLoop loop;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
     QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
@@ -199,15 +200,19 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
 
     QNetworkReply *reply = manager->post(req, data.toString(QUrl::FullyEncoded).replace("+", "%2B").toUtf8());
-    QEventLoop loop;
-    QTimer::singleShot(int(timeLeft * 1000), &loop, &QEventLoop::quit);
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    timer.start(int(timeLeft * 1000));
     loop.exec();
-    if (reply->isFinished() == false)
+    timer.stop();
+    if (reply->isRunning())
+    {
+        reply->abort();
+        reply->deleteLater();
         return QJsonObject();
+    }
     QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
     QJsonObject obj = doc.object();
-    if (obj.contains("error"))
+    if (obj.contains("error") || obj.contains("errno"))
     {
         qWarning() << "baidu sdk error";
     }
@@ -314,12 +319,16 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
     QNetworkReply *reply = manager->post(req, data.toString().toUtf8());
-    QEventLoop loop;
-    QTimer::singleShot(int(timeLeft * 1000), &loop, &QEventLoop::quit);
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    timer.start(int(timeLeft * 1000));
     loop.exec();
-    if (reply->isFinished() == false)
+    timer.stop();
+    if (reply->isRunning())
+    {
+        reply->abort();
+        reply->deleteLater();
         return QString("time out");
+    }
     QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
     QJsonObject obj = doc.object();
     if (obj.contains("error"))
