@@ -26,7 +26,7 @@ BaiduTranslate::BaiduTranslate()
         delete manager;
         manager = nullptr;
     });
-    loadMainPage();
+    // loadMainPage(); 如果开机自动启动，请求会在Wifi连接成功之前发送
     tokenURL = configTool->TokenURL;
     checkAccessToken();
 
@@ -237,6 +237,10 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
 
 QString BaiduTranslate::TranslateText(QString text, float timeleft)
 {
+    // 加载token
+    if (token.isEmpty() || gtk.isEmpty())
+        loadMainPage();
+
     // 判断是否为英语
     bool is_latin = true;
     for (const auto &c : text)
