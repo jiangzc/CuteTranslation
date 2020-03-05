@@ -197,19 +197,35 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     timer.start(int(timeLeft * 1000));
     loop.exec();
-    timer.stop();
-    if (reply->isRunning())
+    disconnect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    QJsonDocument doc;
+    QJsonObject obj;
+    if (timer.isActive())
     {
+        qInfo() << "is active";
+        timer.stop();
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            qInfo() << reply->errorString();
+            obj["error"] = reply->errorString();
+        }
+        else
+        {
+            doc = QJsonDocument::fromJson(reply->readAll());
+            obj = doc.object();
+            if (obj.contains("error") || obj.contains("errno"))
+            {
+                qWarning() << "baidu sdk error";
+            }
+        }
+
+    }
+    else
+    {
+        obj["error"] = "time out";
         reply->abort();
-        reply->deleteLater();
-        return QJsonObject();
     }
-    QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
-    QJsonObject obj = doc.object();
-    if (obj.contains("error") || obj.contains("errno"))
-    {
-        qWarning() << "baidu sdk error";
-    }
+
     reply->deleteLater();
     return obj;
 
@@ -247,9 +263,13 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
        }
        return res;
     }
+    else if (obj.contains("error"))
+    {
+        return obj["error"].toString();
+    }
     else if (obj.empty())
     {
-        return QString("time out");
+        return QString("empty");
     }
     qInfo() << obj;
 
@@ -318,9 +338,18 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     timer.start(int(timeLeft * 1000));
     loop.exec();
-    timer.stop();
-    if (reply->isRunning())
+    if (timer.isActive())
     {
+        timer.stop();
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            qInfo() << reply->errorString();
+        }
+    }
+    else
+    {
+        qInfo() << "time out";
+        disconnect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
         reply->abort();
         reply->deleteLater();
         return QString("time out");
