@@ -49,6 +49,10 @@ QString BaiduTranslate::getUrl(QString url_str)
     QNetworkReply *reply = manager->get(req);
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        qWarning() << reply->errorString();
+    }
     QString res = QString::fromUtf8(reply->readAll());
     reply->deleteLater();
     return res;
@@ -71,7 +75,7 @@ void BaiduTranslate::loadMainPage()
     }
     else
     {
-        qInfo() << "无法获取token gtk";
+        qWarning() << "无法获取token gtk";
     }
 }
 
@@ -206,7 +210,7 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
         timer.stop();
         if (reply->error() != QNetworkReply::NoError)
         {
-            qInfo() << reply->errorString();
+            qWarning() << reply->errorString();
             obj["error"] = reply->errorString();
         }
         else
