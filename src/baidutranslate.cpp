@@ -206,7 +206,7 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
     QJsonObject obj;
     if (timer.isActive())
     {
-        qInfo() << "is active";
+        qInfo() << "Text: is active";
         timer.stop();
         if (reply->error() != QNetworkReply::NoError)
         {
@@ -219,7 +219,7 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
             obj = doc.object();
             if (obj.contains("error") || obj.contains("errno"))
             {
-                qWarning() << "baidu sdk error";
+                qWarning() << "Text: baidu sdk error";
             }
         }
 
@@ -292,27 +292,33 @@ QString BaiduTranslate::TranslateText(QString text, float timeleft)
 
 bool BaiduTranslate::checkAccessToken()
 {
+    bool ret = true;
     QFile file(dataDir.filePath("token"));
     if (file.exists() == false)
-        getAccessTokenFromURL(tokenURL);
+        ret = getAccessTokenFromURL(tokenURL);
     else
     {
         if (file.open(QIODevice::ReadOnly))
         {
             QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
             if (time(nullptr) > doc.object()["expires_at"].toString().toLong())
-                getAccessTokenFromURL(tokenURL);
+                ret = getAccessTokenFromURL(tokenURL);
             else
                 access_token =  doc.object()["access_token"].toString();
         }
     }
-    return true;
+    if (!ret)
+        qWarning() << "获取 OCR token 失败";
+    return ret;
 }
 
 bool BaiduTranslate::getAccessTokenFromURL(QString url)
 {
     QString res = getUrl(url);
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8());
+    if (doc.object().contains("access_token") == false ||  doc.object().contains("expires_at") == false)
+        return false;
+
     access_token = doc.object()["access_token"].toString();
     QFile file(dataDir.filePath("token"));
     if (file.open(QIODevice::WriteOnly))
@@ -327,6 +333,8 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
 {
     if (screenshot && ScreenShot() != 0)
         return QString("");
+    if (access_token.isEmpty())
+        return QString("OCR token is empty");
     QString image_string;
     QFile picture_file("/tmp/ocr");
     if (picture_file.open(QIODevice::ReadOnly))
@@ -337,7 +345,7 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
     QUrlQuery data;
     data.addQueryItem("image", image_string);
     data.addQueryItem("detect_language", "true");
-    qInfo() << image_string;
+    // qInfo() << image_string;
     QNetworkRequest req(QUrl("https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=" + access_token));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
@@ -366,7 +374,8 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
     QJsonObject obj = doc.object();
     if (obj.contains("error"))
     {
-        qWarning() << "baidu sdk error" << obj;
+        qInfo() << "OCR: " << obj;
+        qWarning() << "OCR: baidu sdk error";
     }
     reply->deleteLater();
     QString result_string;
