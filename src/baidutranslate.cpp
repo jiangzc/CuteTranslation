@@ -301,7 +301,7 @@ bool BaiduTranslate::checkAccessToken()
         if (file.open(QIODevice::ReadOnly))
         {
             QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
-            if (time(nullptr) > doc.object()["expires_at"].toString().toLong())
+            if (time(nullptr) > doc.object()["expires_at"].toVariant().toLongLong())
                 ret = getAccessTokenFromURL(tokenURL);
             else
                 access_token =  doc.object()["access_token"].toString();
