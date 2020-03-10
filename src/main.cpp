@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.2.4");
+    a.setApplicationVersion("0.2.5");
 
     xdotool = new Xdotool();
     configTool = new ConfigTool();
@@ -231,12 +231,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         qStdOut() << time << " Critical: " << msg << endl;
         logOutput() << time<< " Critical: " << msg << endl;
         QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
-        abort();
+        qApp->exit(1);
+        break;
     case QtFatalMsg:
         qStdOut() << time << " Fatal: " << msg << endl;
         logOutput() << time<< " Fatal: " << msg << endl;
         QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
-        abort();
+        qApp->exit(2);
+        break;
     }
 
 }
