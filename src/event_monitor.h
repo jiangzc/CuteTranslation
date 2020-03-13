@@ -30,6 +30,8 @@
 #include <X11/extensions/record.h>
 
 // Virtual button codes that are not defined by X11.
+// Btn1 -> left
+// Btn3 -> right
 #define Button1			1
 #define Button2			2
 #define Button3			3
