@@ -137,6 +137,8 @@ int main(int argc, char *argv[])
     qInfo() << "应用加载完毕";
 
     BaiduTranslate::instance();
+    //auto g = Guide::getInstance();
+    //g->show();
 
     return a.exec();
 }
@@ -223,6 +225,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         logOutput() << time<< " Info: " << msg << endl;
         break;
     case QtWarningMsg:
+        if (msg.contains("QWidget::paintEngine") || msg.contains("QObject::disconnect"))
+            break;
+
         qStdOut() << time << " Warning: " << msg << endl;
         logOutput() << time<< " Warning: " << msg << endl;
         QMessageBox::warning(nullptr, "警告", msg, QMessageBox::Ignore);

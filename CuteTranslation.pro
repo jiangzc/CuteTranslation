@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui x11extras webenginewidgets network
+QT       += core gui x11extras webenginewidgets network multimediawidgets multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,6 +32,7 @@ SOURCES += \
         src/configwindow.cpp \
         src/event_monitor.cpp \
         src/floatbutton.cpp \
+        src/guide.cpp \
         src/main.cpp \
         src/mainwindow.cpp \
         src/picker.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
         src/configwindow.h \
         src/event_monitor.h \
         src/floatbutton.h \
+        src/guide.h \
         src/mainwindow.h \
         src/picker.h \
         src/searchbar.h \
