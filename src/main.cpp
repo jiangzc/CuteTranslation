@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <sys/file.h>
 #include "baidutranslate.h"
+#include "guide.h"
 
 /* appDir   可执行文件所在目录, /opt/CuteTranslation
  * dataDir  数据文件目录，~/.local/share/CuteTranslation
@@ -137,8 +138,8 @@ int main(int argc, char *argv[])
     qInfo() << "应用加载完毕";
 
     BaiduTranslate::instance();
-    //auto g = Guide::getInstance();
-    //g->show();
+    auto g = Guide::getInstance();
+    g->show();
 
     return a.exec();
 }

@@ -21,24 +21,24 @@ Guide::Guide(QWidget *parent) : QWidget(parent)
     videoWidget = new QVideoWidget(this);
     videoWidget->setMinimumSize(600,300);
     player->setVideoOutput(videoWidget);
-    videoPlaylist.setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    player->setPlaylist(&videoPlaylist);
-
-    stackedLayout = new QStackedLayout();
-    stackedLayout->setCurrentIndex(0);
-    pages.append(makePage1());
-    pages.append(makePage2());
-    pages.append(makePage3());
-
-    for (auto item : pages)
-        stackedLayout->addWidget(item);
-
-    for (auto item : videoForPage.values())
-        videoPlaylist.addMedia(item);
-
+    playlist.setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    player->setPlaylist(&playlist);
 
     initUI();
-    videoPlaylist.setCurrentIndex(0);
+
+
+    stackedLayout->addWidget(makePage1());
+    stackedLayout->addWidget(makePage2());
+    stackedLayout->addWidget(makePage3());
+    stackedLayout->setCurrentIndex(0);
+
+
+    for (auto item : videoForPage.values())
+        playlist.addMedia(item);
+
+
+
+    setCurrentVideo(0);
     player->play();
 }
 
@@ -46,9 +46,8 @@ void Guide::initUI()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout();
     QHBoxLayout *headLine = new QHBoxLayout();
-
+    stackedLayout = new QStackedLayout();
     QHBoxLayout *buttonLine = new QHBoxLayout();
-
 
     QLabel *iconLabel = new QLabel();
     iconLabel->setPixmap(QPixmap(appDir.absoluteFilePath("CuteTranslation.svg")));
@@ -84,23 +83,25 @@ void Guide::initUI()
     mainLayout->addLayout(buttonLine);
     setLayout(mainLayout);
 
-    connect(stackedLayout, &QStackedLayout::currentChanged, [=](int index){
-        player->stop();
-        auto item = videoForPage.find(stackedLayout->widget(index));
-        if (item != videoForPage.end())
-        {
-            for (int i = 0; i < videoPlaylist.mediaCount(); i++)
-            {
-                if (videoPlaylist.media(i) == item.value())
-                {
-                    videoPlaylist.setCurrentIndex(i);
-                }
-            }
-            player->play();
-        }
-    });
+    connect(stackedLayout, &QStackedLayout::currentChanged, this, &Guide::setCurrentVideo);
 }
 
+void Guide::setCurrentVideo(int index)
+{
+    player->stop();
+    auto item = videoForPage.find(stackedLayout->widget(index));
+    if (item != videoForPage.end())
+    {
+        for (int i = 0; i < playlist.mediaCount(); i++)
+        {
+            if (playlist.media(i) == item.value())
+            {
+                playlist.setCurrentIndex(i);
+            }
+        }
+        player->play();
+    }
+}
 QWidget* Guide::makePage1()
 {
     QWidget *page = new QWidget();
@@ -171,6 +172,8 @@ QWidget* Guide::makePage3()
 
 void Guide::onPreBtnClicked()
 {
+    // bug  “完成”
+    // bug Warning 对话框
     if (stackedLayout->count() == 0)
         return;
     int index = stackedLayout->currentIndex() - 1;

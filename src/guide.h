@@ -27,19 +27,20 @@ public:
 private:
     explicit Guide(QWidget *parent = nullptr);
     QStackedLayout *stackedLayout;
-    QVector<QWidget*> pages;
     QMediaPlayer *player;
     QVideoWidget *videoWidget;
-    QMediaPlaylist videoPlaylist;
+    QMediaPlaylist playlist;
     QMap<QWidget*, QMediaContent> videoForPage;
     QPushButton *preBtn;
     QPushButton *nextBtn;
+    void setCurrentVideo(int index);
     void closeEvent(QCloseEvent *event);
 
 
 private slots:
     void onPreBtnClicked();
     void onNextBtnClicked();
+    void onCurrentPageChanged(int index);
 signals:
 
 public slots:
