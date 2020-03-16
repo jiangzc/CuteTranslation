@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("CuteTranslation");
     a.setApplicationVersion("0.2.5");
 
+
     xdotool = new Xdotool();
     configTool = new ConfigTool();
     logFile = new QFile(dataDir.filePath("log.txt"));
@@ -138,8 +139,8 @@ int main(int argc, char *argv[])
     qInfo() << "应用加载完毕";
 
     BaiduTranslate::instance();
-   // auto g = Guide::getInstance();
-   // g->show();
+    auto g = Guide::getInstance();
+    g->show();
 
     return a.exec();
 }

@@ -157,12 +157,13 @@ QWidget* Guide::makePage3()
     QLabel *desc = new QLabel();
     desc->setText("查询这些单词");
     QLabel *wordLabel = new QLabel();
-
-
-   wordLabel->setText("查询这些单词: \n\n"
-                      "abrogate ['æbrəuɡeit]   cultivated ['kʌltiveitid] \n\n"
-                      "cumbersome ['kʌmbəsəm] quiver ['kwivə]  quota ['kwəutə] \n\n"
-                      "rag [ræɡ]  rage [reidʒ]  ragged ['ræɡid] raid [reid] \n\n"
+    QFont font = wordLabel->font();
+    font.setPointSize(16);
+    wordLabel->setFont(font);
+    wordLabel->setText("查询这些单词: \n\n"
+                      "abrogate    cultivated  \n"
+                      "cumbersome  quiver    quota  \n"
+                      "rage        ragged    raid  "
                        );
    wordLabel->setAlignment(Qt::AlignCenter);
 
