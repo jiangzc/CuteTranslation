@@ -32,15 +32,15 @@ private:
     QMediaPlaylist playlist;
     QMap<QWidget*, QMediaContent> videoForPage;
     QPushButton *preBtn;
+    QPushButton *skipBtn;
     QPushButton *nextBtn;
     void setCurrentVideo(int index);
     void closeEvent(QCloseEvent *event);
 
 
 private slots:
-    void onPreBtnClicked();
-    void onNextBtnClicked();
-    void onCurrentPageChanged(int index);
+    void onCtrlBtnClicked();
+
 signals:
 
 public slots:

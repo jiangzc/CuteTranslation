@@ -25,21 +25,14 @@ Guide::Guide(QWidget *parent) : QWidget(parent)
     player->setPlaylist(&playlist);
 
     initUI();
+    onCtrlBtnClicked(); // 初始化按钮状态
 
-
-    stackedLayout->addWidget(makePage1());
-    stackedLayout->addWidget(makePage2());
-    stackedLayout->addWidget(makePage3());
-    stackedLayout->setCurrentIndex(0);
-
-
+    playlist.addMedia(QMediaContent()); // No Content
     for (auto item : videoForPage.values())
         playlist.addMedia(item);
 
-
-
     setCurrentVideo(0);
-    player->play();
+
 }
 
 void Guide::initUI()
@@ -61,15 +54,15 @@ void Guide::initUI()
     headLine->addWidget(title);
     headLine->addStretch();
 
-    QPushButton *skipBtn = new QPushButton();
+    skipBtn = new QPushButton();
     preBtn = new QPushButton();
     nextBtn = new QPushButton();
     skipBtn->setText("跳过");
     preBtn->setText("上一步");
     nextBtn->setText("下一步");
-    connect(skipBtn, &QPushButton::clicked, this, &Guide::close);
-    connect(preBtn, &QPushButton::clicked, this, &Guide::onPreBtnClicked);
-    connect(nextBtn, &QPushButton::clicked, this, &Guide::onNextBtnClicked);
+    connect(skipBtn, &QPushButton::clicked, this, &Guide::onCtrlBtnClicked);
+    connect(preBtn, &QPushButton::clicked, this, &Guide::onCtrlBtnClicked);
+    connect(nextBtn, &QPushButton::clicked, this, &Guide::onCtrlBtnClicked);
     buttonLine->addWidget(skipBtn);
     buttonLine->addStretch();
     buttonLine->addWidget(preBtn);
@@ -78,12 +71,17 @@ void Guide::initUI()
     buttonLine->setSpacing(30);
 
     mainLayout->addLayout(headLine);
-    mainLayout->addWidget(videoWidget);
     mainLayout->addLayout(stackedLayout);
+    mainLayout->addWidget(videoWidget);
     mainLayout->addLayout(buttonLine);
     setLayout(mainLayout);
 
     connect(stackedLayout, &QStackedLayout::currentChanged, this, &Guide::setCurrentVideo);
+
+    stackedLayout->addWidget(makePage1());
+    stackedLayout->addWidget(makePage2());
+    stackedLayout->addWidget(makePage3());
+    stackedLayout->setCurrentIndex(0);
 }
 
 void Guide::setCurrentVideo(int index)
@@ -99,9 +97,16 @@ void Guide::setCurrentVideo(int index)
                 playlist.setCurrentIndex(i);
             }
         }
+        videoWidget->show();
         player->play();
     }
+    else
+    {
+        playlist.setCurrentIndex(0); // No Content
+        videoWidget->hide();
+    }
 }
+
 QWidget* Guide::makePage1()
 {
     QWidget *page = new QWidget();
@@ -141,7 +146,7 @@ QWidget* Guide::makePage2()
     mainLayout->addWidget(picLabel);
 
     page->setLayout(mainLayout);
-    videoForPage.insert(page, QUrl::fromLocalFile(appDir.filePath("video2.mp4")));
+    //videoForPage.insert(page, QUrl::fromLocalFile(appDir.filePath("video2.mp4")));
     return page;
 }
 
@@ -170,32 +175,44 @@ QWidget* Guide::makePage3()
     return page;
 }
 
-void Guide::onPreBtnClicked()
-{
-    // bug  “完成”
-    // bug Warning 对话框
-    if (stackedLayout->count() == 0)
-        return;
-    int index = stackedLayout->currentIndex() - 1;
-    stackedLayout->setCurrentIndex(index >= 0 ? index : 0);
 
-}
-
-void Guide::onNextBtnClicked()
+void Guide::onCtrlBtnClicked()
 {
-    if (stackedLayout->count() == 0)
-        return;
-    if (stackedLayout->currentIndex() == stackedLayout->count() - 1) // finish
+    int index = stackedLayout->currentIndex();
+    if (sender() == preBtn)
     {
-        this->close();
+        index--;
     }
-    int index = stackedLayout->currentIndex() + 1;
-    stackedLayout->setCurrentIndex(index < stackedLayout->count() ? index : stackedLayout->count() - 1);
-    if (stackedLayout->currentIndex() == stackedLayout->count() - 1)
+    if (sender() == nextBtn)
+    {
+        index++;
+    }
+    if (sender() == skipBtn || index >= stackedLayout->count())
+    {
+        close();
+    }
+
+    if (index < 0)
+        ;
+    else if (index == 0)
+    {
+        preBtn->setEnabled(false);
+        stackedLayout->setCurrentIndex(index);
+    }
+    else if (index > 0 && index < stackedLayout->count() - 1)
+    {
+        preBtn->setEnabled(true);
+        nextBtn->setText("下一步");
+        stackedLayout->setCurrentIndex(index);
+    }
+    if (index == stackedLayout->count() - 1)
     {
         nextBtn->setText("完成");
+        stackedLayout->setCurrentIndex(index);
     }
+
 }
+
 
 void Guide::closeEvent(QCloseEvent *event)
 {

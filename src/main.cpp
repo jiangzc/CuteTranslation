@@ -138,8 +138,8 @@ int main(int argc, char *argv[])
     qInfo() << "应用加载完毕";
 
     BaiduTranslate::instance();
-    auto g = Guide::getInstance();
-    g->show();
+   // auto g = Guide::getInstance();
+   // g->show();
 
     return a.exec();
 }
