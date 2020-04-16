@@ -117,7 +117,7 @@ qmake 编译
 ```bash
 mkdir build && cd build
 qmake ..
-make
+make -j4
 ```
 安装
 ```
