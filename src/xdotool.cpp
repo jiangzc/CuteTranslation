@@ -64,6 +64,8 @@ void Xdotool::check_status(int status, Window window)
 
 unsigned char *Xdotool::get_string_property(const char *property_name, Window window)
 {
+    if (window == 0 || window == BadWindow)
+        return nullptr;
     Atom actual_type, filter_atom;
     int actual_format, status;
     unsigned long nitems, bytes_after;
@@ -77,10 +79,12 @@ unsigned char *Xdotool::get_string_property(const char *property_name, Window wi
 
 unsigned long Xdotool::get_long_property(const char *property_name, Window window)
 {
-    if (window == 0)
+    if (window == 0 || window == BadWindow)
         return 0;
-    get_string_property(property_name, window);
-    unsigned long long_property = static_cast<unsigned long>(prop[0] + (prop[1] << 8) + (prop[2] << 16) + (prop[3] << 24));
+    unsigned long long_property = 0;
+    auto res = get_string_property(property_name, window);
+    if (res != nullptr)
+        long_property = static_cast<unsigned long>(prop[0] + (prop[1] << 8) + (prop[2] << 16) + (prop[3] << 24));
     return long_property;
 }
 
@@ -95,8 +99,11 @@ QString Xdotool::getActiveWindowName()
 {
     unsigned long window;
     window = get_long_property("_NET_ACTIVE_WINDOW", root_window);
-    get_string_property("_NET_WM_NAME", window);
-    return QString(reinterpret_cast<char *>(prop));
+    auto res = get_string_property("_NET_WM_NAME", window);
+    QString name;
+    if (res != nullptr)
+        name = QString(reinterpret_cast<char *>(prop));
+    return name;
 }
 
 QString Xdotool::getProcessPathByPID(unsigned long pid)
