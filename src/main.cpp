@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <sys/file.h>
 #include "baidutranslate.h"
+#include "messagebox.h"
 
 /* appDir   可执行文件所在目录, /opt/CuteTranslation
  * dataDir  数据文件目录，~/.local/share/CuteTranslation
@@ -212,6 +213,7 @@ QTextStream& logOutput()
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     Q_UNUSED(context)
+    static MessageBox msgBox;
     QString time =  QDateTime::currentDateTime().toString(Qt::ISODate);
     switch (type) {
     case QtDebugMsg:
@@ -225,18 +227,21 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     case QtWarningMsg:
         qStdOut() << time << " Warning: " << msg << endl;
         logOutput() << time<< " Warning: " << msg << endl;
-        QMessageBox::warning(nullptr, "警告", msg, QMessageBox::Ignore);
+        msgBox.setText(msg);
+        msgBox.exec();
         break;
     case QtCriticalMsg:
         qStdOut() << time << " Critical: " << msg << endl;
         logOutput() << time<< " Critical: " << msg << endl;
-        QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
+        msgBox.setText(msg);
+        msgBox.exec();
         qApp->exit(1);
         break;
     case QtFatalMsg:
         qStdOut() << time << " Fatal: " << msg << endl;
         logOutput() << time<< " Fatal: " << msg << endl;
-        QMessageBox::warning(nullptr, "错误", msg, QMessageBox::Ok);
+        msgBox.setText(msg);
+        msgBox.exec();
         qApp->exit(2);
         break;
     }
