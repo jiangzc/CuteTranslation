@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.2.6");
+    a.setApplicationVersion("0.2.7");
 
     xdotool = new Xdotool();
     configTool = new ConfigTool();
