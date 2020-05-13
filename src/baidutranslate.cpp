@@ -15,6 +15,7 @@
 #include <errno.h>
 #include "baidutranslate.h"
 #include "configtool.h"
+#include <cmath>
 
 BaiduTranslate::BaiduTranslate()
 {
@@ -88,6 +89,7 @@ QString BaiduTranslate::langDetect(QString query)
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
                                                     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+
     QNetworkReply *reply = manager->post(req, data.toString(QUrl::FullyEncoded).replace("+", "%2B").toUtf8());
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
@@ -104,7 +106,6 @@ QString BaiduTranslate::langDetect(QString query)
 QString BaiduTranslate::getSign(QString query)
 {
     QString result;
-    // float timeLeft = 2.0; // max delay of sub process
     int pipes[2];
     pid_t pid;
     if (pipe(pipes) == 0)
@@ -138,7 +139,7 @@ QString BaiduTranslate::getSign(QString query)
             long nread = 0;
             char buf[100];
             close(pipes[1]);
-            double timeout = 0.2;
+            double timeout = 2;
             while(timeout > 0)
             {
                 nread = read(pipes[0], buf, 100);
@@ -157,13 +158,17 @@ QString BaiduTranslate::getSign(QString query)
                         }
                         break;
                     case 0:
-                        timeout = -1;
+                        timeout = -1; // 正常结束
                         break;
                     default:
                         buf[nread] = '\0';
                         result += buf;
                         timeout -= 0.05;
                 }
+            }
+            if (fabs(timeout - -1) > 1e-6)
+            {
+                qInfo() << "get sign timeout";
             }
 
             close(pipes[0]);
@@ -192,6 +197,8 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
     data.addQueryItem("sign", getSign(query));
     data.addQueryItem("token", token);
 
+    qDebug() << "sign" << getSign(query);
+
     QNetworkRequest req(QUrl("https://fanyi.baidu.com/v2transapi"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
@@ -219,6 +226,7 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
             obj = doc.object();
             if (obj.contains("error") || obj.contains("errno"))
             {
+                qInfo() << obj;
                 qWarning() << "Text: baidu sdk error";
             }
         }
