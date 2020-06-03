@@ -340,6 +340,8 @@ bool BaiduTranslate::getAccessTokenFromURL(QString url)
 QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
 {
     QString result_string = OCRText(timeLeft, screenshot);
+    if (result_string == "time out")
+        return "time out";
     // word correction
     if (result_string.size() < 20)
     {
