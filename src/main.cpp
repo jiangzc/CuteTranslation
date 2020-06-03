@@ -40,8 +40,13 @@ int main(int argc, char *argv[])
     a.setApplicationName("CuteTranslation");
     a.setApplicationVersion("0.2.8");
 
+    // 必须文件夹
+    appDir.setPath(QCoreApplication::applicationDirPath());
+    dataDir.setPath(QDir::homePath() + "/.local/share/CuteTranslation");
+    QDir::home().mkpath(dataDir.absolutePath());
+    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
+
     xdotool = new Xdotool();
-    configTool = new ConfigTool();
     logFile = new QFile(dataDir.filePath("log.txt"));
 
     if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
@@ -53,6 +58,7 @@ int main(int argc, char *argv[])
     if (checkDependency() < 0)
         return -1;
 
+    configTool = new ConfigTool();
 
     /* ConfigTool       配置工具
      * Picker           取词功能
