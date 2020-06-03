@@ -27,7 +27,7 @@ PKGCONFIG += xcb xcb-util
 LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
-        messagebox.cpp \
+        src/messagebox.cpp \
         src/baidutranslate.cpp \
         src/configtool.cpp \
         src/configwindow.cpp \
@@ -42,7 +42,7 @@ SOURCES += \
         src/xdotool.cpp
 
 HEADERS += \
-        messagebox.h \
+        src/messagebox.h \
         src/baidutranslate.h \
         src/configtool.h \
         src/configwindow.h \
