@@ -9,12 +9,6 @@ ConfigTool *configTool;
 
 ConfigTool::ConfigTool()
 {
-    // 必须文件夹
-    appDir.setPath(QCoreApplication::applicationDirPath());
-    dataDir.setPath(QDir::homePath() + "/.local/share/CuteTranslation");
-    QDir::home().mkpath(dataDir.absolutePath());
-    QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
-
 
     settings = new QSettings(dataDir.filePath("config.ini"), QSettings::IniFormat);
     Mode = GetMode(settings->value("/Picker/Mode", "all").toString().toLower());
@@ -32,7 +26,7 @@ ConfigTool::ConfigTool()
     NotShow = settings->value("/Custom/NotShow").toString();
 
     OCRTranslateShortCutString = settings->value("/ShortCut/OCRTranslate", "alt+q").toString().toLower();
-    SearchBarShortCutString = settings->value("/ShortCut/SearchBar", "alw+w").toString().toLower();
+    SearchBarShortCutString = settings->value("/ShortCut/SearchBar", "alt+w").toString().toLower();
     OCRTextShortCutString = settings->value("/ShortCut/OCRText", "alt+e").toString().toLower();
 
     ChineseNotShow = settings->value("/Custom/ChineseNotShow", true).toBool();
