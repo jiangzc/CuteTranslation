@@ -1,5 +1,8 @@
 未来计划： 配置文档改为json格式，界面大改，重构翻译部分代码，能够适应不同的翻译器。改名 翻译星
 
+v0.2.8 (stable release)
+增加功能：文字识别
+
 v0.2.7 (stable release)
 修复QMessageBox卡死的问题，使用自定义的QDialog。
 增加getSign函数延时
