@@ -23,7 +23,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     change_mode_custom_action.setText("自定义");
     change_mode_none_action.setText("禁用");
     search_action.setText("文字翻译 " + configTool->SearchBarShortCutString);
-    ocr_action.setText("截图翻译 " + configTool->ScreenShotShortCutString);
+    ocr_translate_action.setText("截图翻译 " + configTool->OCRTranslateShortCutString);
+    ocr_text_action.setText("文字识别 " + configTool->OCRTextShortCutString);
     setIcon(icon);
     if (configTool->GetMode() == Mode_ALL)
         change_mode_all_action.setText("✓ 全局");
@@ -44,7 +45,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
 
     menu.addAction(&search_action);
-    menu.addAction(&ocr_action);
+    menu.addAction(&ocr_translate_action);
+    menu.addAction(&ocr_text_action);
     menu.addAction(&config_action);
     menu.addAction(&autostart_action);
 

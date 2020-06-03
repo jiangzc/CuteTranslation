@@ -339,6 +339,34 @@ bool BaiduTranslate::getAccessTokenFromURL(QString url)
 
 QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
 {
+    QString result_string = OCRText(timeLeft, screenshot);
+    // word correction
+    if (result_string.size() < 20)
+    {
+        auto front = 0;
+        auto back = result_string.size() - 1;
+        while (front < result_string.size())
+        {
+            if (result_string[front].isLetter() == false)
+                front++;
+            else
+                break;
+        }
+        while (back > 0)
+        {
+            if (result_string[back].isLetter() == false)
+                back--;
+            else
+                break;
+        }
+        if (front < back)
+            result_string = result_string.mid(front, back - front + 1);
+    }
+    return TranslateText(result_string, configTool->TextTimeout);
+}
+
+QString BaiduTranslate::OCRText(float timeLeft, bool screenshot)
+{
     if (screenshot && ScreenShot() != 0)
         return QString("");
     if (access_token.isEmpty())
@@ -392,30 +420,7 @@ QString BaiduTranslate::OCRTranslate(float timeLeft, bool screenshot)
     {
         result_string += item.toObject()["words"].toString() + " ";
     }
-    qInfo() << result_string;
-    // word correction
-    if (result_string.size() < 20)
-    {
-        auto front = 0;
-        auto back = result_string.size() - 1;
-        while (front < result_string.size())
-        {
-            if (result_string[front].isLetter() == false)
-                front++;
-            else
-                break;
-        }
-        while (back > 0)
-        {
-            if (result_string[back].isLetter() == false)
-                back--;
-            else
-                break;
-        }
-        if (front < back)
-            result_string = result_string.mid(front, back - front + 1);
-    }
-    return TranslateText(result_string, configTool->TextTimeout);
+    return result_string;
 }
 
 

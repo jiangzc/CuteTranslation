@@ -27,12 +27,24 @@ ShortCut::ShortCut()
             qApp->quit();
         }
     }
-    // 加载 ScreenShotShortCut
-    shortcut = configTool->ScreenShotShortCutString.split("+", QString::SkipEmptyParts);
+    // 加载 OCRTranslateShortCut
+    shortcut = configTool->OCRTranslateShortCutString.split("+", QString::SkipEmptyParts);
     for (auto &it : shortcut)
     {
         if (keyMap.find(it) != keyMap.end())
-            ScreenShotShortCut.push_back(keyMap.at(it));
+            OCRTranslateShortCut.push_back(keyMap.at(it));
+        else
+        {
+            qInfo() << "Unknow keyName: " + it;
+            qApp->quit();
+        }
+    }
+    // 加载 OCRTextShortCut
+    shortcut = configTool->OCRTextShortCutString.split("+", QString::SkipEmptyParts);
+    for (auto &it : shortcut)
+    {
+        if (keyMap.find(it) != keyMap.end())
+            OCRTextShortCut.push_back(keyMap.at(it));
         else
         {
             qInfo() << "Unknow keyName: " + it;
@@ -52,12 +64,17 @@ void ShortCut::onKeyPressed(int keyCode)
         emit SearchBarShortCutPressed();
     }
 
-    if (std::equal(ScreenShotShortCut.cbegin(), ScreenShotShortCut.cend(),
-                   keyCodes.cbegin() + 3 - int(ScreenShotShortCut.size())))
+    if (std::equal(OCRTranslateShortCut.cbegin(), OCRTranslateShortCut.cend(),
+                   keyCodes.cbegin() + 3 - int(OCRTranslateShortCut.size())))
     {
-        qInfo() << "ScreenShotShortCut";
-        emit OCRShortCutPressed(true);
-
+        qInfo() << "OCRTranslateShortCut";
+        emit OCRTranslateShortCutPressed(true);
+    }
+    if (std::equal(OCRTextShortCut.cbegin(), OCRTextShortCut.cend(),
+                   keyCodes.cbegin() + 3 - int(OCRTextShortCut.size())))
+    {
+        qInfo() << "OCRTextShortCut";
+        emit OCRTextShortCutPressed();
     }
 }
 

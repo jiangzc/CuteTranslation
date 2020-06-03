@@ -31,8 +31,9 @@ ConfigTool::ConfigTool()
     Show = settings->value("/Custom/Show").toString();
     NotShow = settings->value("/Custom/NotShow").toString();
 
-    SearchBarShortCutString = settings->value("/ShortCut/SearchBar", "ctrl+q").toString().toLower();
-    ScreenShotShortCutString = settings->value("/ShortCut/ScreenShot", "alt+q").toString().toLower();
+    OCRTranslateShortCutString = settings->value("/ShortCut/OCRTranslate", "alt+q").toString().toLower();
+    SearchBarShortCutString = settings->value("/ShortCut/SearchBar", "alw+w").toString().toLower();
+    OCRTextShortCutString = settings->value("/ShortCut/OCRText", "alt+e").toString().toLower();
 
     ChineseNotShow = settings->value("/Custom/ChineseNotShow", true).toBool();
     MainWindowPin = settings->value("/MainWindow/IsPinning", false).toBool();

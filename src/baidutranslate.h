@@ -22,6 +22,7 @@ public:
     QString TranslateText(QString text, float timeleft);
     int ScreenShot();
     QString OCRTranslate(float timeLeft, bool screenshot);
+    QString OCRText(float timeLeft, bool screenshot);
 
 private:
     BaiduTranslate();

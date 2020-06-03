@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow
     bool showTriangle = true;
     class PreviousAction{
         public:
-        enum { PICK, OCR, Search } Action;
+        enum { PICK, OCRTranslate, Search, OCRText } Action;
         QPoint point1, point2;
         QString text1;
     } previousAction;
@@ -51,7 +51,8 @@ class MainWindow : public QMainWindow
   public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
-    void onOCRShortCutPressed(bool screenshot=true);
+    void onOCRTranslateShortCutPressed(bool screenshot=true);
+    void onOCRTextShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
     void onRefreshButtonPressed();
     void onAdjustSize(float zoom, int width);

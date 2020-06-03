@@ -13,14 +13,16 @@ public:
 private:
     std::deque<int> keyCodes;
     std::vector<int> SearchBarShortCut;
-    std::vector<int> ScreenShotShortCut;
+    std::vector<int> OCRTranslateShortCut;
+    std::vector<int> OCRTextShortCut;
 
 public slots:
     void onKeyPressed(int keyCode);
     void onKeyReleased(int keyCode);
 
 signals:
-    void OCRShortCutPressed(bool);
+    void OCRTextShortCutPressed();
+    void OCRTranslateShortCutPressed(bool);
     void SearchBarShortCutPressed();
 };
 

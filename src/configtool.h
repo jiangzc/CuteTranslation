@@ -35,7 +35,8 @@ public:
     int FloatButtonWidth;
     int FloatButtonHeight;
     QString SearchBarShortCutString;
-    QString ScreenShotShortCutString;
+    QString OCRTranslateShortCutString;
+    QString OCRTextShortCutString;
     bool ChineseNotShow;
     float TextTimeout;
     float OCRTimeout;
