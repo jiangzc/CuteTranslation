@@ -283,7 +283,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
 
 }
 
-void MainWindow::onOCRTranslateShortCutPressed(bool screenshot)
+void MainWindow::onOCRTranslateShortCutPressed()
 {
     QString res = BaiduTranslate::instance().OCRTranslate(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
@@ -349,7 +349,7 @@ void MainWindow::onOCRTranslateShortCutPressed(bool screenshot)
 
 void MainWindow::onOCRTextShortCutPressed()
 {
-    QString res = BaiduTranslate::instance().OCRText(configTool->OCRTimeout, true);
+    QString res = BaiduTranslate::instance().OCRText(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
     QEventLoop qel;
@@ -448,13 +448,17 @@ void MainWindow::onRefreshButtonPressed()
     {
         xdotool->eventMonitor.mousePressPosition = previousAction.point1;
         xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
-        this->onOCRTranslateShortCutPressed(false);
+        screenshot = false;
+        this->onOCRTranslateShortCutPressed();
+        screenshot = true;
     }
     else if ( previousAction.Action == PreviousAction::OCRText)
     {
         xdotool->eventMonitor.mousePressPosition = previousAction.point1;
         xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
+        screenshot = false;
         this->onOCRTextShortCutPressed();
+        screenshot = true;
     }
     else if (previousAction.Action == PreviousAction::Search)
     {

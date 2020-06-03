@@ -68,7 +68,7 @@ void ShortCut::onKeyPressed(int keyCode)
                    keyCodes.cbegin() + 3 - int(OCRTranslateShortCut.size())))
     {
         qInfo() << "OCRTranslateShortCut";
-        emit OCRTranslateShortCutPressed(true);
+        emit OCRTranslateShortCutPressed();
     }
     if (std::equal(OCRTextShortCut.cbegin(), OCRTextShortCut.cend(),
                    keyCodes.cbegin() + 3 - int(OCRTextShortCut.size())))

@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
     QObject::connect(&tray.ocr_text_action, &QAction::triggered, &shortcut,  &ShortCut::OCRTextShortCutPressed);
-    QObject::connect(&tray.ocr_translate_action, &QAction::triggered, &shortcut, [&]{shortcut.OCRTranslateShortCutPressed(true);});
+    QObject::connect(&tray.ocr_translate_action, &QAction::triggered, &shortcut, &ShortCut::OCRTranslateShortCutPressed);
     QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, &SystemTrayIcon::OnModeChanged);
 
     QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{

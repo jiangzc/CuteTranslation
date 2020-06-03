@@ -43,6 +43,7 @@ class MainWindow : public QMainWindow
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
     void htmlParser(QString &res);
+    bool screenshot = true;
 
   signals:
     void gotHeight();
@@ -51,7 +52,7 @@ class MainWindow : public QMainWindow
   public slots:
     void onMouseButtonPressed(int x, int y);
     void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
-    void onOCRTranslateShortCutPressed(bool screenshot=true);
+    void onOCRTranslateShortCutPressed();
     void onOCRTextShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
     void onRefreshButtonPressed();

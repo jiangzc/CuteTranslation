@@ -22,7 +22,7 @@ public slots:
 
 signals:
     void OCRTextShortCutPressed();
-    void OCRTranslateShortCutPressed(bool);
+    void OCRTranslateShortCutPressed();
     void SearchBarShortCutPressed();
 };
 
