@@ -7,12 +7,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QUrlQuery>
+#include <QProcess>
 #include <QTimer>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <errno.h>
 #include "baidutranslate.h"
 #include "configtool.h"
 #include <cmath>
@@ -105,83 +101,22 @@ QString BaiduTranslate::langDetect(QString query)
 
 QString BaiduTranslate::getSign(QString query)
 {
+    QProcess nodejs;
+    QStringList args;
+    args << appDir.absoluteFilePath("baidu.js") << query << gtk;
+    nodejs.start("nodejs", args);
+    nodejs.waitForFinished(2000);
+
     QString result;
-    int pipes[2];
-    pid_t pid;
-    if (pipe(pipes) == 0)
-    {
-        if (fcntl(pipes[0], F_SETFL, O_NONBLOCK) < 0) // 非阻塞读取
-            exit(1);
-
-        qInfo() << appDir.absoluteFilePath("baidu.js").toUtf8().data() <<
-            query.toUtf8().data() << gtk.toUtf8().data();
-        pid = fork();
-        if (pid < 0)
-        {
-            perror("cannot fork.\n");
-            exit(2);
-        }
-        else if (pid == 0)
-        {
-            // sub process
-
-            // redirect stdout to the pipe
-            close(1);
-            dup(pipes[1]);
-            close(pipes[0]);
-            close(pipes[1]);
-
-            execlp("nodejs", "nodejs", appDir.absoluteFilePath("baidu.js").toUtf8().data(),
-                   query.toUtf8().data(), gtk.toUtf8().data(), nullptr);
-        }
-        else
-        {
-            long nread = 0;
-            char buf[100];
-            close(pipes[1]);
-            double timeout = 2;
-            while(timeout > 0)
-            {
-                nread = read(pipes[0], buf, 100);
-                switch (nread)
-                {
-                    case -1:
-                        if (errno == EAGAIN)
-                        {
-                            usleep(50 * 1000);
-                            timeout -= 0.05;
-                        }
-                        else
-                        {
-                            perror("fail to read from pipe.\n");
-                            return QString();
-                        }
-                        break;
-                    case 0:
-                        timeout = -1; // 正常结束
-                        break;
-                    default:
-                        buf[nread] = '\0';
-                        result += buf;
-                        timeout -= 0.05;
-                }
-            }
-            if (fabs(timeout - -1) > 1e-6)
-            {
-                qInfo() << "get sign timeout";
-            }
-
-            close(pipes[0]);
-            int status;
-            waitpid(-1, &status, WNOHANG);
-            return result.trimmed();
-        }
-    }
+    if (nodejs.state() == QProcess::NotRunning && nodejs.exitStatus() == QProcess::NormalExit && nodejs.exitCode() == 0)
+        result = nodejs.readAll().trimmed();
     else
     {
-        perror("fail to create pipe.\n");
+        qWarning() << "get sign error";
+        nodejs.terminate();
     }
-    return QString(""); // if failed
+
+    return result;
 }
 
 QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, float timeLeft)
