@@ -5,7 +5,6 @@
 #include "xdotool.h"
 #include <algorithm>
 
-extern QString OCRTranslate();
 
 ShortCut::ShortCut()
 {

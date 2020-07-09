@@ -9,6 +9,8 @@
 #include <QPushButton>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QStackedWidget>
+#include <QTextEdit>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -25,7 +27,7 @@ extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
 // extern QString TranslateText(QString word, float timeLeft);
-extern QString OCRTranslate(float timeLeft, bool screenshot=true);
+// extern QString OCRTranslate(float timeLeft, bool screenshot=true);
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
@@ -33,42 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(configTool->GetMainWindowWidth(), configTool->MainWindowHeight);
-
-    // 浏览器控件
-    view = new QWebEngineView(this->centralWidget());
-    view->setZoomFactor(qreal(configTool->GetWebPageZoomFactor()));
-    view->setGeometry(10,10, width() - 30 , height() - 30);
-
-    // 当页面加载完成后，获取html页面高度调整自身高度
-    connect(view, &QWebEngineView::loadFinished, this, [=]{
-        view->page()->runJavaScript("document.body.offsetHeight;",[=](QVariant result){
-            int newHeight = int(result.toFloat() * configTool->GetWebPageZoomFactor() + 10);
-            view->setFixedHeight(newHeight);
-            this->setFixedHeight(newHeight + 30);
-            emit gotHeight();
-        });
-    });
-
-    // 读取html模板
-
-    QFile file(appDir.filePath("interpret_js_1.html"));
-    if (!file.open(QFile::ReadOnly | QFile::Text))
-        qInfo() << "fail to open";
-    QTextStream in(&file);
-    this->html1 = in.readAll();
-    file.close();
-
-    file.setFileName(appDir.filePath("interpret_js_2.html"));
-    if (!file.open(QFile::ReadOnly | QFile::Text))
-        qInfo() << "fail to open";
-    in.setDevice(&file);
-    this->html2 = in.readAll();
-    file.close();
-
-    // 否则第一次 document.body.offsetHeight 有问题。奇怪的bug
-    this->show();
-    this->hide();
+    setFixedSize(configTool->GetMainWindowWidth(), configTool->MainWindowHeight); // MainWindowHeight 过时，无效参数
 
 
     // 关闭按钮
@@ -133,6 +100,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(newLineButton, &QPushButton::clicked, this, [=](bool checked){
         picker->ignoreCRLF = checked;
     });
+
+    // 翻译内容
+    stackWidget = new QStackedWidget(this);
+    stackWidget->setGeometry(0, 40, this->width(), 100);
+
+    // 长文本翻译 控件
+    QTextEdit *textEdit = new QTextEdit;
+    stackWidget->addWidget(textEdit);
+    textEdit->setText("123");
+
+
 }
 
 MainWindow::~MainWindow()
@@ -276,7 +254,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     }
     move(mid);
     showTriangle = true;
-    previousAction.Action = PreviousAction::PICK;
+    previousAction.Action = CuteAction::PICK;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
     this->show();
@@ -341,7 +319,7 @@ void MainWindow::onOCRTranslateShortCutPressed()
     move(mid);
     this->show();
     showTriangle = true;
-    previousAction.Action = PreviousAction::OCRTranslate;
+    previousAction.Action = CuteAction::OCRTranslate;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
     this->activateWindow();
@@ -405,7 +383,7 @@ void MainWindow::onOCRTextShortCutPressed()
     move(mid);
     this->show();
     showTriangle = true;
-    previousAction.Action = PreviousAction::OCRText;
+    previousAction.Action = CuteAction::OCRText;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
     this->activateWindow();
@@ -430,7 +408,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
         mid.ry() = pos.y() - this->height();
     }
     move(mid);
-    previousAction.Action = PreviousAction::Search;
+    previousAction.Action = CuteAction::Search;
     previousAction.point1 = pos;
     previousAction.point2 = size;
     previousAction.text1 = text;
@@ -440,11 +418,11 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 
 void MainWindow::onRefreshButtonPressed()
 {
-    if (previousAction.Action == PreviousAction::PICK)
+    if (previousAction.Action == CuteAction::PICK)
     {
         this->onFloatButtonPressed(previousAction.point1, previousAction.point2);
     }
-    else if ( previousAction.Action == PreviousAction::OCRTranslate)
+    else if ( previousAction.Action == CuteAction::OCRTranslate)
     {
         xdotool->eventMonitor.mousePressPosition = previousAction.point1;
         xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
@@ -452,7 +430,7 @@ void MainWindow::onRefreshButtonPressed()
         this->onOCRTranslateShortCutPressed();
         screenshot = true;
     }
-    else if ( previousAction.Action == PreviousAction::OCRText)
+    else if ( previousAction.Action == CuteAction::OCRText)
     {
         xdotool->eventMonitor.mousePressPosition = previousAction.point1;
         xdotool->eventMonitor.mouseReleasedPosition = previousAction.point2;
@@ -460,7 +438,7 @@ void MainWindow::onRefreshButtonPressed()
         this->onOCRTextShortCutPressed();
         screenshot = true;
     }
-    else if (previousAction.Action == PreviousAction::Search)
+    else if (previousAction.Action == CuteAction::Search)
     {
         this->onSearchBarReturned(previousAction.point1, previousAction.point2, previousAction.text1);
     }
@@ -468,44 +446,44 @@ void MainWindow::onRefreshButtonPressed()
 
 void MainWindow::htmlParser(QString &res)
 {
-    if (res.startsWith("{"))
-    {
-        QString text = "null";
-        QJsonParseError error;
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
-        if (error.error == QJsonParseError::NoError)
-        {
-            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
-            {
-                text = jsonDocument.object()["word_name"].toString();
-            }
-        }
-        else
-        {
-            // 检查错误类型
-        }
-        QString html = this->html2;
-        html.replace("\"{0}\"", res);
-        html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
-        html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
-    else if(res.isEmpty())
-    {
-        return;
-    }
-    else
-    {
-        QString html = this->html1;
-        this->view->setHtml(html.replace("\"{0}\"", res));
-    }
+//    if (res.startsWith("{"))
+//    {
+//        QString text = "null";
+//        QJsonParseError error;
+//        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
+//        if (error.error == QJsonParseError::NoError)
+//        {
+//            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
+//            {
+//                text = jsonDocument.object()["word_name"].toString();
+//            }
+//        }
+//        else
+//        {
+//            // 检查错误类型
+//        }
+//        QString html = this->html2;
+//        html.replace("\"{0}\"", res);
+//        html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
+//        html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
+//        this->view->setHtml(html.replace("\"{0}\"", res));
+//    }
+//    else if(res.isEmpty())
+//    {
+//        return;
+//    }
+//    else
+//    {
+//        QString html = this->html1;
+//        this->view->setHtml(html.replace("\"{0}\"", res));
+//    }
 }
 
 void MainWindow::onAdjustSize(float zoom, int width)
 {
-    this->view->setZoomFactor(qreal(zoom));
-    this->setFixedWidth(width);
-    this->view->setFixedWidth(width - 30);
+//    this->view->setZoomFactor(qreal(zoom));
+//    this->setFixedWidth(width);
+//    this->view->setFixedWidth(width - 30);
     this->show();
     this->hide();
 }
