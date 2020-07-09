@@ -2,11 +2,7 @@
 sudo apt install libqt5widgets5 libqt5x11extras5 libqt5network5 libqt5core5a libqt5gui5
 sudo apt install libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5
 
-# sudo apt install qtwebengine5-dev
 
 # JS 运行库
 sudo apt install nodejs
 
-pip3 install PyExecJS
-pip3 install requests
-# pip 镜像 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
