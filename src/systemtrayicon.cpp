@@ -1,13 +1,13 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QUrl>
-#include <QMessageBox>
 #include <QDir>
 #include <QProcess>
 #include "systemtrayicon.h"
 #include "shortcut.h"
 #include "xdotool.h"
 #include "configtool.h"
+#include "messagebox.h"
 #include "errno.h"
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
@@ -68,12 +68,12 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
 
     connect(&donate_action, &QAction::triggered, this, []{
         QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation#%E6%8D%90%E8%B5%A0"));
-        QMessageBox::information(nullptr, "提示", "已在浏览器中打开网页");
+        MessageBox::information("提示", "已在浏览器中打开网页");
     });
 
     connect(&homepage_action, &QAction::triggered, this, []{
         QDesktopServices::openUrl(QUrl("https://github.com/jiangzc/CuteTranslation"));
-        QMessageBox::information(nullptr, "提示", "已在浏览器中打开网页");
+        MessageBox::information("提示", "已在浏览器中打开网页");
     });
 
     connect(&help_action, &QAction::triggered, this, []{
@@ -87,12 +87,12 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
                         QDir::homePath() + "/.config/autostart/CuteTranslation.desktop");
             if (res)
             {
-                QMessageBox::information(nullptr, "提示", "添加成功");
+                MessageBox::information("提示", "添加成功");
                 this->autostart_action.setText("✓ 开机启动");
             }
             else
             {
-                QMessageBox::warning(nullptr, "提示", "无法添加 " + QString::number(res));
+                MessageBox::information("提示", "无法添加 " + QString::number(res));
             }
         }
         else
@@ -100,12 +100,12 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
             int res = QFile::remove(QDir::homePath() + "/.config/autostart/CuteTranslation.desktop");
             if (res)
             {
-                QMessageBox::information(nullptr, "提示", "取消成功");
+                MessageBox::information("提示", "取消成功");
                 this->autostart_action.setText("开机启动");
             }
             else
             {
-                QMessageBox::warning(nullptr, "提示", "无法取消 " + QString::number(res));
+                MessageBox::information("提示", "无法取消 " + QString::number(res));
             }
         }
     });

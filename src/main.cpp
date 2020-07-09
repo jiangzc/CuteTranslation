@@ -4,8 +4,7 @@
 #include <QFile>
 #include <QVector>
 #include <QTime>
-#include <QMessageBox>
-#include <iostream>
+
 
 #include "floatbutton.h"
 #include "xdotool.h"

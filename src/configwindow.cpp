@@ -2,7 +2,7 @@
 #include <QComboBox>
 #include <QMenu>
 #include <QDebug>
-#include <QMessageBox>
+#include "messagebox.h"
 #include "configtool.h"
 #include "configwindow.h"
 #include "ui_configwindow.h"
@@ -68,7 +68,7 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
             configTool->SetMainWindowWidth(width);
             emit SizeChanged(zoom, width);
             this->hide();
-            QMessageBox::information(nullptr, "提示", "请重新启动程序");
+            MessageBox::information("提示", "请重新启动程序");
         }
     });
 

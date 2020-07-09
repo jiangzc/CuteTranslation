@@ -1,5 +1,8 @@
 #include <QFont>
 #include "messagebox.h"
+#include "xdotool.h"
+
+
 
 MessageBox::MessageBox(QWidget *parent) : QDialog(parent), m_label(this), m_pushButton(this)
 {
@@ -16,10 +19,22 @@ MessageBox::MessageBox(QWidget *parent) : QDialog(parent), m_label(this), m_push
     connect(&m_pushButton, &QPushButton::clicked, this, &QDialog::done);
 
     resize(500, 200);
+    this->move((xdotool->screenWidth - this->width()) / 2, (xdotool->screenHeight - this->height()) / 2);
+
 
 }
 
-void MessageBox::setText(QString text)
+void MessageBox::setText(const QString &text)
 {
     m_label.setText(text);
 }
+
+void MessageBox::information(const QString &title, const QString &text)
+{
+    static MessageBox msg;
+    msg.setWindowTitle(title);
+    msg.setText(text);
+    msg.show();
+}
+
+

@@ -10,10 +10,13 @@ class MessageBox : public QDialog
     Q_OBJECT
 public:
     explicit MessageBox(QWidget *parent = nullptr);
-    void setText(QString text);
+    void setText(const QString &text);
+    static void information(const QString &title, const QString &text);
+
 private:
     QLabel m_label;
     QPushButton m_pushButton;
+
 signals:
 
 public slots:
