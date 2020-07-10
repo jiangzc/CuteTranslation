@@ -44,9 +44,6 @@ class MainWindow : public QMainWindow
     void htmlParser(QString &res);
     bool screenshot = true;
 
-  signals:
-    void gotHeight();
-
 
   public slots:
     void onMouseButtonPressed(int x, int y);

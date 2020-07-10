@@ -201,8 +201,7 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-    QEventLoop qel;
-    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+
     // 获取翻译
     QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
     QString res_short = res;
@@ -210,7 +209,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     qInfo() << res_short << "...";
     htmlParser(res);
     // 等待页面加载完成
-    qel.exec();
+
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool->Direction;
     TriangleOffset = 0;
@@ -266,14 +265,13 @@ void MainWindow::onOCRTranslateShortCutPressed()
     QString res = BaiduTranslate::instance().OCRTranslate(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
-    QEventLoop qel;
-    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
     htmlParser(res);
     // 等待页面加载完成
-    qel.exec();
+
 
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool->Direction;
@@ -330,14 +328,13 @@ void MainWindow::onOCRTextShortCutPressed()
     QString res = BaiduTranslate::instance().OCRText(configTool->OCRTimeout, screenshot);
     QPoint mousePressPosition = xdotool->eventMonitor.mousePressPosition;
     QPoint mouseReleasedPosition = xdotool->eventMonitor.mouseReleasedPosition;
-    QEventLoop qel;
-    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
     htmlParser(res);
     // 等待页面加载完成
-    qel.exec();
+
 
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool->Direction;
@@ -391,12 +388,11 @@ void MainWindow::onOCRTextShortCutPressed()
 
 void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 {
-    QEventLoop qel;
-    connect(this, &MainWindow::gotHeight, &qel, &QEventLoop::quit);
+
     QString res = BaiduTranslate::instance().TranslateText(text, configTool->TextTimeout);
     htmlParser(res);
     // 等待页面加载完成
-    qel.exec();
+
 
     this->showTriangle = false;
     QPoint mid;
