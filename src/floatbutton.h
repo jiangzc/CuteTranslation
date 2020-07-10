@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QMenu>
 #include <QString>
-#include "mainwindow.h"
 
 
 namespace Ui

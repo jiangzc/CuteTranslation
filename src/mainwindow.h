@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QPushButton>
 
-#include "configtool.h"
-#include "picker.h"
 
 class QStackedWidget;
 

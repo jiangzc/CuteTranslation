@@ -6,7 +6,10 @@
 #include <QMenu>
 #include <QAction>
 
+#include "configtool.h"
+#include "picker.h"
 #include "floatbutton.h"
+
 #include "ui_floatbutton.h"
 #include "xdotool.h"
 

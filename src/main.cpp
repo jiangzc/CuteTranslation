@@ -5,8 +5,8 @@
 #include <QVector>
 #include <QTime>
 
-
-
+#include "picker.h"
+#include "mainwindow.h"
 #include "floatbutton.h"
 #include "xdotool.h"
 #include "systemtrayicon.h"

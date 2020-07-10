@@ -17,6 +17,7 @@
 #include "ui_mainwindow.h"
 #include "xdotool.h"
 #include "picker.h"
+#include "configtool.h"
 #include "baidutranslate.h"
 
 // Why does “extern const int n;” not work as expected?
