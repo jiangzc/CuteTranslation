@@ -1,4 +1,6 @@
 #include <QCoreApplication>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QDir>
 #include <QString>
 #include <QByteArray>

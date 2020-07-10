@@ -1,8 +1,7 @@
 #ifndef BAIDUTRANSLATE_H
 #define BAIDUTRANSLATE_H
 
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+class QNetworkAccessManager;
 #include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
