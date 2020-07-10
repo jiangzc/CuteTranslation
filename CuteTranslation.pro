@@ -57,7 +57,6 @@ HEADERS += \
 
 FORMS += \
         src/configwindow.ui \
-        src/floatbutton.ui \
         src/mainwindow.ui \
         src/searchbar.ui
 

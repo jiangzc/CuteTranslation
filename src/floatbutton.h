@@ -27,7 +27,6 @@ class FloatButton : public QWidget
     void floatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
 
   private:
-    Ui::FloatButton *ui;
     QMenu floatButtonMenu;
     QAction notShow;
     QPoint mousePressPosition;

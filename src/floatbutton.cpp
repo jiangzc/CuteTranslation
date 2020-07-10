@@ -16,10 +16,8 @@
 extern const int Direction_Up;
 extern const int Direction_Down;
 
-FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
-                                            ui(new Ui::FloatButton)
+FloatButton::FloatButton(QWidget *parent) : QWidget(parent)
 {
-    ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     this->setFixedSize(configTool->FloatButtonWidth, configTool->FloatButtonHeight);
@@ -48,7 +46,7 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent),
 
 FloatButton::~FloatButton()
 {
-    delete ui;
+
 }
 
 void FloatButton::onMouseButtonPressed(int x, int y)
