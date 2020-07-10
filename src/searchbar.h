@@ -1,10 +1,11 @@
 #ifndef SEARCHBAR_H
 #define SEARCHBAR_H
 
-#include <QPushButton>
+class QLabel;
+class QPushButton;
+
 #include <QWidget>
 #include <QPoint>
-#include <QLabel>
 
 
 namespace Ui {

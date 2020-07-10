@@ -2,6 +2,8 @@
 #include <QPoint>
 #include <QDebug>
 #include <QIcon>
+#include <QLabel>
+#include <QPushButton>
 
 #include "searchbar.h"
 #include "ui_searchbar.h"

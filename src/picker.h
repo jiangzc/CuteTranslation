@@ -23,7 +23,8 @@
 #ifndef PICKER_H
 #define PICKER_H
 
-#include <QClipboard>
+class QClipboard;
+
 #include <QObject>
 #include <QString>
 #include <QTime>

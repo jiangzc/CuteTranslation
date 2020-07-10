@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QClipboard>
 #include <QDebug>
 #include "picker.h"
 #include "xdotool.h"
