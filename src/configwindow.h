@@ -2,7 +2,6 @@
 #define CONFIGWINDOW_H
 
 #include <QWidget>
-#include <QStringListModel>
 #include <QMenu>
 
 

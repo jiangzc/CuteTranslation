@@ -1,4 +1,5 @@
 #include <QCloseEvent>
+#include <QStringListModel>
 #include <QComboBox>
 #include <QMenu>
 #include <QDebug>
