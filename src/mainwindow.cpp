@@ -11,7 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStackedWidget>
-#include <QTextEdit>
+#include <QLabel>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -106,13 +106,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     });
 
     // 翻译内容
-    stackWidget = new QStackedWidget(this);
-    stackWidget->setGeometry(0, 40, this->width(), 100);
+    stackWidget = new QStackedWidget(this->centralWidget());
+    stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 40 );
 
     // 长文本翻译 控件
-    QTextEdit *textEdit = new QTextEdit;
-    stackWidget->addWidget(textEdit);
-    textEdit->setText("123");
+    textLabel = new QLabel;
+    stackWidget->addWidget(textLabel);
+    QFont textFont("Noto Sans CJK SC Regular");
+    textFont.setPixelSize(int(20 * zoom));
+
+    textLabel->setContentsMargins(10, 10, 10, 0);
+    textLabel->setFrameShape(QFrame::NoFrame);
+    textLabel->setFont(textFont);
+    textLabel->setWordWrap(true);
+    textLabel->setFixedWidth(stackWidget->width());
+    textLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
 
 }
@@ -211,7 +219,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
-    htmlParser(res);
+    resultParser(CuteAction::PICK, res);
     // 等待页面加载完成
 
     // 获取默认方向向 重置三角形偏移量
@@ -273,7 +281,7 @@ void MainWindow::onOCRTranslateShortCutPressed()
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
-    htmlParser(res);
+    resultParser(CuteAction::OCRTranslate, res);
     // 等待页面加载完成
 
 
@@ -336,7 +344,7 @@ void MainWindow::onOCRTextShortCutPressed()
     QString res_short = res;
     res_short.truncate(30);
     qInfo() << res_short << "...";
-    htmlParser(res);
+    resultParser(CuteAction::OCRText, res);
     // 等待页面加载完成
 
 
@@ -394,7 +402,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
 {
 
     QString res = BaiduTranslate::instance().TranslateText(text, configTool->TextTimeout);
-    htmlParser(res);
+    resultParser(CuteAction::Search, res);
     // 等待页面加载完成
 
 
@@ -444,8 +452,16 @@ void MainWindow::onRefreshButtonPressed()
     }
 }
 
-void MainWindow::htmlParser(QString &res)
+void MainWindow::resultParser(CuteAction action, QString &res)
 {
+    qDebug() << res;
+    textLabel->setText(res);
+    textLabel->adjustSize();
+    int height = textLabel->heightForWidth(textLabel->width());
+
+    this->stackWidget->setFixedHeight(height);
+    this->setFixedHeight(stackWidget->y() + height + 40);
+    qDebug() << "height " << height;
 //    if (res.startsWith("{"))
 //    {
 //        QString text = "null";

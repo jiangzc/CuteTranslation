@@ -6,6 +6,7 @@
 
 
 class QStackedWidget;
+class QLabel;
 
 enum CuteAction { PICK, OCRTranslate, Search, OCRText } ;
 
@@ -25,6 +26,7 @@ class MainWindow : public QMainWindow
     Ui::MainWindow *ui;
     virtual void paintEvent(QPaintEvent *event);
     QStackedWidget *stackWidget;
+    QLabel *textLabel;
     const int TriangleHeight;
     const int TriangleWidth;
     int TriangleOffset = 0;
@@ -39,7 +41,7 @@ class MainWindow : public QMainWindow
     } previousAction;
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
-    void htmlParser(QString &res);
+    void resultParser(CuteAction action, QString &res);
     bool screenshot = true;
 
 
