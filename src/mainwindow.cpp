@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QtMath>
+#include <QDir>
 #include <QFile>
 #include <QTextStream>
 #include <QEventLoop>
@@ -27,11 +28,13 @@ extern const int Direction_Up;
 extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
-// extern QString TranslateText(QString word, float timeLeft);
-// extern QString OCRTranslate(float timeLeft, bool screenshot=true);
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
-                                          ui(new Ui::MainWindow)
+                                          ui(new Ui::MainWindow),
+    TriangleHeight(configTool->TriangleHeight),
+    TriangleWidth(configTool->TriangleWidth)
+
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);

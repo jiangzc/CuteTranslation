@@ -25,8 +25,8 @@ class MainWindow : public QMainWindow
     Ui::MainWindow *ui;
     virtual void paintEvent(QPaintEvent *event);
     QStackedWidget *stackWidget;
-    const int TriangleHeight = configTool->TriangleHeight;
-    const int TriangleWidth = configTool->TriangleWidth;
+    const int TriangleHeight;
+    const int TriangleWidth;
     int TriangleOffset = 0;
     int Direction;
     float zoom = 1.0;
