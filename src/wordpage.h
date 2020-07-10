@@ -19,7 +19,7 @@ public:
     QLabel *leftAudioLabel;
     QLabel *rightAudioLabel;
     QVBoxLayout *mainlayout;
-    void updateDescription(QJsonObject obj);
+    void updateDescription(const QJsonObject &obj);
 private:
     QVector<QHBoxLayout*> descriptions;
     QVector<QLabel *> tags;

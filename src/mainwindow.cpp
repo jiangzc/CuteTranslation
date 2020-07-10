@@ -461,45 +461,48 @@ void MainWindow::onRefreshButtonPressed()
 
 void MainWindow::resultParser(CuteAction action, QString &res)
 {
-    qDebug() << res;
-    textLabel->setText(res);
-    textLabel->adjustSize();
-    int height = textLabel->heightForWidth(textLabel->width());
+//    qDebug() << res;
+//    textLabel->setText(res);
+//    textLabel->adjustSize();
+//    int height = textLabel->heightForWidth(textLabel->width());
 
-    // this->stackWidget->setFixedHeight(height);
-    this->setFixedHeight(stackWidget->y() + height + 40);
-    qDebug() << "height " << height;
-//    if (res.startsWith("{"))
-//    {
-//        QString text = "null";
-//        QJsonParseError error;
-//        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
-//        if (error.error == QJsonParseError::NoError)
-//        {
-//            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
-//            {
-//                text = jsonDocument.object()["word_name"].toString();
-//            }
-//        }
-//        else
-//        {
-//            // 检查错误类型
-//        }
-//        QString html = this->html2;
-//        html.replace("\"{0}\"", res);
-//        html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
-//        html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
-//        this->view->setHtml(html.replace("\"{0}\"", res));
-//    }
-//    else if(res.isEmpty())
-//    {
-//        return;
-//    }
-//    else
-//    {
-//        QString html = this->html1;
-//        this->view->setHtml(html.replace("\"{0}\"", res));
-//    }
+//    this->stackWidget->setFixedHeight(height);
+//    this->setFixedHeight(stackWidget->y() + height + 40);
+//    qDebug() << "height " << height;
+
+
+    if (res.startsWith("{"))
+    {
+        QString text = "null";
+        QJsonParseError error;
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
+        if (error.error == QJsonParseError::NoError)
+        {
+            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
+            {
+
+            }
+        }
+        else
+        {
+            // 检查错误类型
+        }
+
+       // html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
+       // html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
+       // this->view->setHtml(html.replace("\"{0}\"", res));
+        stackWidget->setCurrentIndex(1);
+        wordPage->updateDescription(jsonDocument.object());
+    }
+    else if(res.isEmpty())
+    {
+        return;
+    }
+    else
+    {
+       // QString html = this->html1;
+       // this->view->setHtml(html.replace("\"{0}\"", res));
+    }
 }
 
 void MainWindow::onAdjustSize(float zoom, int width)

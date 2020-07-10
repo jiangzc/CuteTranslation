@@ -5,18 +5,14 @@
 #include <QHBoxLayout>
 #include <QColor>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QDebug>
 
 
 
 WordPage::WordPage()
 {
     initUI();
-    QJsonObject obj;
-    obj["n."]= "aaaa aaaa aaaa aaaa aaaa aaaa aaaa aaaa aaaa ";
-    obj["an."]= "aaaa";
-    obj["dn."]= "aaaa";
-    updateDescription(obj);
-    resize(200, this->heightForWidth(200));
 }
 
 void WordPage::initUI()
@@ -88,41 +84,64 @@ void WordPage::initUI()
         tag->setAutoFillBackground(true);
         tags.append(tag);
     }
+    mainlayout->insertSpacing(2, 10);
+    mainlayout->insertLayout(3, tagslayout);
     mainlayout->addStretch();
     this->adjustSize();
 
 
 }
 
-void WordPage::updateDescription(QJsonObject obj)
+void WordPage::updateDescription(const QJsonObject &obj)
 {
     for (auto item : descriptions)
     {
+        // NOTE THIS
+        // 从布局管理器移除元素，元素会显示在它的父控件上，所以这里要把它隐藏起来
+        // 布局管理器只控制大小和位置，remove不改变可见性。
         mainlayout->removeItem(item);
+        item->itemAt(0)->widget()->hide();
+        item->itemAt(1)->widget()->hide();
     }
     for (auto item : tags)
     {
         tagslayout->removeWidget(item);
+        item->hide();
     }
 
-    auto keys = obj.keys();
     int i;
-    for (i = 0; i < 10 && i < obj.count(); i++)
-    {
-        QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
-        type->setText(keys[i]);
-        QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
-        desc->setText(obj.value(keys[i]).toString());
-        mainlayout->insertLayout(2 + i, descriptions[i]);
-    }
-    mainlayout->insertSpacing(2+i, 10);
-    i++;
+    QJsonObject symbols = obj["symbols"].toArray().at(0).toObject();
+    leftAudioLabel->setText("英 [ " + symbols["ph_en"].toString() + " ]");
+    rightAudioLabel->setText("美 [ " + symbols["ph_am"].toString() + " ]");
 
-    mainlayout->insertLayout(2 + i, tagslayout);
-    for (i = 0; i < 10 ; i++)
+    QJsonArray parts = symbols["parts"].toArray();
+    for (i = 0; i < 10 && i < parts.count(); i++)
     {
-        tagslayout->addWidget(tags[i]);
+        QJsonObject item = parts[i].toObject();
+        QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
+        type->setText(item["part"].toString());
+        QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
+        QString res;
+        for (const auto mean : item["means"].toArray())
+            res.append(mean.toString() + "，");
+        res.remove(res.count() - 1, 1);
+        desc->setText(res);
+        mainlayout->insertLayout(2 + i, descriptions[i]);
+        type->show();
+        desc->show();
     }
+
+
+//    i += 2;
+
+
+//    for (i = 0; i < 10 ; i++)
+//    {
+//        tagslayout->addWidget(tags[i]);
+//    }
+
+    this->update();
+    mainlayout->update();
 
 }
 
