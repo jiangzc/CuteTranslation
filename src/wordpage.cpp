@@ -65,7 +65,7 @@ void WordPage::initUI()
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
         descriptions.append(l);
-        // mainlayout->addLayout(l);
+        mainlayout->addLayout(l); // 11
     }
 
     // init tags
@@ -82,11 +82,13 @@ void WordPage::initUI()
         tag->setContentsMargins(5, 3, 5, 3);
         tag->setPalette(palette);
         tag->setAutoFillBackground(true);
+        tagslayout->addWidget(tag);
         tags.append(tag);
     }
-    mainlayout->insertSpacing(2, 10);
-    mainlayout->insertLayout(3, tagslayout);
+    mainlayout->insertSpacing(12, 10);
+    mainlayout->insertLayout(13, tagslayout);
     mainlayout->addStretch();
+
     this->adjustSize();
 
 
@@ -105,17 +107,18 @@ void WordPage::updateDescription(const QJsonObject &obj)
     }
     for (auto item : tags)
     {
-        tagslayout->removeWidget(item);
+        // tagslayout->removeWidget(item);
         item->hide();
     }
 
-    int i;
+    titleLabel->setText(obj["word_name"].toString());
+
     QJsonObject symbols = obj["symbols"].toArray().at(0).toObject();
     leftAudioLabel->setText("英 [ " + symbols["ph_en"].toString() + " ]");
     rightAudioLabel->setText("美 [ " + symbols["ph_am"].toString() + " ]");
 
     QJsonArray parts = symbols["parts"].toArray();
-    for (i = 0; i < 10 && i < parts.count(); i++)
+    for (int i = 0; i < 10 && i < parts.count(); i++)
     {
         QJsonObject item = parts[i].toObject();
         QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
@@ -131,14 +134,23 @@ void WordPage::updateDescription(const QJsonObject &obj)
         desc->show();
     }
 
-
-//    i += 2;
-
-
-//    for (i = 0; i < 10 ; i++)
-//    {
-//        tagslayout->addWidget(tags[i]);
-//    }
+    int i = 0;
+    for (auto item : obj["tags"].toObject()["core"].toArray())
+    {
+        if (i >= 10 || item.toString().isEmpty())
+            break;
+        tags[i]->setText(item.toString());
+        tags[i++]->show();
+        qDebug() << item.toString();
+    }
+    for (auto item : obj["tags"].toObject()["other"].toArray())
+    {
+        if (i >= 10 || item.toString().isEmpty())
+            break;
+        tags[i]->setText(item.toString());
+        tags[i++]->show();
+        qDebug() << item.toString();
+    }
 
     this->update();
     mainlayout->update();
