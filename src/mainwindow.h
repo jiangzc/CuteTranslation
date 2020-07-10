@@ -7,6 +7,7 @@
 
 class QStackedWidget;
 class QLabel;
+class WordPage;
 
 enum CuteAction { PICK, OCRTranslate, Search, OCRText } ;
 
@@ -27,6 +28,7 @@ class MainWindow : public QMainWindow
     virtual void paintEvent(QPaintEvent *event);
     QStackedWidget *stackWidget;
     QLabel *textLabel;
+    WordPage *wordPage;
     const int TriangleHeight;
     const int TriangleWidth;
     int TriangleOffset = 0;

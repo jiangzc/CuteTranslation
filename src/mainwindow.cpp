@@ -20,6 +20,7 @@
 #include "picker.h"
 #include "configtool.h"
 #include "baidutranslate.h"
+#include "wordpage.h"
 
 // Why does “extern const int n;” not work as expected?
 // https://stackoverflow.com/questions/14894698/why-does-extern-const-int-n-not-work-as-expected
@@ -121,6 +122,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     textLabel->setWordWrap(true);
     textLabel->setFixedWidth(stackWidget->width());
     textLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    // 单词翻译界面 控件
+    wordPage = new WordPage;
+    stackWidget->addWidget(wordPage);
+
+    stackWidget->setCurrentIndex(0);
 
 
 }
@@ -459,7 +466,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
     textLabel->adjustSize();
     int height = textLabel->heightForWidth(textLabel->width());
 
-    this->stackWidget->setFixedHeight(height);
+    // this->stackWidget->setFixedHeight(height);
     this->setFixedHeight(stackWidget->y() + height + 40);
     qDebug() << "height " << height;
 //    if (res.startsWith("{"))

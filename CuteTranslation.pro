@@ -27,6 +27,7 @@ PKGCONFIG += xcb xcb-util
 LIBS += -lX11 -lXext -lXtst
 
 SOURCES += \
+        src/flowlayout.cpp \
         src/messagebox.cpp \
         src/baidutranslate.cpp \
         src/configtool.cpp \
@@ -39,9 +40,11 @@ SOURCES += \
         src/searchbar.cpp \
         src/shortcut.cpp \
         src/systemtrayicon.cpp \
+        src/wordpage.cpp \
         src/xdotool.cpp
 
 HEADERS += \
+        src/flowlayout.h \
         src/messagebox.h \
         src/baidutranslate.h \
         src/configtool.h \
@@ -53,6 +56,7 @@ HEADERS += \
         src/searchbar.h \
         src/shortcut.h \
         src/systemtrayicon.h \
+        src/wordpage.h \
         src/xdotool.h
 
 FORMS += \
