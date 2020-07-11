@@ -26,21 +26,32 @@ void WordPage::initUI()
     leftAudioLabel = new QLabel;
     rightAudioLabel = new QLabel;
     mainlayout = new QVBoxLayout;
-    this->setLayout(mainlayout);
 
+    QFont font("Noto Sans CJK SC Regular");
 
+    font.setWeight(QFont::DemiBold);
 
-    mainlayout->insertWidget(0, titleLabel);
     titleLabel->setText("Title");
-    titleLabel->setFont(QFont("Noto Sans CJK SC Regular", 14));
+    font.setPixelSize(24);
+    titleLabel->setFont(font);
+    mainlayout->insertWidget(0, titleLabel);
+
+    font.setWeight(QFont::Normal);
+
     QHBoxLayout *audioLayout = new QHBoxLayout();
     audioLayout->addWidget(leftAudioLabel);
     leftAudioLabel->setText("comment1");
-    //audioLayout->addStretch();
+
     audioLayout->addWidget(rightAudioLabel);
     rightAudioLabel->setText("comment2");
     mainlayout->insertLayout(1, audioLayout);
-    this->adjustSize();
+
+    font.setPixelSize(20);
+
+    leftAudioLabel->setFont(font);
+    rightAudioLabel->setFont(font);
+
+
     palette =  titleLabel->palette();
     palette.setColor(QPalette::WindowText, QColor(88,86,83));
     // init descriptions
@@ -51,7 +62,8 @@ void WordPage::initUI()
 
         QLabel *type = new QLabel();
         type->setFixedWidth(50);
-        type->setFont(QFont("Noto Sans CJK SC Regular", 11));
+        font.setPixelSize(18);
+        type->setFont(font);
         type->setPalette(palette);
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         QLabel *desc = new QLabel();
@@ -61,7 +73,7 @@ void WordPage::initUI()
         desc->setSizePolicy(policy);
         desc->setWordWrap(true);
         // desc->setText(" ");
-        desc->setFont(QFont("Noto Sans CJK SC Regular", 11));
+        desc->setFont(font);
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
         descriptions.append(l);
@@ -78,7 +90,7 @@ void WordPage::initUI()
         QLabel *tag = new QLabel;
         // set color
         tag->setText("考研");
-        tag->setFont(QFont("Noto Sans CJK SC Regular", 10));
+        tag->setFont(font);
         tag->setContentsMargins(5, 3, 5, 3);
         tag->setPalette(palette);
         tag->setAutoFillBackground(true);
@@ -89,6 +101,7 @@ void WordPage::initUI()
     mainlayout->insertLayout(13, tagslayout);
     mainlayout->addStretch();
 
+    this->setLayout(mainlayout);
     this->adjustSize();
 
 
@@ -118,7 +131,8 @@ void WordPage::updateDescription(const QJsonObject &obj)
     rightAudioLabel->setText("美 [ " + symbols["ph_am"].toString() + " ]");
 
     QJsonArray parts = symbols["parts"].toArray();
-    for (int i = 0; i < 10 && i < parts.count(); i++)
+    int i = 0;
+    for (i = 0; i < 9 && i < parts.count(); i++)
     {
         QJsonObject item = parts[i].toObject();
         QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
@@ -133,8 +147,28 @@ void WordPage::updateDescription(const QJsonObject &obj)
         type->show();
         desc->show();
     }
+    if (obj.contains("exchange"))
+    {
+        QJsonObject item = obj["exchange"].toObject();
+        QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
+        type->setText("ex.");
+        QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
+        QString res;
+        for (const auto &form : item.keys())
+        {
+            res += form + ": ";
+            for (const auto word : item[form].toArray())
+                res.append(word.toString() + " ");
+            res += "; ";
+        }
 
-    int i = 0;
+        desc->setText(res);
+        mainlayout->insertLayout(2 + i, descriptions[i]);
+        type->show();
+        desc->show();
+    }
+
+    i = 0;
     for (auto item : obj["tags"].toObject()["core"].toArray())
     {
         if (i >= 10 || item.toString().isEmpty())
