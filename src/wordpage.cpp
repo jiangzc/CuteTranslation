@@ -1,5 +1,6 @@
 #include "wordpage.h"
 #include "flowlayout.h"
+#include "baidutranslate.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -9,6 +10,7 @@
 #include <QDebug>
 #include <QPushButton>
 #include <QMediaPlayer>
+#include <QBuffer>
 
 ClickableLabel::ClickableLabel(QWidget* parent)
     : QLabel(parent) {
@@ -28,6 +30,9 @@ WordPage::WordPage()
 
 void WordPage::initUI()
 {
+    player = new QMediaPlayer;
+    player->setVolume(100);
+
     QPalette palette;
     palette = this->palette();
     palette.setColor(QPalette::Background, QColor(255,255,255));
@@ -47,12 +52,17 @@ void WordPage::initUI()
     leftvoiceButton->setPixmap(voicePic);
     leftvoiceButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     connect(leftvoiceButton, &ClickableLabel::clicked, this, [=]{
-        player->stop();
-        player->setAudioRole(QAudio::MusicRole);
-        player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-
+        //player->stop();
+        //player->setMedia(QMediaContent());
+        //player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
+        // player->stop();
         player->play();
     });
+
+//    connect(player, &QMediaPlayer::mediaStatusChanged, this, [=](){
+//        if (player->mediaStatus() == QMediaPlayer::LoadedMedia)
+//            player->play();
+//    });
 
     QLabel *rightvoiceButton = new QLabel;
     rightvoiceButton->setFixedHeight(35);
@@ -74,8 +84,6 @@ void WordPage::initUI()
     mainlayout->insertSpacing(1, 10);
     font.setWeight(QFont::Normal);
 
-    player = new QMediaPlayer;
-    player->setVolume(100);
     //
 
     QHBoxLayout *audioLayout = new QHBoxLayout();
@@ -232,7 +240,10 @@ void WordPage::updateDescription(const QJsonObject &obj)
     mainlayout->update();
 
    // player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-   // player->setMedia(QUrl::fromLocalFile("/home/jzc/Music/aa.mp3"));
+    QBuffer *buf = new QBuffer;
+    buf->setData(BaiduTranslate::instance().getUrlContent("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
+    buf->open(QBuffer::ReadOnly);
+    player->setMedia(QMediaContent(), buf);
 }
 
 //void WordPage::resizeEvent(QResizeEvent *event)

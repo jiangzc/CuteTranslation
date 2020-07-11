@@ -57,6 +57,24 @@ QString BaiduTranslate::getUrl(QString url_str)
     return res;
 }
 
+QByteArray BaiduTranslate::getUrlContent(QString url_str)
+{
+    QUrl url(url_str);
+    QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::UserAgentHeader, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) "
+                                                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+    QNetworkReply *reply = manager->get(req);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        qWarning() << reply->errorString();
+    }
+    QByteArray res = reply->readAll();
+    reply->deleteLater();
+    return res;
+}
+
 void BaiduTranslate::loadMainPage()
 {
     QString res;

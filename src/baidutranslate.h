@@ -22,6 +22,8 @@ public:
     int ScreenShot();
     QString OCRTranslate(float timeLeft, bool screenshot);
     QString OCRText(float timeLeft, bool screenshot);
+    QString getUrl(QString url);
+    QByteArray getUrlContent(QString url_str);
 
 private:
     BaiduTranslate();
@@ -36,7 +38,7 @@ private:
     void loadMainPage();
     QString langDetect(QString query);
     QJsonObject dictionary(QString query, QString dst="zh", QString src="", float timeLeft=2.5);
-    QString getUrl(QString url);
+
     bool getAccessTokenFromURL(QString url);
     bool checkAccessToken();
 
