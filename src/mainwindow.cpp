@@ -493,6 +493,11 @@ void MainWindow::resultParser(CuteAction action, QString &res)
        // this->view->setHtml(html.replace("\"{0}\"", res));
         stackWidget->setCurrentIndex(1);
         wordPage->updateDescription(jsonDocument.object());
+        wordPage->adjustSize();
+        int height = wordPage->heightForWidth(stackWidget->width());
+
+        this->stackWidget->setFixedHeight(height);
+        this->setFixedHeight(stackWidget->y() + height + 40);
     }
     else if(res.isEmpty())
     {
@@ -500,8 +505,14 @@ void MainWindow::resultParser(CuteAction action, QString &res)
     }
     else
     {
-       // QString html = this->html1;
-       // this->view->setHtml(html.replace("\"{0}\"", res));
+        stackWidget->setCurrentIndex(0);
+        textLabel->setText(res);
+        textLabel->adjustSize();
+        int height = textLabel->heightForWidth(stackWidget->width());
+
+        this->stackWidget->setFixedHeight(height + 10);
+        this->setFixedHeight(stackWidget->y() + height + 40);
+
     }
 }
 
