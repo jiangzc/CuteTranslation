@@ -32,10 +32,10 @@ void WordPage::initUI()
     font.setWeight(QFont::DemiBold);
 
     titleLabel->setText("Title");
-    font.setPixelSize(24);
+    font.setPixelSize(28);
     titleLabel->setFont(font);
     mainlayout->insertWidget(0, titleLabel);
-
+    mainlayout->insertSpacing(1, 10);
     font.setWeight(QFont::Normal);
 
     QHBoxLayout *audioLayout = new QHBoxLayout();
@@ -44,7 +44,7 @@ void WordPage::initUI()
 
     audioLayout->addWidget(rightAudioLabel);
     rightAudioLabel->setText("comment2");
-    mainlayout->insertLayout(1, audioLayout);
+    mainlayout->insertLayout(2, audioLayout);
 
     font.setPixelSize(20);
 
@@ -77,7 +77,7 @@ void WordPage::initUI()
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
         descriptions.append(l);
-        mainlayout->addLayout(l); // 11
+        mainlayout->addLayout(l); // 12
     }
 
     // init tags
@@ -97,8 +97,8 @@ void WordPage::initUI()
         tagslayout->addWidget(tag);
         tags.append(tag);
     }
-    mainlayout->insertSpacing(12, 10);
-    mainlayout->insertLayout(13, tagslayout);
+    mainlayout->insertSpacing(13, 10);
+    mainlayout->insertLayout(14, tagslayout);
     mainlayout->addStretch();
 
     this->setLayout(mainlayout);
@@ -143,7 +143,7 @@ void WordPage::updateDescription(const QJsonObject &obj)
             res.append(mean.toString() + "，");
         res.remove(res.count() - 1, 1);
         desc->setText(res);
-        mainlayout->insertLayout(2 + i, descriptions[i]);
+        mainlayout->insertLayout(3 + i, descriptions[i]);
         type->show();
         desc->show();
     }
@@ -163,7 +163,7 @@ void WordPage::updateDescription(const QJsonObject &obj)
         }
 
         desc->setText(res);
-        mainlayout->insertLayout(2 + i, descriptions[i]);
+        mainlayout->insertLayout(3 + i, descriptions[i]);
         type->show();
         desc->show();
     }
@@ -175,7 +175,6 @@ void WordPage::updateDescription(const QJsonObject &obj)
             break;
         tags[i]->setText(item.toString());
         tags[i++]->show();
-        qDebug() << item.toString();
     }
     for (auto item : obj["tags"].toObject()["other"].toArray())
     {
@@ -183,7 +182,6 @@ void WordPage::updateDescription(const QJsonObject &obj)
             break;
         tags[i]->setText(item.toString());
         tags[i++]->show();
-        qDebug() << item.toString();
     }
 
     this->update();
