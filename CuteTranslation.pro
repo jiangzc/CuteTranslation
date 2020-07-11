@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui x11extras network
+QT       += core gui x11extras network multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

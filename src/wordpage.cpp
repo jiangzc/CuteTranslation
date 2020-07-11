@@ -7,8 +7,19 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QPushButton>
+#include <QMediaPlayer>
 
+ClickableLabel::ClickableLabel(QWidget* parent)
+    : QLabel(parent) {
 
+}
+
+ClickableLabel::~ClickableLabel() {}
+
+void ClickableLabel::mousePressEvent(QMouseEvent* event) {
+    emit clicked();
+}
 
 WordPage::WordPage()
 {
@@ -27,6 +38,31 @@ void WordPage::initUI()
     rightAudioLabel = new QLabel;
     mainlayout = new QVBoxLayout;
 
+    QPixmap voicePic(":/pic/icons-voice.png");
+    voicePic = voicePic.scaled(35, 35, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    ClickableLabel *leftvoiceButton = new ClickableLabel;
+    leftvoiceButton->setFixedHeight(35);
+    leftvoiceButton->setContentsMargins(0, 2, 0, 0);
+    leftvoiceButton->setPixmap(voicePic);
+    leftvoiceButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    connect(leftvoiceButton, &ClickableLabel::clicked, this, [=]{
+        player->stop();
+        player->setAudioRole(QAudio::MusicRole);
+        player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
+
+        player->play();
+    });
+
+    QLabel *rightvoiceButton = new QLabel;
+    rightvoiceButton->setFixedHeight(35);
+    rightvoiceButton->setContentsMargins(0, 2, 0, 0);
+    rightvoiceButton->setPixmap(voicePic);
+    rightvoiceButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+
+    leftAudioLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    rightAudioLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     QFont font("Noto Sans CJK SC Regular");
 
     font.setWeight(QFont::DemiBold);
@@ -38,11 +74,19 @@ void WordPage::initUI()
     mainlayout->insertSpacing(1, 10);
     font.setWeight(QFont::Normal);
 
+    player = new QMediaPlayer;
+    player->setVolume(100);
+    //
+
     QHBoxLayout *audioLayout = new QHBoxLayout();
     audioLayout->addWidget(leftAudioLabel);
+    audioLayout->addSpacing(10);
+    audioLayout->addWidget(leftvoiceButton);
     leftAudioLabel->setText("comment1");
 
     audioLayout->addWidget(rightAudioLabel);
+    audioLayout->addSpacing(10);
+    audioLayout->addWidget(rightvoiceButton);
     rightAudioLabel->setText("comment2");
     mainlayout->insertLayout(2, audioLayout);
 
@@ -187,6 +231,8 @@ void WordPage::updateDescription(const QJsonObject &obj)
     this->update();
     mainlayout->update();
 
+   // player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
+   // player->setMedia(QUrl::fromLocalFile("/home/jzc/Music/aa.mp3"));
 }
 
 //void WordPage::resizeEvent(QResizeEvent *event)

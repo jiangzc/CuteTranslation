@@ -3,11 +3,13 @@
 
 #include <QWidget>
 #include <QVector>
+#include <QLabel>
 
 class FlowLayout;
 class QLabel;
 class QVBoxLayout;
 class QHBoxLayout;
+class QMediaPlayer;
 
 class WordPage : public QWidget
 {
@@ -19,11 +21,27 @@ public:
     QLabel *leftAudioLabel;
     QLabel *rightAudioLabel;
     QVBoxLayout *mainlayout;
+    QMediaPlayer *player;
     void updateDescription(const QJsonObject &obj);
 private:
     QVector<QHBoxLayout*> descriptions;
     QVector<QLabel *> tags;
     FlowLayout *tagslayout;
+
+};
+
+class ClickableLabel : public QLabel {
+    Q_OBJECT
+
+public:
+    explicit ClickableLabel(QWidget* parent = Q_NULLPTR);
+    ~ClickableLabel();
+
+signals:
+    void clicked();
+
+protected:
+    void mousePressEvent(QMouseEvent* event);
 
 };
 
