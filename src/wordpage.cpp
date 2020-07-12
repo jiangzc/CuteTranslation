@@ -230,14 +230,9 @@ void WordPage::updateDescription(const QJsonObject &obj)
         tags[i++]->show();
     }
 
-    this->update();
     mainlayout->update();
+    this->update();
 
-   // player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-//    QBuffer *buf = new QBuffer;
-//    buf->setData(BaiduTranslate::instance().getUrlContent("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-//    buf->open(QBuffer::ReadOnly);
-    //    player->setMedia(QMediaContent(), buf);
 }
 
 void WordPage::onVoiceButtonClicked()
