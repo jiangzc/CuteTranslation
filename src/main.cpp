@@ -170,11 +170,10 @@ int checkDependency()
 
     // 检查依赖文件是否存在
     QVector<QString> depends;
-    depends.push_back("interpret_js_1.html");
-    depends.push_back("interpret_js_2.html");
     depends.push_back("config.ini");
     depends.push_back("screenshot.sh");
     depends.push_back("baidu.js");
+    depends.push_back("guide.txt");
 
     bool filesExist = true;
     for (auto file : depends)
@@ -201,7 +200,7 @@ int checkDependency()
     res = system("which nodejs > /dev/null && which gnome-screenshot > /dev/null");
     if (res != 0)
     {
-        qCritical() << "缺少依赖nodejs gnome-screenshot";
+        qCritical() << "缺少依赖 nodejs gnome-screenshot";
     }
     return 0;
 }
