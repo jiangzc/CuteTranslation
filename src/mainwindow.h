@@ -33,7 +33,6 @@ class MainWindow : public QMainWindow
     const int TriangleWidth;
     int TriangleOffset = 0;
     int Direction;
-    float zoom = 1.0;
     bool showTriangle = true;
     class PreviousAction{
         public:

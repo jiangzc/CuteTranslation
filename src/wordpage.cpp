@@ -1,6 +1,7 @@
 #include "wordpage.h"
 #include "flowlayout.h"
 #include "baidutranslate.h"
+#include "configtool.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -19,7 +20,7 @@ ClickableLabel::ClickableLabel(QWidget* parent)
 
 ClickableLabel::~ClickableLabel() {}
 
-void ClickableLabel::mousePressEvent(QMouseEvent* event) {
+void ClickableLabel::mousePressEvent(QMouseEvent* ) {
     emit clicked();
 }
 
@@ -55,7 +56,7 @@ void WordPage::initUI()
     QFont font("Noto Sans CJK SC Regular");
     font.setWeight(QFont::DemiBold);
     titleLabel->setText("Title");
-    font.setPixelSize(28);
+    font.setPixelSize(int(28 * configTool->GetWebPageZoomFactor()));
     titleLabel->setFont(font);
     mainlayout->insertWidget(0, titleLabel);
     mainlayout->insertSpacing(1, 10);
@@ -93,7 +94,7 @@ void WordPage::initUI()
     rightAudioLabel->setText("Phonetic symbol 2");
     mainlayout->insertLayout(2, audioLayout);
 
-    font.setPixelSize(20);
+    font.setPixelSize(int(20 * configTool->GetWebPageZoomFactor()));
 
     leftAudioLabel->setFont(font);
     rightAudioLabel->setFont(font);
@@ -110,7 +111,7 @@ void WordPage::initUI()
 
         QLabel *type = new QLabel(this);
         type->setFixedWidth(50);
-        font.setPixelSize(18);
+        font.setPixelSize(int(18 * configTool->GetWebPageZoomFactor()));
         type->setFont(font);
         type->setPalette(palette);
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);

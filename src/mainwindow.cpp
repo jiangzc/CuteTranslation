@@ -113,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     textLabel = new QLabel(this);
     stackWidget->addWidget(textLabel);
     QFont textFont("Noto Sans CJK SC Regular");
-    textFont.setPixelSize(int(20 * zoom));
+    textFont.setPixelSize(int(20 * configTool->GetWebPageZoomFactor()));
 
     textLabel->setMargin(20);
     textLabel->setFrameShape(QFrame::NoFrame);
@@ -500,11 +500,9 @@ void MainWindow::resultParser(CuteAction action, QString &res)
     }
 }
 
+// This function is obsolete
 void MainWindow::onAdjustSize(float zoom, int width)
 {
-//    this->view->setZoomFactor(qreal(zoom));
-//    this->setFixedWidth(width);
-//    this->view->setFixedWidth(width - 30);
     this->show();
     this->hide();
 }
