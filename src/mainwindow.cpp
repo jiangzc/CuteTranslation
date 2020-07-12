@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     QFont textFont("Noto Sans CJK SC Regular");
     textFont.setPixelSize(int(20 * zoom));
 
-    textLabel->setContentsMargins(30, 20, 30, 30);
+    textLabel->setMargin(20);
     textLabel->setFrameShape(QFrame::NoFrame);
     textLabel->setFont(textFont);
     textLabel->setWordWrap(true);
