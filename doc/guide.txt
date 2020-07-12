@@ -2,13 +2,11 @@ CuteTranslation 用户手册
 
 项目主页：https://github.com/jiangzc/CuteTranslation
 
-## 使用
-**安装**
+安装
 
-因为要自动下载很多依赖包，用图形界面的安装器可能会有问题。推荐下载deb包后用命令安装。安装失败、程序报警、出错请跳转到[故障排查](#jump)。
-```bash
+推荐下载deb包后用命令安装。安装失败、程序报警、出错请跳转到[故障排查](#jump)。
+
 sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
-```
 
 **基本功能**
 
@@ -28,6 +26,10 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。打开�
 
 按下快捷键 alt+w 或 右键托盘栏图标选择“文字翻译” 打开悬浮搜索框。输入文字后按下回车键触发翻译。按下 alt+w 或 右侧按钮关闭悬浮搜索框。
 
+**OCR文字识别**
+
+按下快捷键 alt+e 或 右键托盘栏图标选择“文字识别” 触发文字识别。这时鼠标会变成十字星，选中要识别的区域即可。
+
 **取词模式**  
 
 有三种取词模式可供选择：全局、自定义、禁用。  
@@ -43,16 +45,18 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。打开�
 鼠标点击其他的地方，翻译界面会自动隐藏。点击翻译界面右上角的固定按钮可固定翻译界面。关闭被固定的界面需要点击右上角的关闭按钮。
 
 换行处理可以忽略文本中的换行符。在某些软件如PDF阅读器中，如果直接选中以下段落翻译，效果会很差。这时点击翻译界面的N按钮，重新选中段落翻译，可以优化翻译效果。
->The Python installers for the Windows platform usually  
-> include the entire standard library and often also include  
->  many additional components. For Unix-like operating systems  
->   Python is normally provided as a collection of packages,  
->   so it may be necessary to use the packaging tools provided  
->    with the operating system to obtain some or all of the optional  components.
+
+The Python installers for the Windows platform usually  
+include the entire standard library and often also include  
+many additional components. For Unix-like operating systems  
+Python is normally provided as a collection of packages,  
+so it may be necessary to use the packaging tools provided  
+with the operating system to obtain some or all of the optional
+components.
 
 **配置文件**
 
-CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.config/CuteTranslation/config.ini 
+CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.local/share/CuteTranslation/config.ini 
 
 术语表
 ```
@@ -86,37 +90,10 @@ SearchBar=alt+w
 OCRTimeout=2.0
 TextTimeout=3.0
 ```
-## 编译
-为 Debian 系的发行版安装开发库
-```bash
-# Qt, WebEngine, Xlib
-sudo apt install libxtst-dev libxcb-util0-dev build-essential
-sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev libqt5x11extras5-dev
 
-# APP
-sudo apt install gnome-screenshot nodejs
-```
-qmake 编译
-```bash
-mkdir build && cd build
-qmake ..
-make
-```
-安装
-```
-# 安装到build目录
-bash install.sh build
 
-# 安装到 /opt/CuteTranslation
-sudo bash install.sh
-sudo chmod 777 /opt/CuteTranslation
-```
-运行
-```
-./CuteTranslation
-```
+故障排查
 
-## 故障排查<span id="jump"></span>
 1. 配置文件版本v0.0.0，与程序版本不符合  
    检查 ~/.local/share/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
 2. 文件缺失  
@@ -124,8 +101,7 @@ sudo chmod 777 /opt/CuteTranslation
 3. 缺少nodejs  gnome-screenshot依赖  
    sudo apt-get install nodejs  gnome-screenshot
 4. 缺少其他依赖  
-   Depends: nodejs, libqt5x11extras5, libqt5webengine5, 
-   libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
+   Depends: nodejs, libqt5x11extras5, libqt5x11extras5, libqt5network5, 
    libqt5core5a, libqt5gui5, gnome-screenshot 
 5. 截图翻译出错  
    分析日志 ~/.local/share/CuteTranslation/log.txt ，检查 ~/.local/share/CuteTranslation/token 是否正确

@@ -1,6 +1,6 @@
 # CuteTranslation
 ## 简介
-CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户减少英文阅读障碍。
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户翻译多种语言的文字。
 
 功能：  
 1. 取词翻译   
@@ -22,7 +22,7 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 ## 使用
 **安装**
 
-因为要自动下载很多依赖包，用图形界面的安装器可能会有问题。推荐下载deb包后用命令安装。安装失败、程序报警、出错请跳转到[故障排查](#jump)。
+推荐下载deb包后用命令安装。安装失败、程序报警、出错请跳转到[故障排查](#jump)。
 ```bash
 sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
 ```
@@ -44,6 +44,10 @@ sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
 **悬浮搜索框**  
 
 按下快捷键 alt+w 或 右键托盘栏图标选择“文字翻译” 打开悬浮搜索框。输入文字后按下回车键触发翻译。按下 alt+w 或 右侧按钮关闭悬浮搜索框。
+
+**OCR文字识别**
+
+按下快捷键 alt+e 或 右键托盘栏图标选择“文字识别” 触发文字识别。这时鼠标会变成十字星，选中要识别的区域即可。
 
 **取词模式**  
 
@@ -69,7 +73,7 @@ sudo apt-get install  ./CuteTranslation_v0.1.0_amd64.deb
 
 **配置文件**
 
-CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.config/CuteTranslation/config.ini 
+CuteTranslation提供了多种多样的配置选项，例如界面大小、快捷键、缩放比例等等。配置文件位于 ~/.local/share/CuteTranslation/config.ini 
 
 术语表
 ```
@@ -106,9 +110,9 @@ TextTimeout=3.0
 ## 编译
 为 Debian 系的发行版安装开发库
 ```bash
-# Qt, WebEngine, Xlib
+# Qt, Xlib
 sudo apt install libxtst-dev libxcb-util0-dev build-essential
-sudo apt install qt5-default libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5 qtwebengine5-dev libqt5x11extras5-dev
+sudo apt install qt5-default libqt5x11extras5  libqt5x11extras5-dev
 
 # APP
 sudo apt install gnome-screenshot nodejs
@@ -141,8 +145,7 @@ sudo chmod 777 /opt/CuteTranslation
 3. 缺少nodejs  gnome-screenshot依赖  
     sudo apt-get install nodejs  gnome-screenshot
 4. 缺少其他依赖  
-    Depends: nodejs, libqt5x11extras5, libqt5webengine5, 
-    libqt5webenginewidgets5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
+    Depends: nodejs, libqt5x11extras5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
     libqt5core5a, libqt5gui5, gnome-screenshot 
 5. 截图翻译出错  
     分析日志 ~/.local/share/CuteTranslation/log.txt ，检查 ~/.local/share/CuteTranslation/token 是否正确
@@ -153,7 +156,6 @@ sudo chmod 777 /opt/CuteTranslation
 + [words-picker](https://github.com/ziqiangxu/words-picker) by [@ziqiangxu](https://github.com/ziqiangxu)  
 + [ScreenTranslation](https://github.com/poemdistance/ScreenTranslation) by [@poemdistance](https://github.com/poemdistance)  
 + [BaiduTranslate](https://github.com/ZCY01/BaiduTranslate) by [@ZCY01](https://github.com/ZCY01)
-+ HTML and CSS Support by [@lilixuelian](https://github.com/lilixuelian)
 
 ## 捐赠
 <img src="pic/alipay.png" width="200" height="200"><img src="pic/wechat.png" width="200" height="200" style="margin-left:60px">

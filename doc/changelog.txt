@@ -1,7 +1,13 @@
 未来计划： 配置文档改为json格式，界面大改，重构翻译部分代码，能够适应不同的翻译器。改名 翻译星
 
+v0.3.0
 使用QProcess获取nodejs生成的token，代替fork exec等函数
-使用自定义MessageBox类，代替QMessageBox类 （QMessageBox有bug可能会导致程序崩溃）
+使用自定义MessageBox类，代替QMessageBox类 （QMessageBox有bug可能会导致程序崩溃，show  exec）
+移除WebEngine依赖，用QWidget重写界面
+增加“记忆技巧”栏目
+调整头文件
+适配 deepin v20
+更新文档
 
 v0.2.8 (stable release)
 增加功能：文字识别

@@ -199,7 +199,7 @@ void WordPage::updateDescription(const QJsonObject &obj)
     if (obj.contains("memory_skill"))
     {
         QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
-        type->setText("tip.");
+        type->setText("tip");
         QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
         desc->setText(obj["memory_skill"].toString());
         mainlayout->insertLayout(3 + i, descriptions[i]);
@@ -212,7 +212,7 @@ void WordPage::updateDescription(const QJsonObject &obj)
     {
         QJsonObject item = obj["exchange"].toObject();
         QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
-        type->setText("ex.");
+        type->setText("ex");
         QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
         QString res;
         for (const auto &form : item.keys())
