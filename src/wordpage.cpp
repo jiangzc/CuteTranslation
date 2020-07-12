@@ -242,6 +242,17 @@ void WordPage::updateDescription(const QJsonObject &obj)
 
 void WordPage::onVoiceButtonClicked()
 {
-
+    if (voiceBuffer->isOpen())
+        voiceBuffer->close();
+    QString voiceUrl = "https://fanyi.baidu.com/gettts?lan=" + sender()->objectName() +
+                       "&text=" + titleLabel->text() + "&spd=3&source=web";
+    if (voiceBuffer->property("voiceUrl").toString() != voiceUrl)
+    {
+        voiceBuffer->setData(BaiduTranslate::instance().getUrlContent(voiceUrl));
+        voiceBuffer->setProperty("voiceUrl", voiceUrl);
+    }
+    voiceBuffer->open(QBuffer::ReadOnly);
+    player->setMedia(QMediaContent(), voiceBuffer);
+    player->play();
 }
 
