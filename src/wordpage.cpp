@@ -173,10 +173,11 @@ void WordPage::updateDescription(const QJsonObject &obj)
 
     titleLabel->setText(obj["word_name"].toString());
 
+    // 音标
     QJsonObject symbols = obj["symbols"].toArray().at(0).toObject();
     leftAudioLabel->setText("英 [ " + symbols["ph_en"].toString() + " ]");
     rightAudioLabel->setText("美 [ " + symbols["ph_am"].toString() + " ]");
-
+    // 解释
     QJsonArray parts = symbols["parts"].toArray();
     int i = 0;
     for (i = 0; i < 9 && i < parts.count(); i++)
@@ -194,6 +195,19 @@ void WordPage::updateDescription(const QJsonObject &obj)
         type->show();
         desc->show();
     }
+    // 记忆技巧
+    if (obj.contains("memory_skill"))
+    {
+        QLabel *type =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(0)->widget());
+        type->setText("tip.");
+        QLabel *desc =  reinterpret_cast<QLabel*>(descriptions[i]->itemAt(1)->widget());
+        desc->setText(obj["memory_skill"].toString());
+        mainlayout->insertLayout(3 + i, descriptions[i]);
+        type->show();
+        desc->show();
+    }
+    i++;
+    // 词形变换
     if (obj.contains("exchange"))
     {
         QJsonObject item = obj["exchange"].toObject();
@@ -215,6 +229,7 @@ void WordPage::updateDescription(const QJsonObject &obj)
         desc->show();
     }
 
+    // 单词标签
     i = 0;
     for (auto item : obj["tags"].toObject()["core"].toArray())
     {
