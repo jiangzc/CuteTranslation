@@ -32,7 +32,7 @@ ConfigTool::ConfigTool()
     ChineseNotShow = settings->value("/Custom/ChineseNotShow", true).toBool();
     MainWindowPin = settings->value("/MainWindow/IsPinning", false).toBool();
 
-    WebPageZoomFactor = settings->value("/MainWindow/WebPageZoomFactor", 1.2).toFloat();
+    WebPageZoomFactor = settings->value("/MainWindow/WebPageZoomFactor", 1.0).toFloat();
     TextTimeout = settings->value("/Translate/TextTimeout", 2.0).toFloat();
     OCRTimeout = settings->value("/Translate/OCRTimeout", 3.0).toFloat();
 
@@ -41,7 +41,8 @@ ConfigTool::ConfigTool()
     TokenURL = settings->value("TokenURL", "http://67.216.199.87:5000/token").toString();
     if (version != qApp->applicationVersion())
     {
-        qWarning() << "程序和配置文件版本不匹配，程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version;
+        qWarning() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
+                   << "\n  配置文件： ~/.local/share/CuteTranslation";
     }
 }
 
@@ -109,5 +110,5 @@ float ConfigTool::GetWebPageZoomFactor() const
 void ConfigTool::SetWebPageZoomFactor(float zoom)
 {
     this->WebPageZoomFactor = zoom;
-    settings->setValue("/MainWindow/WebPageZoomFactor", zoom);
+    settings->setValue("/MainWindow/WebPageZoomFactor", QString::number(double(zoom)));
 }
