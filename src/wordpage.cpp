@@ -243,7 +243,7 @@ void WordPage::onVoiceButtonClicked()
                        "&text=" + titleLabel->text() + "&spd=3&source=web";
     if (voiceBuffer->property("voiceUrl").toString() != voiceUrl)
     {
-        voiceBuffer->setData(BaiduTranslate::instance().getUrlContent(voiceUrl));
+        voiceBuffer->setData(BaiduTranslate::instance().getUrlRawContent(voiceUrl));
         voiceBuffer->setProperty("voiceUrl", voiceUrl);
     }
     voiceBuffer->open(QBuffer::ReadOnly);

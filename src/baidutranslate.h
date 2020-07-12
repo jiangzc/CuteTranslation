@@ -22,8 +22,7 @@ public:
     int ScreenShot();
     QString OCRTranslate(float timeLeft, bool screenshot);
     QString OCRText(float timeLeft, bool screenshot);
-    QString getUrl(QString url);
-    QByteArray getUrlContent(QString url_str);
+    QByteArray getUrlRawContent(QString url_str);
 
 private:
     BaiduTranslate();
@@ -34,6 +33,7 @@ private:
     QString token;
     QString access_token;
     QString tokenURL;
+    QString getUrl(QString url);
     QString getSign(QString query);
     void loadMainPage();
     QString langDetect(QString query);

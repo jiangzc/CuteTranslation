@@ -57,7 +57,7 @@ QString BaiduTranslate::getUrl(QString url_str)
     return res;
 }
 
-QByteArray BaiduTranslate::getUrlContent(QString url_str)
+QByteArray BaiduTranslate::getUrlRawContent(QString url_str)
 {
     QUrl url(url_str);
     QNetworkRequest req(url);

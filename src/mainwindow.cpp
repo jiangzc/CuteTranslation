@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 翻译内容
     stackWidget = new QStackedWidget(this->centralWidget());
-    stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 40 );
+    stackWidget->setGeometry(20, 20, this->width() - 40, this->height() - 40 );
 
     // 长文本翻译 控件
     textLabel = new QLabel;
@@ -116,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     QFont textFont("Noto Sans CJK SC Regular");
     textFont.setPixelSize(int(20 * zoom));
 
-    textLabel->setContentsMargins(10, 10, 10, 0);
+    textLabel->setContentsMargins(20, 20, 20, 20);
     textLabel->setFrameShape(QFrame::NoFrame);
     textLabel->setFont(textFont);
     textLabel->setWordWrap(true);
@@ -420,7 +420,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
     // 判断是否超出屏幕下边界
     if (mid.y() + this->height() > xdotool->screenHeight)
     {
-        mid.ry() = pos.y() - this->height();
+        mid.ry() = pos.y() - this->height() - 10;
     }
     move(mid);
     previousAction.Action = CuteAction::Search;
@@ -461,47 +461,31 @@ void MainWindow::onRefreshButtonPressed()
 
 void MainWindow::resultParser(CuteAction action, QString &res)
 {
-//    qDebug() << res;
-//    textLabel->setText(res);
-//    textLabel->adjustSize();
-//    int height = textLabel->heightForWidth(textLabel->width());
-
-//    this->stackWidget->setFixedHeight(height);
-//    this->setFixedHeight(stackWidget->y() + height + 40);
-//    qDebug() << "height " << height;
-
-
-    if (res.startsWith("{"))
+    if(res.isEmpty())
+    {
+        return;
+    }
+    else if (res.startsWith("{"))
     {
         QString text = "null";
         QJsonParseError error;
         QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
         if (error.error == QJsonParseError::NoError)
         {
-            if (!jsonDocument.isNull() && !jsonDocument.isEmpty() && jsonDocument.isObject())
+            if (!jsonDocument.isEmpty() && jsonDocument.isObject())
             {
-
+                stackWidget->setCurrentIndex(1);
+                wordPage->updateDescription(jsonDocument.object());
+                wordPage->adjustSize();
+                int height = wordPage->heightForWidth(stackWidget->width());
+                this->stackWidget->setFixedHeight(height);
+                this->setFixedHeight(stackWidget->y() + height + 30);
             }
         }
         else
         {
             // 检查错误类型
         }
-
-       // html.replace("{1}", "https://fanyi.baidu.com/gettts?lan=uk&text=" + text + "&spd=3&source=web");
-       // html.replace("{2}", "https://fanyi.baidu.com/gettts?lan=en&text=" + text + "&spd=3&source=web");
-       // this->view->setHtml(html.replace("\"{0}\"", res));
-        stackWidget->setCurrentIndex(1);
-        wordPage->updateDescription(jsonDocument.object());
-        wordPage->adjustSize();
-        int height = wordPage->heightForWidth(stackWidget->width());
-
-        this->stackWidget->setFixedHeight(height);
-        this->setFixedHeight(stackWidget->y() + height + 40);
-    }
-    else if(res.isEmpty())
-    {
-        return;
     }
     else
     {
@@ -511,7 +495,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
         int height = textLabel->heightForWidth(stackWidget->width());
 
         this->stackWidget->setFixedHeight(height + 10);
-        this->setFixedHeight(stackWidget->y() + height + 40);
+        this->setFixedHeight(stackWidget->y() + height + 30);
 
     }
 }
