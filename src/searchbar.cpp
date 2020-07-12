@@ -27,7 +27,7 @@ SearchBar::SearchBar(QWidget *parent) :
     });
 
     QPixmap pic(":/pic/icons-search.svg");
-    pic.scaled(30, 30);
+    pic = pic.scaled(30, 30);
     searchIcon = new QLabel(this->ui->lineEdit);
     searchIcon->setFixedSize(40, 30); // 延长接触区域
     searchIcon->move(0, 10);
