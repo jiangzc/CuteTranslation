@@ -6,9 +6,9 @@
 
 MessageBox::MessageBox(QWidget *parent) : QDialog(parent), m_label(this), m_pushButton(this)
 {
-    m_label.setGeometry(100,30, 300, 100);
+    m_label.setGeometry(50,20, 400, 120);
     m_label.setWordWrap(true);
-    m_label.setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    m_label.setAlignment(Qt::AlignCenter);
     QFont font = m_label.font();
     font.setPixelSize(20);
     m_label.setFont(font);
