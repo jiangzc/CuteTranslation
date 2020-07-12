@@ -10,6 +10,7 @@ class QLabel;
 class QVBoxLayout;
 class QHBoxLayout;
 class QMediaPlayer;
+class QBuffer;
 
 class WordPage : public QWidget
 {
@@ -27,6 +28,10 @@ private:
     QVector<QHBoxLayout*> descriptions;
     QVector<QLabel *> tags;
     FlowLayout *tagslayout;
+    QBuffer *voiceBuffer;
+
+private slots:
+    void onVoiceButtonClicked();
 
 };
 

@@ -30,53 +30,30 @@ WordPage::WordPage()
 
 void WordPage::initUI()
 {
-    player = new QMediaPlayer;
+    // 单词音频播放器
+    player = new QMediaPlayer(this);
     player->setVolume(100);
+    voiceBuffer = new QBuffer(this);
 
+    // 设置底部颜色
     QPalette palette;
     palette = this->palette();
     palette.setColor(QPalette::Background, QColor(255,255,255));
     this->setPalette(palette);
 
-    titleLabel = new QLabel;
-    leftAudioLabel = new QLabel;
-    rightAudioLabel = new QLabel;
-    mainlayout = new QVBoxLayout;
-
+    // 声音图标
     QPixmap voicePic(":/pic/icons-voice.png");
     voicePic = voicePic.scaled(35, 35, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    ClickableLabel *leftvoiceButton = new ClickableLabel;
-    leftvoiceButton->setFixedHeight(35);
-    leftvoiceButton->setContentsMargins(0, 2, 0, 0);
-    leftvoiceButton->setPixmap(voicePic);
-    leftvoiceButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    connect(leftvoiceButton, &ClickableLabel::clicked, this, [=]{
-        //player->stop();
-        //player->setMedia(QMediaContent());
-        //player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-        // player->stop();
-        player->play();
-    });
-
-//    connect(player, &QMediaPlayer::mediaStatusChanged, this, [=](){
-//        if (player->mediaStatus() == QMediaPlayer::LoadedMedia)
-//            player->play();
-//    });
-
-    QLabel *rightvoiceButton = new QLabel;
-    rightvoiceButton->setFixedHeight(35);
-    rightvoiceButton->setContentsMargins(0, 2, 0, 0);
-    rightvoiceButton->setPixmap(voicePic);
-    rightvoiceButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    titleLabel = new QLabel(this);
+    leftAudioLabel = new QLabel(this);
+    rightAudioLabel = new QLabel(this);
+    mainlayout = new QVBoxLayout;
 
 
-    leftAudioLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    rightAudioLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+    // 单词
     QFont font("Noto Sans CJK SC Regular");
-
     font.setWeight(QFont::DemiBold);
-
     titleLabel->setText("Title");
     font.setPixelSize(28);
     titleLabel->setFont(font);
@@ -84,18 +61,36 @@ void WordPage::initUI()
     mainlayout->insertSpacing(1, 10);
     font.setWeight(QFont::Normal);
 
-    //
+    // 声音按钮
 
-    QHBoxLayout *audioLayout = new QHBoxLayout();
+    ClickableLabel *leftVoiceButton = new ClickableLabel(this);
+    leftVoiceButton->setObjectName("uk"); // 英国
+    leftVoiceButton->setFixedHeight(35);
+    leftVoiceButton->setContentsMargins(0, 2, 0, 0);
+    leftVoiceButton->setPixmap(voicePic);
+    connect(leftVoiceButton, &ClickableLabel::clicked, this, &WordPage::onVoiceButtonClicked);
+
+
+    ClickableLabel *rightVoiceButton = new ClickableLabel(this);
+    rightVoiceButton->setObjectName("en"); // 美国
+    rightVoiceButton->setFixedHeight(35);
+    rightVoiceButton->setContentsMargins(0, 2, 0, 0);
+    rightVoiceButton->setPixmap(voicePic);
+    connect(rightVoiceButton, &ClickableLabel::clicked, this, &WordPage::onVoiceButtonClicked);
+
+    // 音标
+    QHBoxLayout *audioLayout = new QHBoxLayout;
     audioLayout->addWidget(leftAudioLabel);
     audioLayout->addSpacing(10);
-    audioLayout->addWidget(leftvoiceButton);
-    leftAudioLabel->setText("comment1");
+    audioLayout->addWidget(leftVoiceButton);
+    audioLayout->addStretch();
+    leftAudioLabel->setText("Phonetic symbol 1");
 
     audioLayout->addWidget(rightAudioLabel);
     audioLayout->addSpacing(10);
-    audioLayout->addWidget(rightvoiceButton);
-    rightAudioLabel->setText("comment2");
+    audioLayout->addWidget(rightVoiceButton);
+    audioLayout->addStretch();
+    rightAudioLabel->setText("Phonetic symbol 2");
     mainlayout->insertLayout(2, audioLayout);
 
     font.setPixelSize(20);
@@ -106,13 +101,14 @@ void WordPage::initUI()
 
     palette =  titleLabel->palette();
     palette.setColor(QPalette::WindowText, QColor(88,86,83));
+
     // init descriptions
     for (int i = 0; i < 10; i++)
     {
-        QHBoxLayout *l = new QHBoxLayout();
+        QHBoxLayout *l = new QHBoxLayout;
         l->setContentsMargins(0,5,0,5);
 
-        QLabel *type = new QLabel();
+        QLabel *type = new QLabel(this);
         type->setFixedWidth(50);
         font.setPixelSize(18);
         type->setFont(font);
@@ -140,8 +136,6 @@ void WordPage::initUI()
     for (int i = 0; i < 10; i++)
     {
         QLabel *tag = new QLabel;
-        // set color
-        tag->setText("考研");
         tag->setFont(font);
         tag->setContentsMargins(5, 3, 5, 3);
         tag->setPalette(palette);
@@ -240,14 +234,14 @@ void WordPage::updateDescription(const QJsonObject &obj)
     mainlayout->update();
 
    // player->setMedia(QUrl("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-    QBuffer *buf = new QBuffer;
-    buf->setData(BaiduTranslate::instance().getUrlContent("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
-    buf->open(QBuffer::ReadOnly);
-    player->setMedia(QMediaContent(), buf);
+//    QBuffer *buf = new QBuffer;
+//    buf->setData(BaiduTranslate::instance().getUrlContent("https://fanyi.baidu.com/gettts?lan=uk&text=" + titleLabel->text() + "&spd=3&source=web"));
+//    buf->open(QBuffer::ReadOnly);
+    //    player->setMedia(QMediaContent(), buf);
 }
 
-//void WordPage::resizeEvent(QResizeEvent *event)
-//{
-//    int height = heightForWidth(event->size().width());
-//    this->setFixedHeight(height);
-//}
+void WordPage::onVoiceButtonClicked()
+{
+
+}
+
