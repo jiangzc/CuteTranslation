@@ -16,7 +16,7 @@ class WordPage : public QWidget
 {
     Q_OBJECT
 public:
-    WordPage();
+    WordPage(QWidget *parent = nullptr);
     void initUI();
     QLabel *titleLabel;
     QLabel *leftAudioLabel;

@@ -23,7 +23,7 @@ void ClickableLabel::mousePressEvent(QMouseEvent* event) {
     emit clicked();
 }
 
-WordPage::WordPage()
+WordPage::WordPage(QWidget *parent) : QWidget (parent)
 {
     initUI();
 }

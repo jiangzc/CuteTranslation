@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 40 );
 
     // 长文本翻译 控件
-    textLabel = new QLabel;
+    textLabel = new QLabel(this);
     stackWidget->addWidget(textLabel);
     QFont textFont("Noto Sans CJK SC Regular");
     textFont.setPixelSize(int(20 * zoom));
@@ -123,7 +123,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     textLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     // 单词翻译界面 控件
-    wordPage = new WordPage;
+    wordPage = new WordPage(this);
+    wordPage->setContentsMargins(0, -10, 0, 0);
     stackWidget->addWidget(wordPage);
 
     stackWidget->setCurrentIndex(0);
