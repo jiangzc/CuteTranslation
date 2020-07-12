@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     //closeButton->setStyleSheet("QPushButton{border:none;}");
     closeButton->setIconSize(QSize(25, 25));
     closeButton->setIcon(QIcon(":/pic/icons-x.png"));
-    closeButton->show();
+    closeButton->setFocusPolicy(Qt::NoFocus);
     connect(closeButton, &QPushButton::clicked, this, &MainWindow::hide);
 
     // 固定按钮
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     fixButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
     fixButton->setIconSize(QSize(25, 25));
     fixButton->setIcon(QIcon(":/pic/icons-pin-grey.png"));
-    fixButton->show();
+    fixButton->setFocusPolicy(Qt::NoFocus);
     connect(fixButton, &QPushButton::clicked, this, [](bool checked){
         configTool->SetMainWindowPin(checked);
     });
@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     refreshButton->setFlat(true);
     refreshButton->setIconSize(QSize(25, 25));
     refreshButton->setIcon(QIcon(":/pic/icons-refresh.png"));
-    refreshButton->show();
+    refreshButton->setFocusPolicy(Qt::NoFocus);
     connect(refreshButton, &QPushButton::clicked, this, &MainWindow::onRefreshButtonPressed);
 
     // 星星按钮
@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     starButton->setGeometry(this->width()- 130, 12, 25, 25);
     starButton->setFlat(true);
     starButton->setIconSize(QSize(25, 25));
+    starButton->setFocusPolicy(Qt::NoFocus);
     starButton->setIcon(QIcon(":/pic/icons-star.png"));
-    starButton->show();
 
     // 声音按钮
 //    QPushButton *voiceButton = new QPushButton(this->centralWidget());
@@ -90,7 +90,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 //    voiceButton->setFlat(true);
 //    voiceButton->setIconSize(QSize(25, 25));
 //    voiceButton->setIcon(QIcon(":/pic/icons-voice.png"));
-//    voiceButton->show();
 
     // 换行N按钮
     QPushButton *newLineButton = new QPushButton(this->centralWidget());
@@ -101,14 +100,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     newLineButton->setStyleSheet("QPushButton{border:none;} QPushButton:checked{background-color:rgb(222, 222, 222);}");
     newLineButton->setIconSize(QSize(25, 25));
     newLineButton->setIcon(QIcon(":/pic/icons-n.png"));
-    newLineButton->show();
+    newLineButton->setFocusPolicy(Qt::NoFocus);
     connect(newLineButton, &QPushButton::clicked, this, [=](bool checked){
         picker->ignoreCRLF = checked;
     });
 
-    // 翻译内容
+    // 翻译内容  NOTICE: 不要把上面按钮挡住了
     stackWidget = new QStackedWidget(this->centralWidget());
-    stackWidget->setGeometry(20, 20, this->width() - 40, this->height() - 40 );
+    stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 40 );
 
     // 长文本翻译 控件
     textLabel = new QLabel;

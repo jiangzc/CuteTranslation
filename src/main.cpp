@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QVector>
 #include <QTime>
+#include <QPalette>
 
 #include "picker.h"
 #include "mainwindow.h"
@@ -31,6 +32,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 
 // TODO 多屏幕支持  单中文字注音 清空配置目录
+// TODO  v20 字体颜色  MainWin 上面按钮触发区域
 
 int main(int argc, char *argv[])
 {
@@ -39,6 +41,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
     a.setApplicationVersion("0.2.8");
+
+    QPalette palette(Qt::white);
+    a.setPalette(palette);
 
     // 必须文件夹
     appDir.setPath(QCoreApplication::applicationDirPath());

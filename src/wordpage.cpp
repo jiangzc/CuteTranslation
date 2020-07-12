@@ -99,7 +99,7 @@ void WordPage::initUI()
     rightAudioLabel->setFont(font);
 
 
-    palette =  titleLabel->palette();
+    palette =  leftAudioLabel->palette();
     palette.setColor(QPalette::WindowText, QColor(88,86,83));
 
     // init descriptions
