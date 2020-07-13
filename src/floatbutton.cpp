@@ -10,7 +10,6 @@
 #include "picker.h"
 #include "floatbutton.h"
 
-#include "ui_floatbutton.h"
 #include "xdotool.h"
 
 extern const int Direction_Up;
