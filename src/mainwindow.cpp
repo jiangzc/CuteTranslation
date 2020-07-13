@@ -478,6 +478,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
                 wordPage->updateDescription(jsonDocument.object());
                 wordPage->adjustSize();
                 int height = wordPage->heightForWidth(stackWidget->width());
+                wordPage->setFixedSize(stackWidget->width(), height + 20);
                 this->stackWidget->setFixedHeight(height);
                 this->setFixedHeight(stackWidget->y() + height + 30);
             }
