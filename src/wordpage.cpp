@@ -51,6 +51,9 @@ void WordPage::initUI()
     rightAudioLabel = new QLabel(this);
     mainlayout = new QVBoxLayout;
 
+    titleLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    leftAudioLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    rightAudioLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     // 单词
     QFont font("Noto Sans CJK SC Regular");
@@ -115,10 +118,11 @@ void WordPage::initUI()
         type->setFont(font);
         type->setPalette(palette);
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+        type->setTextInteractionFlags(Qt::TextSelectableByMouse);
         QLabel *desc = new QLabel();
         desc->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         desc->setWordWrap(true);
-        // desc->setText(" ");
+        desc->setTextInteractionFlags(Qt::TextSelectableByMouse);
         desc->setFont(font);
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
