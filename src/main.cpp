@@ -32,7 +32,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 
 // TODO 多屏幕支持  单中文字注音 清空配置目录
-// TODO  v20 字体颜色  MainWin 上面按钮触发区域
+// TODO  可执行文件指定兼容哪些版本的配置文件
 
 int main(int argc, char *argv[])
 {
