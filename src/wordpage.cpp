@@ -117,9 +117,6 @@ void WordPage::initUI()
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         QLabel *desc = new QLabel();
         desc->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-        QSizePolicy policy = desc->sizePolicy();
-        policy.setHorizontalPolicy(QSizePolicy::Expanding);
-        desc->setSizePolicy(policy);
         desc->setWordWrap(true);
         // desc->setText(" ");
         desc->setFont(font);
