@@ -13,7 +13,7 @@
 build/
 deb/CuteTranslation/opt/CuteTranslation
 deb/*.deb
-
+deb/*.zip
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
