@@ -1,6 +1,9 @@
 未来计划： 配置文档改为json格式，界面大改，重构翻译部分代码，能够适应不同的翻译器。改名 翻译星
+https://hanyu.baidu.com/  百度汉语
+https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 wordPage中的QLabel设置为可选择的，方便用户复制内容。
+
 
 v0.3.0
 使用QProcess获取nodejs生成的token，代替fork exec等函数
