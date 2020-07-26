@@ -226,14 +226,19 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     if (type == PICKTYPE::HanDict)
     {
         qDebug() << "han";
+        BaiduTranslate::instance().HanDict(picker->getSelectedText());
     }
-    // 获取翻译
-    QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
-    QString res_short = res;
-    res_short.truncate(30);
-    qInfo() << res_short << "...";
-    resultParser(CuteAction::PICK, res);
-    // 等待页面加载完成
+    else
+    {
+        // 获取翻译
+        QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
+        QString res_short = res;
+        res_short.truncate(30);
+        qInfo() << res_short << "...";
+        resultParser(CuteAction::PICK, res);
+        // 等待页面加载完成
+    }
+
 
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool->Direction;

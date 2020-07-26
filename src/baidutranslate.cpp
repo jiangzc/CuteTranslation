@@ -10,6 +10,10 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QProcess>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDomNodeList>
+#include <QDomAttr>
 #include <QTimer>
 #include "baidutranslate.h"
 #include "configtool.h"
@@ -378,6 +382,51 @@ QString BaiduTranslate::OCRText(float timeLeft, bool screenshot)
         result_string += item.toObject()["words"].toString() + " ";
     }
     return result_string;
+}
+
+QString BaiduTranslate::HanDict(QString keyWord)
+{
+    QByteArray html = getUrlRawContent("https://hanyu.baidu.com/s?wd=" + keyWord + "&ptype=zici");
+    QProcess tidy;
+    QStringList args;
+    args << "-q" << "-asxml" <<  "--show-warnings" << "no";
+    tidy.start("tidy", args);
+    tidy.waitForStarted();
+    tidy.write(html);
+    tidy.closeWriteChannel();
+    tidy.waitForFinished(2000);
+    QString result;
+    if (tidy.state() == QProcess::NotRunning && (tidy.exitCode() == 0 || tidy.exitCode() == 1))
+        result = tidy.readAllStandardOutput();
+    else
+    {
+        qWarning() << "parse html to xml error";
+        tidy.terminate();
+    }
+
+    QDomDocument doc;
+    doc.setContent(result);
+    QDomNodeList divNodeList = doc.elementsByTagName("div");
+    QString des;
+    for (int i = 0; i < divNodeList.size(); ++i) {
+        QDomElement domElement = divNodeList.at(i).toElement();
+        QDomAttr attribute = domElement.attributeNode("id");
+        // qDebug() << "Attribute value" << attribute.value();
+        if (attribute.value() == "basicmean-wrapper")
+        {
+            QDomNodeList pNodeList = domElement.elementsByTagName("p");
+            for (int i = 0; i < pNodeList.size(); ++i)
+            {
+                des += pNodeList.at(i).toElement().text() + "\n";
+            }
+            qDebug() << des;
+        }
+
+    }
+
+
+    return result;
+
 }
 
 

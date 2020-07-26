@@ -22,6 +22,7 @@ public:
     int ScreenShot();
     QString OCRTranslate(float timeLeft, bool screenshot);
     QString OCRText(float timeLeft, bool screenshot);
+    QString HanDict(QString keyWord);
     QByteArray getUrlRawContent(QString url_str);
 
 private:
