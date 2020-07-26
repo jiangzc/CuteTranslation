@@ -30,6 +30,7 @@ extern const int Direction_Down;
 const int Direction_Up = 0;
 const int Direction_Down = 1;
 
+enum PICKTYPE : int { Translate, HanDict };
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow),
@@ -218,9 +219,14 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 }
 
-void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition)
+void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
 {
 
+
+    if (type == PICKTYPE::HanDict)
+    {
+        qDebug() << "han";
+    }
     // 获取翻译
     QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
     QString res_short = res;
@@ -275,6 +281,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     previousAction.Action = CuteAction::PICK;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
+    previousAction.type = type;
     this->show();
 
 }
@@ -435,7 +442,7 @@ void MainWindow::onRefreshButtonPressed()
 {
     if (previousAction.Action == CuteAction::PICK)
     {
-        this->onFloatButtonPressed(previousAction.point1, previousAction.point2);
+        this->onFloatButtonPressed(previousAction.point1, previousAction.point2, previousAction.type);
     }
     else if ( previousAction.Action == CuteAction::OCRTranslate)
     {

@@ -5,12 +5,14 @@
 #include <QMenu>
 #include <QString>
 
+class QLabel;
 
 namespace Ui
 {
 class FloatButton;
 }
 
+enum PICKTYPE : int;
 class FloatButton : public QWidget
 {
     Q_OBJECT
@@ -22,15 +24,18 @@ class FloatButton : public QWidget
 
   protected:
     void mousePressEvent(QMouseEvent *event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
 
   signals:
-    void floatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
+    void floatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type);
 
   private:
     QMenu floatButtonMenu;
     QAction notShow;
     QPoint mousePressPosition;
     QPoint mouseReleasedPosition;
+    QLabel *hanDictLabel;
 
 public slots:
     void onWordPicked(QString text);

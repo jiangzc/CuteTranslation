@@ -15,6 +15,8 @@
 extern const int Direction_Up;
 extern const int Direction_Down;
 
+enum PICKTYPE : int { Translate, HanDict };
+
 FloatButton::FloatButton(QWidget *parent) : QWidget(parent)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -27,6 +29,13 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent)
     label->setGeometry(0, 0, this->width(), this->height());
     label->setPixmap(pic);
     label->setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
+
+    pic.load(":/pic/handict.png");
+    hanDictLabel = new QLabel(this);
+    hanDictLabel->setScaledContents(true);
+    hanDictLabel->setGeometry(this->width(), 0, this->width(), this->height());
+    hanDictLabel->setPixmap(pic);
+    hanDictLabel->setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
 
 
     floatButtonMenu.addAction(&notShow);
@@ -87,7 +96,10 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     {
         this->hide();
         qInfo() << "floatButtonPressed";
-        emit floatButtonPressed(mousePressPosition, mouseReleasedPosition);
+        if (event->x() < configTool->FloatButtonWidth)
+            emit floatButtonPressed(mousePressPosition, mouseReleasedPosition, PICKTYPE::Translate);
+        else if (event->x() < 2 * configTool->FloatButtonWidth)
+            emit floatButtonPressed(mousePressPosition, mouseReleasedPosition, PICKTYPE::HanDict);
     }
     else if (event->button() == Qt::RightButton)
     {
@@ -96,6 +108,16 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
         floatButtonMenu.exec(QCursor::pos());
     }
     QWidget::mousePressEvent(event);
+}
+
+void FloatButton::enterEvent(QEvent *)
+{
+    this->setFixedWidth(configTool->FloatButtonWidth * 2);
+}
+
+void FloatButton::leaveEvent(QEvent *)
+{
+    this->setFixedWidth(configTool->FloatButtonWidth);
 }
 
 void FloatButton::onWordPicked(QString text)

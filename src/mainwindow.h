@@ -10,6 +10,7 @@ class QLabel;
 class WordPage;
 
 enum CuteAction { PICK, OCRTranslate, Search, OCRText } ;
+enum PICKTYPE : int;
 
 namespace Ui
 {
@@ -39,6 +40,7 @@ class MainWindow : public QMainWindow
             CuteAction Action;
         QPoint point1, point2;
         QString text1;
+        PICKTYPE type;
     } previousAction;
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
@@ -48,7 +50,7 @@ class MainWindow : public QMainWindow
 
   public slots:
     void onMouseButtonPressed(int x, int y);
-    void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition);
+    void onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type);
     void onOCRTranslateShortCutPressed();
     void onOCRTextShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);

@@ -12,5 +12,6 @@
         <file>pic/icons-voice.png</file>
         <file>pic/icons-n.png</file>
         <file>pic/icon-grey.png</file>
+        <file>pic/handict.png</file>
     </qresource>
 </RCC>
