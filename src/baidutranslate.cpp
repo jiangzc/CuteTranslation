@@ -387,6 +387,7 @@ QString BaiduTranslate::OCRText(float timeLeft, bool screenshot)
 QString BaiduTranslate::HanDict(QString keyWord)
 {
     QByteArray html = getUrlRawContent("https://hanyu.baidu.com/s?wd=" + keyWord + "&ptype=zici");
+    // parse html to xml
     QProcess tidy;
     QStringList args;
     args << "-q" << "-asxml" <<  "--show-warnings" << "no";
@@ -395,34 +396,114 @@ QString BaiduTranslate::HanDict(QString keyWord)
     tidy.write(html);
     tidy.closeWriteChannel();
     tidy.waitForFinished(2000);
-    QString result;
+    QString xmlText;
     if (tidy.state() == QProcess::NotRunning && (tidy.exitCode() == 0 || tidy.exitCode() == 1))
-        result = tidy.readAllStandardOutput();
+        xmlText = tidy.readAllStandardOutput();
     else
     {
         qWarning() << "parse html to xml error";
         tidy.terminate();
     }
 
-    QDomDocument doc;
-    doc.setContent(result);
-    QDomNodeList divNodeList = doc.elementsByTagName("div");
-    QString des;
-    for (int i = 0; i < divNodeList.size(); ++i) {
-        QDomElement domElement = divNodeList.at(i).toElement();
-        QDomAttr attribute = domElement.attributeNode("id");
-        // qDebug() << "Attribute value" << attribute.value();
-        if (attribute.value() == "basicmean-wrapper")
+    // extract text from an element
+    static auto innerText = [](const QDomElement &domElement, QString classValue=""){
+        QString text;
+        // extract text from <p>
+        QDomNodeList pNodeList = domElement.elementsByTagName("p");
+        for (int i = 0; i < pNodeList.size(); ++i)
         {
-            QDomNodeList pNodeList = domElement.elementsByTagName("p");
-            for (int i = 0; i < pNodeList.size(); ++i)
+            QDomElement pElement = pNodeList.at(i).toElement();
+            if (classValue.isEmpty() || pElement.attributeNode("class").value() == classValue)
             {
-                des += pNodeList.at(i).toElement().text() + "\n";
+                if (text.endsWith("\n") && pElement.text().startsWith("\n"))
+                    text.remove(text.length() - 1, 1);
+                text += pElement.text();
             }
-            qDebug() << des;
+            if (!text.endsWith("\n"))
+                text += "\n";
         }
 
+        if (text.isEmpty())
+        {
+            // extract text from <div>
+            QDomNodeList divNodeList = domElement.elementsByTagName("div");
+            for (int i = 0; i < divNodeList.size(); ++i)
+            {
+                QDomElement divElement = divNodeList.at(i).toElement();
+                if (classValue.isEmpty() || divElement.attributeNode("class").value() == classValue)
+                {
+                    if (text.endsWith("\n") && divElement.text().startsWith("\n"))
+                        text.remove(text.length() - 1, 1);
+                    text += divElement.text();
+                }
+                if (!text.endsWith("\n"))
+                    text += "\n";
+            }
+        }
+
+        return text;
+    };
+
+    QDomDocument doc;
+    doc.setContent(xmlText);
+    QDomNodeList divNodeList = doc.elementsByTagName("div");
+    QString result;
+
+    for (int i = 0; i < divNodeList.size(); ++i) {
+        QDomElement domElement = divNodeList.at(i).toElement();
+        QDomAttr idAttribute = domElement.attributeNode("id");
+        QDomAttr classAttribute = domElement.attributeNode("class");
+        QString text;
+
+        if (classAttribute.value() == "poem-detail-header-info")
+        {
+            text = domElement.text();
+            if (text.endsWith("译文对照"))
+                text.remove("译文对照");
+            if (!text.isEmpty())
+            {
+                result.prepend(text + "\n");
+            }
+        }
+
+        if (idAttribute.value() == "basicmean-wrapper")
+        {
+            text = innerText(domElement);
+            if (!text.isEmpty())
+            {
+                result += "基本释义\n";
+                result += text;
+            }
+
+        }
+        else if (idAttribute.value() == "source-wrapper")
+        {
+            text = innerText(domElement);
+            if (!text.isEmpty())
+            {
+                result += "出处\n";
+                result += text;
+            }
+        }
+        else if (idAttribute.value() == "poem-detail-header")
+        {
+            text = innerText(domElement, "poem-detail-main-text");
+            if (!text.isEmpty())
+            {
+                // result += "内容\n";
+                result += text;
+            }
+
+            text = innerText(domElement, "poem-detail-main-text body-means-p");
+            if (!text.isEmpty())
+            {
+                result += "译文\n";
+                result += text;
+            }
+        }
     }
+
+    qDebug() << result;
 
 
     return result;
