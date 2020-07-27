@@ -448,12 +448,13 @@ QString BaiduTranslate::HanDict(QString keyWord)
     doc.setContent(xmlText);
     QDomNodeList divNodeList = doc.elementsByTagName("div");
     QString result;
-
+    QString title;
     for (int i = 0; i < divNodeList.size(); ++i) {
         QDomElement domElement = divNodeList.at(i).toElement();
         QDomAttr idAttribute = domElement.attributeNode("id");
         QDomAttr classAttribute = domElement.attributeNode("class");
         QString text;
+
 
         if (classAttribute.value() == "poem-detail-header-info")
         {
@@ -466,7 +467,11 @@ QString BaiduTranslate::HanDict(QString keyWord)
             }
         }
 
-        if (idAttribute.value() == "basicmean-wrapper")
+        if (idAttribute.value() == "pinyin")
+        {
+            result.prepend("拼音 " + domElement.text() + "\n");
+        }
+        else if (idAttribute.value() == "basicmean-wrapper")
         {
             text = innerText(domElement);
             if (!text.isEmpty())
@@ -487,6 +492,7 @@ QString BaiduTranslate::HanDict(QString keyWord)
         }
         else if (idAttribute.value() == "poem-detail-header")
         {
+            title = domElement.firstChildElement("h1").text();
             text = innerText(domElement, "poem-detail-main-text");
             if (!text.isEmpty())
             {
@@ -502,7 +508,7 @@ QString BaiduTranslate::HanDict(QString keyWord)
             }
         }
     }
-
+    result.prepend(title + "\n");
     qDebug() << result;
 
 
