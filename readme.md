@@ -3,12 +3,20 @@
 CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户翻译多种语言的文字。
 
 功能：  
-1. 取词翻译   
-	<img src="pic/demo1.gif" width="600" height="300">  
-2. 截图翻译  
-	<img src="pic/demo2.gif" width="400" height="274">
+1. 取词翻译： 中英互译  汉语字词解释  成语解释  识别诗词 古代文言文   
+    <img src="pic/demo_text.gif" width="600" height="420"/>  
+
+  <img src="pic/demo_zici.gif" width="600" height="400"/>
+
+  <img src="pic/demo_shiju.gif" width="600" height="468"/>
+
+2. OCR，截图翻译  
+    <img src="pic/demo_ocr.gif" width="600" height="400"/>
+
+  <img src="pic/demo_ocr_trans.gif" width="600" height="436"/>
+
 3. 悬浮搜索框  
-	<img src="pic/demo3.png" width="400" height="305">
+    <img src="pic/demo_searchbar.gif" width="600" height="490"/>
 
 特点：
 + Google翻译插件风格
@@ -20,7 +28,6 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 + 只支持X11，不支持wayland
 
 TODO:
-+ 对接百度汉语，支持中文词典
 + 更换皮肤，包括浅色和深色主题
 
 ## 使用
