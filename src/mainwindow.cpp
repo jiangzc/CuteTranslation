@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 翻译内容  NOTICE: 不要把上面按钮挡住了
     stackWidget = new QStackedWidget(this->centralWidget());
-    stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 40 );
+    stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 20 );
 
     // 长文本翻译 控件
     textLabel = new QLabel(this);
@@ -495,7 +495,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
                 int height = wordPage->heightForWidth(stackWidget->width());
                 wordPage->setFixedSize(stackWidget->width(), height + 20);
                 this->stackWidget->setFixedHeight(height);
-                this->setFixedHeight(stackWidget->y() + height + 30);
+                this->setFixedHeight(stackWidget->y() + height + 20);
             }
         }
         else
