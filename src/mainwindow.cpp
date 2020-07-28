@@ -119,6 +119,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     textLabel->setMargin(20);
     textLabel->setFrameShape(QFrame::NoFrame);
     textLabel->setFont(textFont);
+    textLabel->setTextFormat(Qt::RichText);
     textLabel->setWordWrap(true);
     textLabel->setFixedWidth(stackWidget->width());
     textLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -226,7 +227,8 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     if (type == PICKTYPE::HanDict)
     {
         qDebug() << "han";
-        BaiduTranslate::instance().HanDict(picker->getSelectedText());
+        QString res = BaiduTranslate::instance().HanDict(picker->getSelectedText());
+        resultParser(CuteAction::PICK, res);
     }
     else
     {
@@ -475,6 +477,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
 {
     if(res.isEmpty())
     {
+        textLabel->setText("");
         return;
     }
     else if (res.startsWith("{"))

@@ -440,6 +440,8 @@ QString BaiduTranslate::HanDict(QString keyWord)
                     text += "\n";
             }
         }
+        if (text.startsWith("\n"))
+            text.remove(0, 1);
 
         return text;
     };
@@ -508,7 +510,9 @@ QString BaiduTranslate::HanDict(QString keyWord)
             }
         }
     }
-    result.prepend(title + "\n");
+    if (!title.isEmpty())
+        result.prepend( QString("<big>%1</big>\n").arg(title));
+    result.replace("\n", "<br/>");
     qDebug() << result;
 
 
