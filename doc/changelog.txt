@@ -2,6 +2,8 @@
 https://hanyu.baidu.com/  百度汉语
 https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
+TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
+百度汉语
 wordPage中的QLabel设置为可选择的，方便用户复制内容。
 
 
