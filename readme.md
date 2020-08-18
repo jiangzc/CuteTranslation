@@ -123,10 +123,10 @@ TextTimeout=3.0
 ```bash
 # Qt, Xlib
 sudo apt install libxtst-dev libxcb-util0-dev build-essential
-sudo apt install qt5-default libqt5x11extras5  libqt5x11extras5-dev
+sudo apt install qt5-default libqt5x11extras5  libqt5x11extras5-dev qtmultimedia5-dev
 
 # APP
-sudo apt install gnome-screenshot nodejs
+sudo apt install gnome-screenshot nodejs tidy
 ```
 qmake 编译
 ```bash
