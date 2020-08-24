@@ -516,7 +516,18 @@ void MainWindow::resultParser(CuteAction action, QString &res)
                 // 检查错误类型
             }
         }
+        else
+        {
+            // 外语 段落翻译
+            stackWidget->setCurrentIndex(0);
+            textLabel->setText(res);
+            textLabel->adjustSize();
+            int height = textLabel->heightForWidth(stackWidget->width());
+            this->stackWidget->setFixedHeight(height + 10);
+            this->setFixedHeight(stackWidget->y() + height + 30);
+        }
     }
+
 
 }
 
