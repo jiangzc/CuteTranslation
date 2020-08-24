@@ -223,12 +223,11 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
 {
 
-
     if (type == PICKTYPE::HanDict)
     {
         qDebug() << "han";
         QString res = BaiduTranslate::instance().HanDict(picker->getSelectedText());
-        resultParser(CuteAction::PICK, res);
+        resultParser(CuteAction::PICK_HANDICT, res);
     }
     else
     {
@@ -475,45 +474,50 @@ void MainWindow::onRefreshButtonPressed()
 
 void MainWindow::resultParser(CuteAction action, QString &res)
 {
-    if(res.isEmpty())
-    {
-        textLabel->setText("");
-        return;
-    }
-    else if (res.startsWith("{"))
-    {
-        QString text = "null";
-        QJsonParseError error;
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
-        if (error.error == QJsonParseError::NoError)
-        {
-            if (!jsonDocument.isEmpty() && jsonDocument.isObject())
-            {
-                stackWidget->setCurrentIndex(1);
-                wordPage->updateDescription(jsonDocument.object());
-                wordPage->adjustSize();
-                int height = wordPage->heightForWidth(stackWidget->width());
-                wordPage->setFixedSize(stackWidget->width(), height + 20);
-                this->stackWidget->setFixedHeight(height);
-                this->setFixedHeight(stackWidget->y() + height + 20);
-            }
-        }
-        else
-        {
-            // 检查错误类型
-        }
-    }
-    else
+    if (action == CuteAction::PICK_HANDICT)
     {
         stackWidget->setCurrentIndex(0);
+        if (res.isEmpty())
+            res = "汉语词典：查询结果为空\n";
         textLabel->setText(res);
         textLabel->adjustSize();
         int height = textLabel->heightForWidth(stackWidget->width());
 
         this->stackWidget->setFixedHeight(height + 10);
         this->setFixedHeight(stackWidget->y() + height + 30);
-
     }
+    else // 其他动作暂时使用相同的处理方法
+    {
+        if(res.isEmpty())
+        {
+            textLabel->setText("");
+            return;
+        }
+        else if (res.startsWith("{"))
+        {
+            QString text = "null";
+            QJsonParseError error;
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(res.toUtf8(), &error);
+            if (error.error == QJsonParseError::NoError)
+            {
+                if (!jsonDocument.isEmpty() && jsonDocument.isObject())
+                {
+                    stackWidget->setCurrentIndex(1);
+                    wordPage->updateDescription(jsonDocument.object());
+                    wordPage->adjustSize();
+                    int height = wordPage->heightForWidth(stackWidget->width());
+                    wordPage->setFixedSize(stackWidget->width(), height + 20);
+                    this->stackWidget->setFixedHeight(height);
+                    this->setFixedHeight(stackWidget->y() + height + 20);
+                }
+            }
+            else
+            {
+                // 检查错误类型
+            }
+        }
+    }
+
 }
 
 // This function is obsolete

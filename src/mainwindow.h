@@ -9,7 +9,7 @@ class QStackedWidget;
 class QLabel;
 class WordPage;
 
-enum CuteAction { PICK, OCRTranslate, Search, OCRText } ;
+enum CuteAction { PICK, PICK_HANDICT, OCRTranslate, Search, OCRText } ;
 enum PICKTYPE : int;
 
 namespace Ui
