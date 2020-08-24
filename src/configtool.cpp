@@ -41,10 +41,9 @@ ConfigTool::ConfigTool()
     TokenURL = settings->value("TokenURL", "http://67.216.199.87:5000/token").toString();
     if (version != qApp->applicationVersion())
     {
-        qInfo() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
-                   << "\n  配置文件： ~/.local/share/CuteTranslation";
-        if (version.startsWith("0.2") || version.startsWith("0.3.0"))
-            ;
+        if (version.startsWith("0.2") || version.startsWith("0.3") || version.startsWith("0.4"))
+            qInfo() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
+                    << "\n  配置文件： ~/.local/share/CuteTranslation";
         else
             qWarning() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
                     << "\n  配置文件： ~/.local/share/CuteTranslation";

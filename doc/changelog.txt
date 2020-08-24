@@ -3,9 +3,16 @@ https://hanyu.baidu.com/  百度汉语
 https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
-百度汉语
-wordPage中的QLabel设置为可选择的，方便用户复制内容。
 
+
+
+
+人生如逆旅，我亦是行人。  BUG 没有翻译
+
+v0.4.0
+增加百度汉语，汉语解释。
+wordPage中的QLabel设置为可选择的，方便用户复制内容。
+启动时验证 tidy软件
 
 v0.3.0
 使用QProcess获取nodejs生成的token，代替fork exec等函数
