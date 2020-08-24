@@ -31,7 +31,7 @@ int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 
-// TODO 多屏幕支持  单中文字注音 清空配置目录
+// TODO 多屏幕支持   清空配置目录
 // TODO  可执行文件指定兼容哪些版本的配置文件
 
 int main(int argc, char *argv[])
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.3.0");
+    a.setApplicationVersion("0.4.0");
 
     QPalette palette(Qt::white);
     a.setPalette(palette);
@@ -202,10 +202,10 @@ int checkDependency()
         qCritical() << "文件缺失";
         return -1;
     }
-    res = system("which nodejs > /dev/null && which gnome-screenshot > /dev/null");
+    res = system("which nodejs > /dev/null && which gnome-screenshot > /dev/null  && which tidy > /dev/null");
     if (res != 0)
     {
-        qCritical() << "缺少依赖 nodejs gnome-screenshot";
+        qCritical() << "缺少依赖 nodejs gnome-screenshot tidy";
     }
     return 0;
 }
