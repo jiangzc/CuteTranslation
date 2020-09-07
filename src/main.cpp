@@ -226,6 +226,8 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 {
     Q_UNUSED(context)
     static MessageBox msgBox;
+    if (!logFile->isOpen())
+        return;
     QString time =  QDateTime::currentDateTime().toString(Qt::ISODate);
     switch (type) {
     case QtDebugMsg:
