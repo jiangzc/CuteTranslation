@@ -153,10 +153,11 @@ QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, 
     data.addQueryItem("to", dst);
     data.addQueryItem("query", query);
     data.addQueryItem("simple_means_flag", "3");
-    data.addQueryItem("sign", getSign(query));
+    QString sign = getSign(query);
+    data.addQueryItem("sign", sign);
     data.addQueryItem("token", token);
 
-    qDebug() << "sign" << getSign(query);
+    qDebug() << "sign" << sign;
 
     QNetworkRequest req(QUrl("https://fanyi.baidu.com/v2transapi"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
