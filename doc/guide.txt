@@ -1,4 +1,4 @@
-CuteTranslation 用户手册
+CuteTranslation v0.4.1 用户手册
 
 项目主页：https://github.com/jiangzc/CuteTranslation
 

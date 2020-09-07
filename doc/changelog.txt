@@ -4,7 +4,7 @@ https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
 
-
+版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
 
 
 人生如逆旅，我亦是行人。  BUG 没有翻译
