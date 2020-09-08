@@ -4,10 +4,19 @@ https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
 
+nodejs 使用旧版本的
+
 版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
 
 
 人生如逆旅，我亦是行人。  BUG 没有翻译
+
+v0.4.1
+修复一个严重BUG：重复的getSign，使用旧版本的nodejs，加快速度。
+
+v0.4.0-1
+修复两个严重BUG：英语段落翻译失效，用汉语词典翻译英语
+
 
 v0.4.0
 增加百度汉语，汉语解释。

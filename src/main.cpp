@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.4.0");
+    a.setApplicationVersion("0.4.1");
 
     QPalette palette(Qt::white);
     a.setPalette(palette);
