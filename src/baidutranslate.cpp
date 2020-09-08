@@ -128,7 +128,12 @@ QString BaiduTranslate::getSign(QString query)
     QProcess nodejs;
     QStringList args;
     args << appDir.absoluteFilePath("baidu.js") << query << gtk;
-    nodejs.start("nodejs", args);
+    // 优先使用自带的nodejs
+    if (appDir.exists("node"))
+        nodejs.start(appDir.absoluteFilePath("node"), args);
+    else
+        nodejs.start("nodejs", args);
+    qDebug() << nodejs.program();
     nodejs.waitForFinished(2000);
 
     QString result;
