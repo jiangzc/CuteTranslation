@@ -254,35 +254,49 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     else
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
+
+
+    // 判断应该出现在哪个屏幕上
+    QRect targetScreenRect;
+    for (auto screen : QGuiApplication::screens())
+    {
+        if (screen->availableGeometry().contains((mousePressPosition + mouseReleasedPosition) / 2))
+        {
+            targetScreenRect = screen->availableGeometry();
+
+            break;
+        }
+    }
+
     // 判断是否超出屏幕上边界
-    if (direction == Direction_Down && mid.y() < 0)
+    if (direction == Direction_Down && mid.y() < targetScreenRect.y())
     {
         direction = Direction_Up;
         mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
     }
     // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && mid.y() + this->height() > xdotool->screenHeight)
+    if (direction == Direction_Up && mid.y() + this->height() > targetScreenRect.y() + targetScreenRect.height())
     {
         direction = Direction_Down;
         mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
     }
     Direction = direction;
     // 判断是否超出屏幕左边界
-    if (mid.x() < configTool->Edge)
+    if (mid.x() < configTool->Edge + targetScreenRect.x())
     {
-        TriangleOffset = configTool->Edge - mid.x();
+        TriangleOffset = configTool->Edge - (mid.x() - targetScreenRect.x());
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = configTool->Edge;
+        mid.rx() = configTool->Edge + targetScreenRect.x();
         TriangleOffset = -TriangleOffset;
     }
     // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool->screenWidth - configTool->Edge)
+    if (mid.x() + this->width() > targetScreenRect.x() + targetScreenRect.width() - configTool->Edge)
     {
-        TriangleOffset = mid.x() + this->width() - (xdotool->screenWidth - configTool->Edge);
+        TriangleOffset = mid.x() - (targetScreenRect.x() + targetScreenRect.width() - configTool->Edge - this->width());
         if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool->screenWidth - configTool->Edge - this->width();
+        mid.rx() = targetScreenRect.x() + targetScreenRect.width() - configTool->Edge - this->width();
     }
     move(mid);
     showTriangle = true;
@@ -291,6 +305,7 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
     previousAction.point2 = mouseReleasedPosition;
     previousAction.type = type;
     this->show();
+
 
 }
 
