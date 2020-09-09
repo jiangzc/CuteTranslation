@@ -45,6 +45,7 @@ class MainWindow : public QMainWindow
     QPushButton *refreshButton;
     virtual void showEvent(QShowEvent *e);
     void resultParser(CuteAction action, QString &res);
+    QPoint getAdjustedPosition(QPoint mousePressPosition, QPoint mouseReleasedPosition);
     bool screenshot = true;
 
 

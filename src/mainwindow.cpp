@@ -222,27 +222,9 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 }
 
-void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
+// 返回MainWindow弹出的位置
+QPoint MainWindow::getAdjustedPosition(QPoint mousePressPosition, QPoint mouseReleasedPosition)
 {
-    qDebug() << mousePressPosition << mouseReleasedPosition;
-    if (type == PICKTYPE::HanDict)
-    {
-        qDebug() << "han";
-        QString res = BaiduTranslate::instance().HanDict(picker->getSelectedText());
-        resultParser(CuteAction::PICK_HANDICT, res);
-    }
-    else
-    {
-        // 获取翻译
-        QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
-        QString res_short = res;
-        res_short.truncate(30);
-        qInfo() << res_short << "...";
-        resultParser(CuteAction::PICK, res);
-        // 等待页面加载完成
-    }
-
-
     // 获取默认方向向 重置三角形偏移量
     int direction = configTool->Direction;
     TriangleOffset = 0;
@@ -298,7 +280,32 @@ void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseRel
             TriangleOffset = this->width() / 2 - TriangleWidth * 2;
         mid.rx() = targetScreenRect.x() + targetScreenRect.width() - configTool->Edge - this->width();
     }
-    move(mid);
+
+    return mid;
+}
+
+void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
+{
+    qDebug() << mousePressPosition << mouseReleasedPosition;
+    if (type == PICKTYPE::HanDict)
+    {
+        qDebug() << "han";
+        QString res = BaiduTranslate::instance().HanDict(picker->getSelectedText());
+        resultParser(CuteAction::PICK_HANDICT, res);
+    }
+    else
+    {
+        // 获取翻译
+        QString res = BaiduTranslate::instance().TranslateText(picker->getSelectedText(), configTool->TextTimeout);
+        QString res_short = res;
+        res_short.truncate(30);
+        qInfo() << res_short << "...";
+        resultParser(CuteAction::PICK, res);
+        // 等待页面加载完成
+    }
+
+    move(getAdjustedPosition(mousePressPosition, mouseReleasedPosition));
+
     showTriangle = true;
     previousAction.Action = CuteAction::PICK;
     previousAction.point1 = mousePressPosition;
@@ -321,51 +328,10 @@ void MainWindow::onOCRTranslateShortCutPressed()
     resultParser(CuteAction::OCRTranslate, res);
     // 等待页面加载完成
 
-
-    // 获取默认方向向 重置三角形偏移量
-    int direction = configTool->Direction;
-    TriangleOffset = 0;
-
-    QPoint mid(0, 0);
-    mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
-
-    if (direction == Direction_Up)
-        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
-    else
-        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
-    // 判断是否超出屏幕上边界
-    if (direction == Direction_Down && mid.y() < 0)
-    {
-        direction = Direction_Up;
-        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
-    }
-    // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && mid.y() + this->height() > xdotool->screenHeight)
-    {
-        direction = Direction_Down;
-        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
-    }
-    Direction = direction;
-    // 判断是否超出屏幕左边界
-    if (mid.x() < configTool->Edge)
-    {
-        TriangleOffset = configTool->Edge - mid.x();
-        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
-            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = configTool->Edge;
-        TriangleOffset = -TriangleOffset;
-    }
-    // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool->screenWidth - configTool->Edge)
-    {
-        TriangleOffset = mid.x() + this->width() - (xdotool->screenWidth - configTool->Edge);
-        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
-            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool->screenWidth - configTool->Edge - this->width();
-    }
-    move(mid);
-    this->show();
+    move(getAdjustedPosition(mousePressPosition, mouseReleasedPosition));
     showTriangle = true;
+    this->show();
+
     previousAction.Action = CuteAction::OCRTranslate;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
@@ -384,51 +350,10 @@ void MainWindow::onOCRTextShortCutPressed()
     resultParser(CuteAction::OCRText, res);
     // 等待页面加载完成
 
-
-    // 获取默认方向向 重置三角形偏移量
-    int direction = configTool->Direction;
-    TriangleOffset = 0;
-
-    QPoint mid(0, 0);
-    mid.rx() = (mousePressPosition.x() + mouseReleasedPosition.x() - width()) / 2;
-
-    if (direction == Direction_Up)
-        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
-    else
-        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
-    // 判断是否超出屏幕上边界
-    if (direction == Direction_Down && mid.y() < 0)
-    {
-        direction = Direction_Up;
-        mid.ry() = std::max(mousePressPosition.y(), mouseReleasedPosition.y()) + 15;
-    }
-    // 判断是否超出屏幕下边界
-    if (direction == Direction_Up && mid.y() + this->height() > xdotool->screenHeight)
-    {
-        direction = Direction_Down;
-        mid.ry() = std::min(mousePressPosition.y(), mouseReleasedPosition.y()) - this->height() - 15;
-    }
-    Direction = direction;
-    // 判断是否超出屏幕左边界
-    if (mid.x() < configTool->Edge)
-    {
-        TriangleOffset = configTool->Edge - mid.x();
-        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
-            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = configTool->Edge;
-        TriangleOffset = -TriangleOffset;
-    }
-    // 判断是否超出屏幕右边界
-    if (mid.x() + this->width() > xdotool->screenWidth - configTool->Edge)
-    {
-        TriangleOffset = mid.x() + this->width() - (xdotool->screenWidth - configTool->Edge);
-        if (TriangleOffset > this->width() / 2 - TriangleWidth * 2)
-            TriangleOffset = this->width() / 2 - TriangleWidth * 2;
-        mid.rx() = xdotool->screenWidth - configTool->Edge - this->width();
-    }
-    move(mid);
-    this->show();
     showTriangle = true;
+    move(getAdjustedPosition(mousePressPosition, mouseReleasedPosition));
+    this->show();
+
     previousAction.Action = CuteAction::OCRText;
     previousAction.point1 = mousePressPosition;
     previousAction.point2 = mouseReleasedPosition;
@@ -456,6 +381,7 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
             {
                 mid.ry() = pos.y() - this->height() - 10;
             }
+            break;
         }
     }
 
