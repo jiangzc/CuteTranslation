@@ -1,4 +1,5 @@
 #include <QColor>
+#include <QGuiApplication>
 #include <QDebug>
 #include <QPainter>
 #include <QtMath>
@@ -12,6 +13,7 @@
 #include <QJsonObject>
 #include <QStackedWidget>
 #include <QLabel>
+#include <QScreen>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -222,7 +224,7 @@ void MainWindow::onMouseButtonPressed(int x, int y)
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
 {
-
+    qDebug() << mousePressPosition << mouseReleasedPosition;
     if (type == PICKTYPE::HanDict)
     {
         qDebug() << "han";
@@ -425,16 +427,23 @@ void MainWindow::onSearchBarReturned(QPoint pos, QPoint size, QString text)
     resultParser(CuteAction::Search, res);
     // 等待页面加载完成
 
-
     this->showTriangle = false;
     QPoint mid;
     mid.ry() = pos.y() + size.y();
     mid.rx() = pos.x() + size.x() / 2 - this->width() / 2;
-    // 判断是否超出屏幕下边界
-    if (mid.y() + this->height() > xdotool->screenHeight)
+    // SearchBar pos 落在哪一个屏幕内
+    for (auto screen : QGuiApplication::screens())
     {
-        mid.ry() = pos.y() - this->height() - 10;
+        if (screen->availableGeometry().contains(pos))
+        {
+            // 判断是否超出屏幕下边界
+            if (mid.y() + this->height() > screen->availableGeometry().y() + screen->availableGeometry().height())
+            {
+                mid.ry() = pos.y() - this->height() - 10;
+            }
+        }
     }
+
     move(mid);
     previousAction.Action = CuteAction::Search;
     previousAction.point1 = pos;

@@ -179,6 +179,7 @@ void FloatButton::onWordPicked(QString text)
         this->move(QCursor::pos() + QPoint(-10, -(15 + this->height())));
 
     this->show();
+    qDebug() << QCursor::pos();
     // this->activateWindow();
 }
 
