@@ -4,7 +4,7 @@ https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
 
-字体大小全部使用像素，在设置里可以调整
+字体大小全部使用像素，在设置里可以调整  重写 QSS  明暗皮肤
 
 v20 浏览器中打字时FloatBtn闪烁
 
@@ -12,6 +12,10 @@ v20 浏览器中打字时FloatBtn闪烁
 
 
 人生如逆旅，我亦是行人。  BUG 没有翻译
+
+v0.4.2
+在MainWindow中增加复制按钮
+多屏幕支持
 
 v0.4.1
 修复一个严重BUG：重复的getSign，使用旧版本的nodejs，加快速度。
