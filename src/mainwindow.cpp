@@ -286,7 +286,6 @@ QPoint MainWindow::getAdjustedPosition(QPoint mousePressPosition, QPoint mouseRe
 
 void MainWindow::onFloatButtonPressed(QPoint mousePressPosition, QPoint mouseReleasedPosition, PICKTYPE type)
 {
-    qDebug() << mousePressPosition << mouseReleasedPosition;
     if (type == PICKTYPE::HanDict)
     {
         qDebug() << "han";

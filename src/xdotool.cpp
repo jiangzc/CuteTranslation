@@ -23,10 +23,6 @@ Xdotool::Xdotool()
     screenHeight = QGuiApplication::primaryScreen()->availableSize().height();
     getKeyMap();
 
-    for (auto i : QGuiApplication::screens())
-    {
-        qDebug() << i->availableGeometry();
-    }
 }
 
 Xdotool::~Xdotool()
