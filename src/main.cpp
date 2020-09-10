@@ -146,8 +146,8 @@ int main(int argc, char *argv[])
     configTool->SetMode(configTool->GetMode()); // 触发ModeChanged，修改托盘文字
 
     // TODO: deepin v15.11 通知桌面环境，应用已经加载完毕  v20 可以不用这样设置
-    // cw.show();
-    // cw.hide();
+    searchBar.show();
+    searchBar.hide();
     qInfo() << "应用加载完毕";
 
     BaiduTranslate::instance();
