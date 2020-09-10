@@ -252,6 +252,27 @@ void WordPage::updateDescription(const QJsonObject &obj)
 
 }
 
+QString WordPage::getText()
+{
+    QString res = QString("%1 \n %2   %3  \n").arg(titleLabel->text()).arg(leftAudioLabel->text()).arg(rightAudioLabel->text());
+
+    for (int i = 3; i < mainlayout->count(); i++)
+    {
+        QHBoxLayout *hlayout = dynamic_cast<QHBoxLayout *>(mainlayout->itemAt(i)->layout());
+        if (hlayout)
+        {
+            QLabel *type = dynamic_cast<QLabel*>(hlayout->itemAt(0)->widget());
+            QLabel *desc = dynamic_cast<QLabel*>(hlayout->itemAt(1)->widget());
+            if (type && desc && type->text().endsWith("."))
+            {
+                res += type->text() + "  " + desc->text() + "\n";
+            }
+        }
+    }
+    return res;
+
+}
+
 void WordPage::onVoiceButtonClicked()
 {
     if (voiceBuffer->isOpen())

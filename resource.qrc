@@ -13,5 +13,6 @@
         <file>pic/icons-n.png</file>
         <file>pic/icon-grey.png</file>
         <file>pic/handict.png</file>
+        <file>pic/copy.png</file>
     </qresource>
 </RCC>

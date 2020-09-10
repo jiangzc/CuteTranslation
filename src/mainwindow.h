@@ -56,7 +56,8 @@ class MainWindow : public QMainWindow
     void onOCRTextShortCutPressed();
     void onSearchBarReturned(QPoint pos, QPoint size, QString res);
     void onRefreshButtonPressed();
-    void onAdjustSize(float zoom, int width);
+    void onAdjustSize(float zoom, int width); // this function is obsolete
+    void onCopyButtonPressed();
 };
 
 #endif // MAINWINDOW_H

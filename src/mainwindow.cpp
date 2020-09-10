@@ -14,6 +14,7 @@
 #include <QStackedWidget>
 #include <QLabel>
 #include <QScreen>
+#include <QClipboard>
 #include <algorithm>
 
 #include "mainwindow.h"
@@ -108,7 +109,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
         picker->ignoreCRLF = checked;
     });
 
+    // 复制按钮
+    QPushButton *copyButton = new QPushButton(this->centralWidget());
+    copyButton->setGeometry(this->width()- 190, 13, 25, 25);
+    copyButton->setFlat(true);
+    copyButton->setIconSize(QSize(25, 25));
+    copyButton->setIcon(QIcon(":/pic/copy.png"));
+    copyButton->setFocusPolicy(Qt::NoFocus);
+    connect(copyButton, &QPushButton::clicked, this, &MainWindow::onCopyButtonPressed);
+
     // 翻译内容  NOTICE: 不要把上面按钮挡住了
+    // stackWidget 里面有两个控件，0. 长文本翻译 1. wordPage
     stackWidget = new QStackedWidget(this->centralWidget());
     stackWidget->setGeometry(20, 40, this->width() - 40, this->height() - 20 );
 
@@ -485,4 +496,17 @@ void MainWindow::onAdjustSize(float zoom, int width)
 {
     this->show();
     this->hide();
+}
+
+void MainWindow::onCopyButtonPressed()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    if (stackWidget->currentIndex() == 0 && stackWidget->widget(0) == textLabel)
+    {
+        clipboard->setText(textLabel->text().replace("<br/>", "\n"));
+    }
+    else if (stackWidget->currentIndex() == 1 && stackWidget->widget(1) == wordPage)
+    {
+        clipboard->setText(wordPage->getText());
+    }
 }

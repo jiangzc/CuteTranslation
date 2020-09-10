@@ -6,6 +6,8 @@ TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客�
 
 字体大小全部使用像素，在设置里可以调整
 
+v20 浏览器中打字时FloatBtn闪烁
+
 版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
 
 

@@ -24,6 +24,7 @@ public:
     QVBoxLayout *mainlayout;
     QMediaPlayer *player;
     void updateDescription(const QJsonObject &obj);
+    QString getText();
 private:
     QVector<QHBoxLayout*> descriptions;
     QVector<QLabel *> tags;

@@ -519,7 +519,7 @@ QString BaiduTranslate::HanDict(QString keyWord)
     if (!title.isEmpty())
         result.prepend( QString("<big>%1</big>\n").arg(title));
     result.replace("\n", "<br/>");
-    qDebug() << result;
+    // qDebug() << result;
 
 
     return result;
