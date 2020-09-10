@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
     xdotool->eventMonitor.start();
     configTool->SetMode(configTool->GetMode()); // 触发ModeChanged，修改托盘文字
 
-    // TODO: deepin v15.11 通知桌面环境，应用已经加载完毕  v20 可以不用这样设置
+    // 通知桌面环境，应用已经加载完毕
     searchBar.show();
     searchBar.hide();
     qInfo() << "应用加载完毕";
