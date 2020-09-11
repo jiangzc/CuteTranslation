@@ -10,6 +10,8 @@
 #include <QJsonArray>
 #include <QDebug>
 #include <QPushButton>
+#include <QPainter>
+#include <QStyleOption>
 #include <QMediaPlayer>
 #include <QBuffer>
 
@@ -31,16 +33,13 @@ WordPage::WordPage(QWidget *parent) : QWidget (parent)
 
 void WordPage::initUI()
 {
+
+    this->setAutoFillBackground(true);
+    this->setAttribute(Qt::WA_TranslucentBackground);
     // 单词音频播放器
     player = new QMediaPlayer(this);
     player->setVolume(100);
     voiceBuffer = new QBuffer(this);
-
-    // 设置底部颜色
-    QPalette palette;
-    palette = this->palette();
-    palette.setColor(QPalette::Background, QColor(255,255,255));
-    //this->setPalette(palette);
 
     // 声音图标
     QPixmap voicePic(":/pic/icons-voice.png");
@@ -94,10 +93,6 @@ void WordPage::initUI()
     rightAudioLabel->setText("Phonetic symbol 2");
     mainlayout->insertLayout(2, audioLayout);
 
-
-    palette =  leftAudioLabel->palette();
-    palette.setColor(QPalette::WindowText, QColor(88,86,83));
-
     // init descriptions
     for (int i = 0; i < 10; i++)
     {
@@ -107,7 +102,6 @@ void WordPage::initUI()
         QLabel *type = new QLabel(this);
         type->setObjectName("type");
         type->setFixedWidth(50);
-        type->setPalette(palette);
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         type->setTextInteractionFlags(Qt::TextSelectableByMouse);
         QLabel *desc = new QLabel();
@@ -123,15 +117,12 @@ void WordPage::initUI()
 
     // init tags
     tagslayout = new FlowLayout;
-    palette = QPalette();
-    palette.setColor(QPalette::ColorRole::WindowText, Qt::gray);
-    palette.setColor(QPalette::ColorRole::Window, QColor("#F2F1F6"));
     for (int i = 0; i < 10; i++)
     {
         QLabel *tag = new QLabel;
         tag->setObjectName("tag");
         tag->setContentsMargins(5, 3, 5, 3);
-        tag->setPalette(palette);
+        // tag->setPalette(palette);
         tag->setAutoFillBackground(true);
         tagslayout->addWidget(tag);
         tags.append(tag);
@@ -262,6 +253,15 @@ QString WordPage::getText()
     }
     return res;
 
+}
+
+void WordPage::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void WordPage::onVoiceButtonClicked()

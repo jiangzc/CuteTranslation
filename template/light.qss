@@ -119,10 +119,12 @@ WordPage QLabel#titleLabel {
 
 WordPage QLabel#audioLabel {
     font-size: 20px;
+    
 }
 
 WordPage QLabel#type {
     font-size: 18px;
+    color: rgb(88,86,83);
 }
 
 WordPage QLabel#desc {
@@ -131,5 +133,7 @@ WordPage QLabel#desc {
 
 WordPage QLabel#tag {
     font-size: 18px;
+    color: grey;
+    background-color: #F2F1F6;
 }
 

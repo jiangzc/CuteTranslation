@@ -30,6 +30,7 @@ private:
     QVector<QLabel *> tags;
     FlowLayout *tagslayout;
     QBuffer *voiceBuffer;
+    void paintEvent(QPaintEvent *event);
 
 private slots:
     void onVoiceButtonClicked();
