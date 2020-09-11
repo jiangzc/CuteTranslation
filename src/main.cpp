@@ -42,14 +42,21 @@ int main(int argc, char *argv[])
     a.setApplicationName("CuteTranslation");
     a.setApplicationVersion("0.4.2");
 
-    QPalette palette(Qt::white);
-    a.setPalette(palette);
+//    QPalette palette(Qt::white);
+//    a.setPalette(palette);
+
 
     // 必须文件夹
     appDir.setPath(QCoreApplication::applicationDirPath());
     dataDir.setPath(QDir::homePath() + "/.local/share/CuteTranslation");
     QDir::home().mkpath(dataDir.absolutePath());
     QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
+
+    // 设置样式表
+    QFile qssFile(appDir.absoluteFilePath("light.qss"));
+    qssFile.open(QIODevice::ReadOnly);
+    a.setStyleSheet(qssFile.readAll());
+    qssFile.close();
 
     xdotool = new Xdotool();
     logFile = new QFile(dataDir.filePath("log.txt"));

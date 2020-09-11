@@ -125,13 +125,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // 长文本翻译 控件
     textLabel = new QLabel(this);
+    textLabel->setObjectName("textLabel");
     stackWidget->addWidget(textLabel);
-    QFont textFont("Noto Sans CJK SC Regular");
-    textFont.setPixelSize(int(20 * configTool->GetWebPageZoomFactor()));
 
     textLabel->setMargin(20);
     textLabel->setFrameShape(QFrame::NoFrame);
-    textLabel->setFont(textFont);
     textLabel->setTextFormat(Qt::RichText);
     textLabel->setWordWrap(true);
     textLabel->setFixedWidth(stackWidget->width());

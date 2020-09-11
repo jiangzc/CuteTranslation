@@ -18,11 +18,10 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_mode->addItem("全局", Mode_ALL);
     ui->comboBox_mode->addItem("自定义", Mode_CUSTOM);
     ui->comboBox_mode->addItem("禁用", Mode_NONE);
-    ui->comboBox_mode->setStyleSheet("combobox-popup: 0;");
+
     ui->comboBox_undefined->addItem("显示");
     ui->comboBox_undefined->addItem("不显示");
-    ui->comboBox_undefined->setStyleSheet("combobox-popup: 0;");
-    ui->listWidget->setStyleSheet(" QListWidget {padding:5px; background-color:white;} QListWidget::item { padding: 5px; }");
+
 
     rightClickMenu.addAction(&remove_action);
 

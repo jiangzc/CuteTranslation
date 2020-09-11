@@ -24,19 +24,18 @@ FloatButton::FloatButton(QWidget *parent) : QWidget(parent)
     this->setFixedSize(configTool->FloatButtonWidth, configTool->FloatButtonHeight);
 
     QPixmap pic(":/pic/google-translate.png");
-    QLabel *label = new QLabel(this);
-    label->setScaledContents(true);
-    label->setGeometry(0, 0, this->width(), this->height());
-    label->setPixmap(pic);
-    label->setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
+    QLabel *engDictLabel = new QLabel(this);
+    engDictLabel->setObjectName("engDictLabel");
+    engDictLabel->setScaledContents(true);
+    engDictLabel->setGeometry(0, 0, this->width(), this->height());
+    engDictLabel->setPixmap(pic);
 
     pic.load(":/pic/handict.png");
     hanDictLabel = new QLabel(this);
+    hanDictLabel->setObjectName("hanDictLabel");
     hanDictLabel->setScaledContents(true);
     hanDictLabel->setGeometry(this->width(), 0, this->width(), this->height());
     hanDictLabel->setPixmap(pic);
-    hanDictLabel->setStyleSheet("background-color: white; border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);");
-
 
     floatButtonMenu.addAction(&notShow);
     connect(&notShow, &QAction::triggered, this, [=]{
