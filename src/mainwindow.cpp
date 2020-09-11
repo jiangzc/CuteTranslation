@@ -175,7 +175,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setPen(pen);
 
     QBrush brush;
-    brush.setColor(Qt::white);
+    brush.setColor(Qt::yellow);
     brush.setStyle(Qt::SolidPattern);
     painter.setBrush(brush);
 
@@ -469,7 +469,7 @@ void MainWindow::resultParser(CuteAction action, QString &res)
                     int height = wordPage->heightForWidth(stackWidget->width());
                     wordPage->setFixedSize(stackWidget->width(), height + 20);
                     this->stackWidget->setFixedHeight(height);
-                    this->setFixedHeight(stackWidget->y() + height + 20);
+                    this->setFixedHeight(stackWidget->y() + height + 30);
                 }
             }
             else
