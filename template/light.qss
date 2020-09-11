@@ -1,88 +1,3 @@
-QComboBox {
-    combobox-popup: 0;
-
-    color: #000000;
-    border-style:none;
-    border-radius:5px;
-    border:2px solid #DCE4EC;
-    background-color: #FFFFFF;
-}
-
-QComboBox:focus {
-
-    color: #000000;
-    border-radius:5px;
-    border:2px solid #1ABC9C;
-    background-color: #FFFFFF;
-}
-
-
-QComboBox::drop-down {
-
-    width: 25px;
- 
-    border-left-width: 1px;
-    border-left-color: #DCE4EC;
-    border-left-style: solid; 
-    border-top-right-radius: 5px; 
-    border-bottom-right-radius: 5px;
-
-}
-QAbstractItemView::item {
-    min-height: 40px;
-}
-
-QListView {
-    border:2px solid #DCE4EC;
-    border-bottom-left-radius: 5px; 
-    border-bottom-right-radius: 5px;
-}
-
-
-QComboBox QAbstractItemView {
-
-    selection-background-color: #1ABC9C;
-}
-
-QComboBox QAbstractItemView::item {
-    min-height: 40px;
-    background: #1ABC9C;
-    color: black;
-}
-
-QListView::item {
-    background: white;
-    color: black;
-}
- 
-QListView::item:hover {
-    background: #1ABC9C;
-    color: white;
-}
-
-QListView::item:selected {
-    background: #1ABC9C;
-    color: white;
-}
-
-ConfigWindow QPushButton{border-style:none; margin:0px; padding:4px;border-radius:5px;color:#FFFFFF;background:#3498DB;}
-ConfigWindow QPushButton:hover{color:#E5FEFF;background:#5DACE4;}
-ConfigWindow QPushButton:pressed{color:#A0DAFB;background:#2483C7;}
-
-ConfigWindow QLineEdit{border-style:none;padding:3px;border-radius:5px;border:2px solid #DCE4EC; selection-background-color:#1ABC9C}
-ConfigWindow QLineEdit:focus{border:2px solid #1ABC9C; selection-background-color:#1ABC9C}
-
-
-SearchBar QLineEdit
-{
-    background-color: white; border-radius: 20px;
-    padding: 2 60 2 10;border-style:solid;border-width:2px; border-color:rgb(192,192,192);
-}
-
-SearchBar QPushButton {border:none;background-color:transparent;}
-
-SearchBar QLabel#searchIcon {padding: 2 2 2 10; }
-
 FloatButton QLabel#engDictLabel  {
     background-color: white; 
     border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
@@ -99,7 +14,7 @@ MainWindow {
 
 MainWindow QLabel#textLabel {
     font-family: "Noto Sans CJK SC Regular";
-    font-size: 16px;
+    font-size: 19px;
     color: black;
     background-color: yellow; 
 }
