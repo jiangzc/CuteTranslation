@@ -142,6 +142,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     stackWidget->setCurrentIndex(0);
 
+   // this->ui->centralWidget->setStyleSheet(" .QWidget{ background-color: yellow; } ");
+   // this->ui->centralWidget
 
 }
 
@@ -162,6 +164,7 @@ void MainWindow::showEvent(QShowEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
+    // TODO: 要根据皮肤设置颜色
     QColor greyColor(192, 192, 192);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);

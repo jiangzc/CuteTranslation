@@ -93,8 +93,43 @@ FloatButton QLabel#hanDictLabel  {
     border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
 }
 
+MainWindow {
+    background-color: yellow;
+}
+
 MainWindow QLabel#textLabel {
     font-family: "Noto Sans CJK SC Regular";
-    font-size: 16 px;
+    font-size: 16px;
     color: black;
+    background-color: yellow; 
 }
+
+.WordPage {
+    background-color: yellow; 
+}
+
+WordPage QLabel {
+    font-family: "Noto Sans CJK SC Regular";
+}
+
+WordPage QLabel#titleLabel {
+    font-size: 28px;
+    font-weight: 550;
+}
+
+WordPage QLabel#audioLabel {
+    font-size: 20px;
+}
+
+WordPage QLabel#type {
+    font-size: 18px;
+}
+
+WordPage QLabel#desc {
+    font-size: 18px;
+}
+
+WordPage QLabel#tag {
+    font-size: 18px;
+}
+

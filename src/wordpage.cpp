@@ -40,7 +40,7 @@ void WordPage::initUI()
     QPalette palette;
     palette = this->palette();
     palette.setColor(QPalette::Background, QColor(255,255,255));
-    this->setPalette(palette);
+    //this->setPalette(palette);
 
     // 声音图标
     QPixmap voicePic(":/pic/icons-voice.png");
@@ -49,6 +49,9 @@ void WordPage::initUI()
     titleLabel = new QLabel(this);
     leftAudioLabel = new QLabel(this);
     rightAudioLabel = new QLabel(this);
+    titleLabel->setObjectName("titleLabel");
+    leftAudioLabel->setObjectName("audioLabel");
+    rightAudioLabel->setObjectName("audioLabel");
     mainlayout = new QVBoxLayout;
 
     titleLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -56,14 +59,9 @@ void WordPage::initUI()
     rightAudioLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     // 单词
-    QFont font("Noto Sans CJK SC Regular");
-    font.setWeight(QFont::DemiBold);
     titleLabel->setText("Title");
-    font.setPixelSize(int(28 * configTool->GetWebPageZoomFactor()));
-    titleLabel->setFont(font);
     mainlayout->insertWidget(0, titleLabel);
     mainlayout->insertSpacing(1, 10);
-    font.setWeight(QFont::Normal);
 
     // 声音按钮
 
@@ -73,7 +71,6 @@ void WordPage::initUI()
     leftVoiceButton->setContentsMargins(0, 2, 0, 0);
     leftVoiceButton->setPixmap(voicePic);
     connect(leftVoiceButton, &ClickableLabel::clicked, this, &WordPage::onVoiceButtonClicked);
-
 
     ClickableLabel *rightVoiceButton = new ClickableLabel(this);
     rightVoiceButton->setObjectName("en"); // 美国
@@ -97,11 +94,6 @@ void WordPage::initUI()
     rightAudioLabel->setText("Phonetic symbol 2");
     mainlayout->insertLayout(2, audioLayout);
 
-    font.setPixelSize(int(20 * configTool->GetWebPageZoomFactor()));
-
-    leftAudioLabel->setFont(font);
-    rightAudioLabel->setFont(font);
-
 
     palette =  leftAudioLabel->palette();
     palette.setColor(QPalette::WindowText, QColor(88,86,83));
@@ -113,9 +105,8 @@ void WordPage::initUI()
         l->setContentsMargins(0,5,0,5);
 
         QLabel *type = new QLabel(this);
+        type->setObjectName("type");
         type->setFixedWidth(50);
-        font.setPixelSize(int(18 * configTool->GetWebPageZoomFactor()));
-        type->setFont(font);
         type->setPalette(palette);
         type->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         type->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -123,7 +114,7 @@ void WordPage::initUI()
         desc->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         desc->setWordWrap(true);
         desc->setTextInteractionFlags(Qt::TextSelectableByMouse);
-        desc->setFont(font);
+        type->setObjectName("desc");
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
         descriptions.append(l);
@@ -138,7 +129,7 @@ void WordPage::initUI()
     for (int i = 0; i < 10; i++)
     {
         QLabel *tag = new QLabel;
-        tag->setFont(font);
+        tag->setObjectName("tag");
         tag->setContentsMargins(5, 3, 5, 3);
         tag->setPalette(palette);
         tag->setAutoFillBackground(true);
