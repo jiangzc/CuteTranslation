@@ -200,12 +200,13 @@ int checkDependency()
     if (filesExist == false)
     {
         qCritical() << "文件缺失";
-        return -1;
+        return -2;
     }
     res = system("which nodejs > /dev/null && which gnome-screenshot > /dev/null  && which tidy > /dev/null");
     if (res != 0)
     {
         qCritical() << "缺少依赖 nodejs gnome-screenshot tidy";
+        return -3;
     }
     return 0;
 }
@@ -248,15 +249,15 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         qStdOut() << time << " Critical: " << msg << endl;
         logOutput() << time<< " Critical: " << msg << endl;
         msgBox.setText(msg);
-        msgBox.show();
-        qApp->exit(1);
+        // 使用模态对话框，阻塞程序
+        msgBox.exec();
+        // 没有进入 a.exec() 事件循环，退出程序不能用 QCoreApplication::exit(0).
         break;
     case QtFatalMsg:
         qStdOut() << time << " Fatal: " << msg << endl;
         logOutput() << time<< " Fatal: " << msg << endl;
         msgBox.setText(msg);
-        msgBox.show();
-        qApp->exit(2);
+        msgBox.exec();
         break;
     }
 
