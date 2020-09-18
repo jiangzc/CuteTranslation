@@ -36,7 +36,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // 支持HighDPI缩放
+    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling); // v20正式版中要关闭HighDPI缩放，使用物理坐标。
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
