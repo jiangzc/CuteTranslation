@@ -108,7 +108,7 @@ void WordPage::initUI()
         desc->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         desc->setWordWrap(true);
         desc->setTextInteractionFlags(Qt::TextSelectableByMouse);
-        type->setObjectName("desc");
+        desc->setObjectName("desc");
         l->insertWidget(0, type);
         l->insertWidget(1, desc);
         descriptions.append(l);
