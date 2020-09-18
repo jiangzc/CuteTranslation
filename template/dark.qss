@@ -1,0 +1,57 @@
+FloatButton QLabel#engDictLabel  {
+    background-color: #323232; 
+    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
+}
+
+FloatButton QLabel#hanDictLabel  {
+    background-color: #323232; 
+    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
+}
+
+MainWindow {
+    background-color: #323232; 
+}
+
+MainWindow QLabel#textLabel {
+    font-family: "Noto Sans CJK SC Regular";
+    font-size: 19px;
+    color: #D6D6D6;
+    background-color: #323232; 
+}
+
+.WordPage {
+    background-color: #323232; 
+}
+
+WordPage QLabel {
+    font-family: "Noto Sans CJK SC Regular";
+}
+
+WordPage QLabel#titleLabel {
+    font-size: 28px;
+    font-weight: 550;
+    color: #E6E6E6;
+}
+
+WordPage QLabel#audioLabel {
+    font-size: 20px;
+    color: #D6D6D6;
+    
+}
+
+WordPage QLabel#type {
+    font-size: 18px;
+    color: rgb(88,86,83);
+}
+
+WordPage QLabel#desc {
+    font-size: 18px;
+    color: #D6D6D6;
+}
+
+WordPage QLabel#tag {
+    font-size: 18px;
+    color: grey;
+    background-color: #F2F1F6;
+}
+

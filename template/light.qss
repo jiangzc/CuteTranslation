@@ -9,18 +9,18 @@ FloatButton QLabel#hanDictLabel  {
 }
 
 MainWindow {
-    background-color: yellow;
+    background-color: white;
 }
 
 MainWindow QLabel#textLabel {
     font-family: "Noto Sans CJK SC Regular";
     font-size: 19px;
     color: black;
-    background-color: yellow; 
+    background-color: white; 
 }
 
 .WordPage {
-    background-color: yellow; 
+    background-color: white; 
 }
 
 WordPage QLabel {
@@ -30,10 +30,12 @@ WordPage QLabel {
 WordPage QLabel#titleLabel {
     font-size: 28px;
     font-weight: 550;
+    color: rgb(0,0,0);
 }
 
 WordPage QLabel#audioLabel {
     font-size: 20px;
+    color: rgb(0,0,0);
     
 }
 
@@ -44,6 +46,7 @@ WordPage QLabel#type {
 
 WordPage QLabel#desc {
     font-size: 18px;
+    color: rgb(0,0,0);
 }
 
 WordPage QLabel#tag {

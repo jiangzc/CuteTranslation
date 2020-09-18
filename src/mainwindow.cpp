@@ -165,7 +165,7 @@ void MainWindow::showEvent(QShowEvent *e)
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     // TODO: 要根据皮肤设置颜色
-    QColor greyColor(192, 192, 192);
+    QColor greyColor(100, 100, 100);  // QColor greyColor(192, 192, 192);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -175,7 +175,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.setPen(pen);
 
     QBrush brush;
-    brush.setColor(Qt::yellow);
+    brush.setColor(QColor("#323232")); // #262626
     brush.setStyle(Qt::SolidPattern);
     painter.setBrush(brush);
 
