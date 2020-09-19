@@ -3,28 +3,32 @@ https://hanyu.baidu.com/  百度汉语
 https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
 
 TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
+文字缩放 没有效果 
+debian
+架构 uname -m    x86_64   aarch64   mips64
 
-重写 QSS  明暗皮肤
-
+BUG: 
 v20 浏览器中打字时FloatBtn闪烁
+人生如逆旅，我亦是行人。  BUG 没有翻译
 
 版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
 
 
-人生如逆旅，我亦是行人。  BUG 没有翻译
-
 v0.4.3
-
+增加两套主题：浅色和深色，与deepin v20配色一致
+适配最新的deepin v20，禁用 High Dpi 缩放，解决最新版FloatBtn点不中的问题
 修复一个严重BUG： main.cpp 当依赖缺失时的报错提醒
 软件提供 amd64  mips64  arm64 架构的 nodejs v4.8.2
 软件支持并提供 amd64  mips64  arm64 的安装包
+取消外部的nodejs依赖
+
 
 v0.4.2
 在MainWindow中增加复制按钮
 多屏幕支持
 
 v0.4.1
-修复一个严重BUG：重复的getSign，使用旧版本的nodejs，加快速度。
+修复BUG：重复的getSign，使用旧版本的nodejs，加快速度。
 在guide中加入版本信息
 
 v0.4.0-1
