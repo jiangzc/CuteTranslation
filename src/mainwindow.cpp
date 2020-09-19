@@ -164,19 +164,29 @@ void MainWindow::showEvent(QShowEvent *e)
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    // TODO: 要根据皮肤设置颜色
-    QColor greyColor(100, 100, 100);  // QColor greyColor(192, 192, 192);
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     QPen pen;
-    pen.setColor(greyColor);
     pen.setWidth(3);
-    painter.setPen(pen);
 
     QBrush brush;
-    brush.setColor(QColor("#323232")); // #262626
     brush.setStyle(Qt::SolidPattern);
+
+    // 要根据皮肤设置颜色
+    if (configTool->Theme == "light")
+    {
+        pen.setColor(QColor(192, 192, 192));
+        brush.setColor(Qt::white);
+    }
+    else
+    {
+        pen.setColor(QColor(100, 100, 100)); // dark
+        brush.setColor(QColor("#323232"));
+    }
+
+    painter.setPen(pen);
     painter.setBrush(brush);
 
     QPolygon polygon;

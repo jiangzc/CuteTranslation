@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QCoreApplication>
+#include <QApplication>
 #include "configtool.h"
 
 QSettings *settings;
@@ -39,6 +40,9 @@ ConfigTool::ConfigTool()
     // top-level key -> /General/Version
     QString version = settings->value("Version", "0.0.0").toString();
     TokenURL = settings->value("TokenURL", "http://67.216.199.87:5000/token").toString();
+    Theme = settings->value("Theme", "light").toString();
+
+
     if (version != qApp->applicationVersion())
     {
         if (version.startsWith("0.2") || version.startsWith("0.3") || version.startsWith("0.4"))
@@ -116,4 +120,31 @@ void ConfigTool::SetWebPageZoomFactor(float zoom)
 {
     this->WebPageZoomFactor = zoom;
     settings->setValue("/MainWindow/WebPageZoomFactor", QString::number(double(zoom)));
+}
+
+void ConfigTool::loadTheme() const
+{
+    // 设置样式表
+    QFile qssFile;
+    QString qss;
+    qssFile.setFileName(appDir.absoluteFilePath("common.qss"));
+    qssFile.open(QIODevice::ReadOnly);
+    qss += qssFile.readAll() + '\n';
+    qssFile.close();
+
+
+    qssFile.setFileName(appDir.absoluteFilePath(this->Theme + ".qss"));
+    qssFile.open(QIODevice::ReadOnly);
+    qss += qssFile.readAll();
+    qssFile.close();
+
+    qApp->setStyleSheet(qss);
+
+}
+
+void ConfigTool::setTheme(QString text)
+{
+    this->Theme = text;
+    loadTheme();
+    settings->setValue("Theme", text);
 }

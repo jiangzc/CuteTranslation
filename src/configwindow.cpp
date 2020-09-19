@@ -22,6 +22,9 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
     ui->comboBox_undefined->addItem("显示");
     ui->comboBox_undefined->addItem("不显示");
 
+    ui->comboBox_theme->addItem("light");
+    ui->comboBox_theme->addItem("dark");
+
 
     rightClickMenu.addAction(&remove_action);
 
@@ -51,6 +54,10 @@ ConfigWindow::ConfigWindow(QWidget *parent) :
             configTool->Undefined = "Show";
         }
 
+    });
+
+    connect(ui->comboBox_theme, &QComboBox::currentTextChanged, this, [=](QString text){
+        configTool->setTheme(text);
     });
 
     connect(ui->pushButton, &QPushButton::clicked, this, [=]{

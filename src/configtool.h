@@ -41,6 +41,7 @@ public:
     float TextTimeout;
     float OCRTimeout;
     QString TokenURL;
+    QString Theme;
 
 
     // QString Mode ;
@@ -57,6 +58,9 @@ public:
 
     float GetWebPageZoomFactor() const;
     void SetWebPageZoomFactor(float zoom);
+
+    void loadTheme() const;
+    void setTheme(QString text);
 
 
     // QString Undefined;

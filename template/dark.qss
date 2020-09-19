@@ -1,11 +1,11 @@
 FloatButton QLabel#engDictLabel  {
     background-color: #323232; 
-    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
+    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(100,100,100);
 }
 
 FloatButton QLabel#hanDictLabel  {
     background-color: #323232; 
-    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(192,192,192);
+    border-radius: 5px;border-style:solid;border-width:1px; border-color:rgb(100,100,100);
 }
 
 MainWindow {
@@ -51,7 +51,7 @@ WordPage QLabel#desc {
 
 WordPage QLabel#tag {
     font-size: 18px;
-    color: grey;
-    background-color: #F2F1F6;
+    color: white;
+    background-color: #252525;
 }
 

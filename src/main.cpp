@@ -52,11 +52,6 @@ int main(int argc, char *argv[])
     QDir::home().mkpath(dataDir.absolutePath());
     QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
 
-    // 设置样式表
-    QFile qssFile(appDir.absoluteFilePath("dark.qss"));
-    qssFile.open(QIODevice::ReadOnly);
-    a.setStyleSheet(qssFile.readAll());
-    qssFile.close();
 
     xdotool = new Xdotool();
     logFile = new QFile(dataDir.filePath("log.txt"));
@@ -71,6 +66,7 @@ int main(int argc, char *argv[])
         return -1;
 
     configTool = new ConfigTool();
+    configTool->loadTheme(); // 设置样式表
 
     /* ConfigTool       配置工具
      * Picker           取词功能
