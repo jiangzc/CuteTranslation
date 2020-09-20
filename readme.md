@@ -1,6 +1,7 @@
 # CuteTranslation
 
-<img src='https://img.shields.io/badge/system-Linux-yellowgreen' align='left'/>  <img src='https://img.shields.io/badge/arch-x86__64%20%7C%20arm64%20%7C%20mips64-blue' align='left' style='margin-left: 20px'/> <img src='https://img.shields.io/badge/support-deepin%20v20%20%2F%20UOS-orange' align='left' style='margin-left: 20px'/>
+<img src='https://img.shields.io/badge/system-Linux-yellowgreen' align='left'/>  <img src='https://img.shields.io/badge/arch-x86__64%20%7C%20arm64%20%7C%20mips64-blue' align='left' style='margin-left: 20px'/> <img src='https://img.shields.io/badge/support-deepin%20v20%20%2F%20UOS-orange' align='left' style='margin-left: 20px'/>  
+<br/>
 
 ## 简介
 CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户翻译多种语言的文字。目前提供amd64、arm64、mips64三种CPU架构的deb安装包。
