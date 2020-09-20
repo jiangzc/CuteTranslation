@@ -51,7 +51,8 @@ endif
 	cp $(CURDIR)/debian/CuteTranslation.desktop  $(CURDIR)/debian/cute-translation/usr/share/applications/
 
 override_dh_clean:
-	rm  $(CURDIR)/build/*
+	dh_clean
+	rm -f $(CURDIR)/build/*
 
 
 override_dh_installdocs:
