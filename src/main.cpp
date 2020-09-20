@@ -205,10 +205,10 @@ int checkDependency()
         qCritical() << "文件缺失";
         return -2;
     }
-    res = system("which nodejs > /dev/null && which gnome-screenshot > /dev/null  && which tidy > /dev/null");
+    res = system("which gnome-screenshot > /dev/null  && which tidy > /dev/null");
     if (res != 0)
     {
-        qCritical() << "缺少依赖 nodejs gnome-screenshot tidy";
+        qCritical() << "缺少依赖 gnome-screenshot tidy";
         return -3;
     }
     return 0;

@@ -4,7 +4,7 @@
 <br/>
 
 ## 简介
-CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助用户翻译多种语言的文字。目前提供amd64、arm64、mips64三种CPU架构的deb安装包。
+CuteTranslation是Linux系统上基于X11的一款取词翻译软件,帮助用户翻译多种语言的文字。目前提供amd64、arm64、mips64三种CPU架构的deb安装包。
 
 功能：  
 1. 取词翻译： 中英互译、汉语解释、识别诗词文言文   
@@ -24,15 +24,13 @@ CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。帮助�
 
 特点：
 + Google翻译插件风格
-+ QWidget界面
++ QWidget界面，有不同颜色的主题
 + 对接百度翻译
 + 百度AI：OCR识别图片内容并翻译
 + 个性化的配置
 + 快捷键 悬浮窗口
 + 只支持X11，不支持wayland
 
-TODO:
-+ 更换皮肤，包括浅色和深色主题
 
 ## 使用
 **安装**
@@ -157,8 +155,8 @@ sudo chmod 777 /opt/CuteTranslation
     检查 ~/.local/share/CuteTranslation/config.ini 是否缺失或内容不完整。如果是，则删除config.ini后重启程序。
 2. 文件缺失  
     分析日志 ~/.local/share/CuteTranslation/log.txt  考虑重装软件
-3. 缺少nodejs  gnome-screenshot依赖  
-    sudo apt-get install nodejs  gnome-screenshot
+3. 缺少nodejs  gnome-screenshot tidy 依赖  
+    sudo apt-get install nodejs  gnome-screenshot tidy
 4. 缺少其他依赖  
     Depends: nodejs, libqt5x11extras5, libqt5widgets5, libqt5x11extras5, libqt5network5, 
     libqt5core5a, libqt5gui5, gnome-screenshot 
