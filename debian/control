@@ -1,0 +1,13 @@
+Source: cute-translation
+Section: unknown
+Priority: optional
+Maintainer: moriv4 <985811440@qq.com>
+Build-Depends: debhelper (>= 11), libxtst-dev, libxcb-util0-dev, qt5-default, libqt5x11extras5,  libqt5x11extras5-dev, qtmultimedia5-dev
+Standards-Version: 0.4.3
+Homepage: https://github.com/jiangzc/CuteTranslation
+
+
+Package: cute-translation
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, gnome-screenshot, tidy
+Description: A translation program.
