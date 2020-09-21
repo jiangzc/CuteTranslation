@@ -120,7 +120,25 @@ SearchBar=alt+w
 OCRTimeout=2.0
 TextTimeout=3.0
 ```
-## 编译
+
+
+## Debian自动构建
+
+```bash
+# 检查构建依赖
+dpkg-checkbuilddeps
+# 安装开发库
+sudo apt-get install ...
+# 构建Debian包
+dpkg-buildpackage -b 
+```
+
+
+
+
+
+## 手动编译安装
+
 为 Debian 系的发行版安装开发库
 ```bash
 # Qt, Xlib
@@ -136,14 +154,15 @@ mkdir build && cd build
 qmake ..
 make -j4
 ```
-安装
+安装  (参考 install.sh , make_deb.sh,  debian/rules)
 ```
 # 安装到build目录
 bash install.sh build
-
+.......
 # 安装到 /opt/CuteTranslation
 sudo bash install.sh
 sudo chmod 777 /opt/CuteTranslation
+.......
 ```
 运行
 ```
