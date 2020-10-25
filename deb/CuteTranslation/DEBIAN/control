@@ -1,8 +1,0 @@
-Package: cute-translation
-Version: 0.4.3
-Maintainer: moriv4 <985811440@qq.com>
-Description: A translation program.
-Homepage: https://github.com/jiangzc/CuteTranslation
-Architecture: amd64
-Depends: gnome-screenshot, tidy, libqt5widgets5, libqt5x11extras5, libqt5network5, libqt5core5a, libqt5gui5, libqt5multimedia5
-
