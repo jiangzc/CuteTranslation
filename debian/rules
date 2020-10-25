@@ -1,6 +1,9 @@
 #!/usr/bin/make -f
 #防止系统存在多个QT版本请看下引用qt编译环境错误，定义使用的QT版本
 export QT_SELECT := qt5
+
+package = com.github.cute-translation
+
 #export DH_VERBOSE = 1
 TARGET_CPU = $(shell uname -m)
 
@@ -28,27 +31,27 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 # UOS Package
-	mkdir -p $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/entries/applications/
-	mkdir -p $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/
-	cp $(CURDIR)/debian/cute-translation.info $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/info
+	mkdir -p $(CURDIR)/debian/$(package)/opt/apps/$(package)/entries/applications/
+	mkdir -p $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/
+	cp $(CURDIR)/debian/cute-translation.info $(CURDIR)/debian/$(package)/opt/apps/$(package)/info
 
-	cp $(CURDIR)/build/CuteTranslation $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/
-	cp $(CURDIR)/template/* $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/
+	cp $(CURDIR)/build/CuteTranslation $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/
+	cp $(CURDIR)/template/* $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/
 
 	# nodejs
 ifeq ($(TARGET_CPU),x86_64)
-	cp $(CURDIR)/nodejs_binary/node_amd64 $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/node
+	cp $(CURDIR)/nodejs_binary/node_amd64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
 else ifeq ($(TARGET_CPU),mips64)
-	cp $(CURDIR)/nodejs_binary/node_mips64 $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/node
+	cp $(CURDIR)/nodejs_binary/node_mips64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
 else ifeq ($(TARGET_CPU),aarch64)
-	cp $(CURDIR)/nodejs_binary/node_arm64 $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/files/node
+	cp $(CURDIR)/nodejs_binary/node_arm64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
 endif
 
-	cp $(CURDIR)/debian/CuteTranslation.desktop $(CURDIR)/debian/cute-translation/opt/apps/cute-translation/entries/applications/
+	cp $(CURDIR)/debian/$(package).desktop $(CURDIR)/debian/$(package)/opt/apps/$(package)/entries/applications/
 
 # Debian Package
-	mkdir -p $(CURDIR)/debian/cute-translation/usr/share/applications/
-	cp $(CURDIR)/debian/CuteTranslation.desktop  $(CURDIR)/debian/cute-translation/usr/share/applications/
+	mkdir -p $(CURDIR)/debian/$(package)/usr/share/applications/
+	cp $(CURDIR)/debian/$(package).desktop  $(CURDIR)/debian/$(package)/usr/share/applications/
 
 override_dh_clean:
 	dh_clean

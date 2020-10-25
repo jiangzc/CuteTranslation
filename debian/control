@@ -1,4 +1,4 @@
-Source: cute-translation
+Source: com.github.cute-translation
 Section: unknown
 Priority: optional
 Maintainer: moriv4 <985811440@qq.com>
@@ -7,7 +7,7 @@ Standards-Version: 0.4.3
 Homepage: https://github.com/jiangzc/CuteTranslation
 
 
-Package: cute-translation
+Package: com.github.cute-translation
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, gnome-screenshot, tidy
 Description: A translation program.
