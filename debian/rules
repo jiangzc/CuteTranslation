@@ -50,8 +50,8 @@ endif
 	cp $(CURDIR)/debian/$(package).desktop $(CURDIR)/debian/$(package)/opt/apps/$(package)/entries/applications/
 
 # Debian Package
-	mkdir -p $(CURDIR)/debian/$(package)/usr/share/applications/
-	cp $(CURDIR)/debian/$(package).desktop  $(CURDIR)/debian/$(package)/usr/share/applications/
+#	mkdir -p $(CURDIR)/debian/$(package)/usr/share/applications/
+#	cp $(CURDIR)/debian/$(package).desktop  $(CURDIR)/debian/$(package)/usr/share/applications/
 
 override_dh_clean:
 	dh_clean
