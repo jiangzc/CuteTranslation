@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QScreen>
 #include <QClipboard>
+#include <QPainterPath>
 #include <algorithm>
 
 #include "mainwindow.h"
