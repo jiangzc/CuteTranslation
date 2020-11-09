@@ -132,7 +132,7 @@ QString BaiduTranslate::getSign(QString query)
     if (appDir.exists("node"))
         nodejs.start(appDir.absoluteFilePath("node"), args);
     else
-        nodejs.start("nodejs", args);
+        nodejs.start("node", args);
     qDebug() << nodejs.program();
     nodejs.waitForFinished(2000);
 
