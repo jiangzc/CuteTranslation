@@ -101,7 +101,21 @@ void SearchBar::ClearLineEdit()
     this->ui->lineEdit->setFocus();
 }
 
-void SearchBar::OnSearchBarShortCutPressed()
+void SearchBar::OnSearchBarShortCutPressed(QWidget *mainWindow)
 {
-
+    if (isHidden())
+    {
+        move(QCursor::pos() - QPoint(150, 25));
+        show();
+        activateWindow();
+    }
+    else if (isActiveWindow() == false && mainWindow->isActiveWindow() == false)
+    {
+        // 这么做看全屏视频时，用悬浮搜索框有更好的体验。
+        move(QCursor::pos() - QPoint(150, 25));
+        ClearLineEdit();
+        activateWindow();
+    }
+    else
+        hide();
 }

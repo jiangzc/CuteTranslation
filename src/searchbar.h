@@ -27,13 +27,14 @@ private:
     QPoint mDragPosition;
     QPushButton *hideButton;
     QLabel *searchIcon;
+    QWidget *mainWindow;
     virtual void showEvent(QShowEvent *e);
 
 signals:
     void returnPressed(QPoint pos, QPoint size, QString res);
 
 public slots:
-    void OnSearchBarShortCutPressed();
+    void OnSearchBarShortCutPressed(QWidget *mainWindow);
 };
 
 #endif // SEARCHBAR_H

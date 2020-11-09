@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QTime>
 #include <QPalette>
+#include <functional>
 
 #include "picker.h"
 #include "mainwindow.h"
@@ -91,23 +92,8 @@ int main(int argc, char *argv[])
     // 快捷键
     QObject::connect(&shortcut, &ShortCut::OCRTranslateShortCutPressed, &w, &MainWindow::onOCRTranslateShortCutPressed);
     QObject::connect(&shortcut, &ShortCut::OCRTextShortCutPressed, &w, &MainWindow::onOCRTextShortCutPressed);
-    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &searchBar, [&]{
-        if (searchBar.isHidden())
-        {
-            searchBar.move(QCursor::pos() - QPoint(150, 25));
-            searchBar.show();
-            searchBar.activateWindow();
-        }
-        else if (searchBar.isActiveWindow() == false && w.isActiveWindow() == false)
-        {
-            // 这么做看全屏视频时，用悬浮搜索框有更好的体验。
-            searchBar.move(QCursor::pos() - QPoint(150, 25));
-            searchBar.ClearLineEdit();
-            searchBar.activateWindow();
-        }
-        else
-            searchBar.hide();
-    });
+    auto onSearchBarShortCutPressedWrapper = std::bind(&SearchBar::OnSearchBarShortCutPressed, &searchBar, &w);
+    QObject::connect(&shortcut, &ShortCut::SearchBarShortCutPressed, &searchBar, onSearchBarShortCutPressedWrapper);
 
     // 托盘菜单
     QObject::connect(&tray.search_action, &QAction::triggered, &shortcut, &ShortCut::SearchBarShortCutPressed);
