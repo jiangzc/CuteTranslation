@@ -31,8 +31,7 @@ int checkDependency();
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 
-// TODO 多屏幕支持   清空配置目录
-// TODO  可执行文件指定兼容哪些版本的配置文件
+// TODO 清空配置目录
 
 int main(int argc, char *argv[])
 {
@@ -41,10 +40,6 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
     a.setApplicationVersion("0.4.3");
-
-//    QPalette palette(Qt::white);
-//    a.setPalette(palette);
-
 
     // 必须文件夹
     appDir.setPath(QCoreApplication::applicationDirPath());
@@ -182,13 +177,17 @@ int checkDependency()
     depends.push_back("screenshot.sh");
     depends.push_back("baidu.js");
     depends.push_back("guide.txt");
+    depends.push_back("common.qss");
+    depends.push_back("dark.qss");
+    depends.push_back("light.qss");
+
 
     bool filesExist = true;
     for (auto file : depends)
     {
         if (!appDir.exists(file))
         {
-            qInfo() << "file is missing: " << appDir.filePath(file);
+            qWarning() << "file is missing: " << appDir.filePath(file);
             filesExist = false;
         }
     }
@@ -246,7 +245,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         qStdOut() << time << " Warning: " << msg << endl;
         logOutput() << time<< " Warning: " << msg << endl;
         msgBox.setText(msg);
-        msgBox.show();
+        msgBox.exec();
         break;
     case QtCriticalMsg:
         qStdOut() << time << " Critical: " << msg << endl;
