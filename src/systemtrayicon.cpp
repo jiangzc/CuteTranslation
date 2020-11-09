@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QDir>
 #include <QProcess>
+#include <QDebug>
 #include "systemtrayicon.h"
 #include "shortcut.h"
 #include "xdotool.h"
@@ -121,6 +122,14 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent),
     connect(&change_mode_none_action, &QAction::triggered, this, []{
         configTool->SetMode(Mode_NONE);
     });
+
+    connect(&quit_action, &QAction::triggered, this, []{
+        xdotool->eventMonitor.terminate();
+        xdotool->eventMonitor.wait();
+        qInfo() << "---------- Exit --------------";
+        qApp->quit();
+    });
+
     this->show();
 }
 

@@ -48,15 +48,14 @@ int main(int argc, char *argv[])
     QDir::home().mkpath(dataDir.absolutePath());
     QDir::home().mkpath(QDir::homePath() + "/.config/autostart");
 
+    xdotool = new Xdotool;
 
-    xdotool = new Xdotool();
     logFile = new QFile(dataDir.filePath("log.txt"));
-
     if (logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text) == false)
-    {
         qCritical() << "无法记录日志";
-    }
-    qInstallMessageHandler(myMessageOutput);
+    else
+        qInstallMessageHandler(myMessageOutput);
+
     qInfo() << "---------- Start --------------";
     if (checkDependency() < 0)
         return -1;
@@ -74,7 +73,7 @@ int main(int argc, char *argv[])
      * SearchBar        悬浮搜索框
      */
 
-    picker = new Picker();
+    picker = new Picker;
     ConfigWindow cw;
     MainWindow w;
     FloatButton f;
@@ -100,14 +99,6 @@ int main(int argc, char *argv[])
     QObject::connect(&tray.ocr_text_action, &QAction::triggered, &shortcut,  &ShortCut::OCRTextShortCutPressed);
     QObject::connect(&tray.ocr_translate_action, &QAction::triggered, &shortcut, &ShortCut::OCRTranslateShortCutPressed);
     QObject::connect(configTool, &ConfigTool::ModeChanged, &tray, &SystemTrayIcon::OnModeChanged);
-
-    QObject::connect(&tray.quit_action, &QAction::triggered, &tray, [=]{
-        xdotool->eventMonitor.terminate();
-        xdotool->eventMonitor.wait();
-        qInfo() << "---------- Exit --------------";
-        logFile->close();
-        qApp->quit();
-    });
 
     // 全局鼠标监听
     QObject::connect(&xdotool->eventMonitor, &EventMonitor::buttonPress, picker, &Picker::buttonPressed, Qt::QueuedConnection);
@@ -136,7 +127,9 @@ int main(int argc, char *argv[])
 
     BaiduTranslate::instance();
 
-    return a.exec();
+    int res = a.exec();
+    logFile->close();
+    return res;
 }
 
 
