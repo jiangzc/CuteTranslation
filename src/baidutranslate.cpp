@@ -38,9 +38,13 @@ BaiduTranslate::BaiduTranslate()
 int BaiduTranslate::ScreenShot()
 {
     // 截图,如果成功f1和f2不相等，返回0
-    QString cmd = "bash " + appDir.filePath("screenshot.sh");
-    int cmd_res = system(cmd.toStdString().c_str());
-    return cmd_res;
+    QProcess process;
+    QEventLoop loop;
+    connect(&process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), &loop, &QEventLoop::quit);
+    process.start("/bin/bash", QStringList { appDir.absoluteFilePath("screenshot.sh") });
+    loop.exec();
+    return process.exitCode();
+
 }
 
 QString BaiduTranslate::getUrl(QString url_str)
