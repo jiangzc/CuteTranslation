@@ -14,6 +14,10 @@ v20 浏览器中打字时FloatBtn闪烁
 版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
 
 
+v0.4.4
+优化代码的兼容性，适配 Qt 5.15
+修改screenshot函数，使用QProcess代替原来的system()，避免bash字符串转义问题引起的bug
+
 v0.4.3
 增加两套主题：浅色和深色，与deepin v20配色一致
 适配最新的deepin v20，禁用 High Dpi 缩放，解决最新版FloatBtn点不中的问题
