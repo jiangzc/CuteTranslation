@@ -15,6 +15,7 @@
 #include <QDomNodeList>
 #include <QDomAttr>
 #include <QTimer>
+#include <QJSEngine>
 #include "baidutranslate.h"
 #include "configtool.h"
 #include <cmath>
@@ -129,32 +130,24 @@ QString BaiduTranslate::langDetect(QString query)
 
 QString BaiduTranslate::getSign(QString query)
 {
-    QProcess nodejs;
-    QStringList args;
-    args << appDir.absoluteFilePath("baidu.js") << query << gtk;
-    // 优先使用自带的nodejs
-    if (appDir.exists("node"))
-        nodejs.start(appDir.absoluteFilePath("node"), args);
-    else
-        nodejs.start("node", args);
-    qDebug() << nodejs.program();
-    nodejs.waitForFinished(2000);
-
-    QString result;
-    if (nodejs.state() == QProcess::NotRunning && nodejs.exitStatus() == QProcess::NormalExit && nodejs.exitCode() == 0)
-        result = nodejs.readAll().trimmed();
-    else
-    {
+    // 使用 Qt 自带的js引擎进行计算，取代原来的 node 外部依赖
+    QJSEngine engine;
+    engine.evaluate(JS_SCRIPT);
+    QJSValue tokenFn = engine.globalObject().property("token");
+    QJSValueList args;
+    args << query << gtk;
+    QJSValue res = tokenFn.call(args);
+    if (res.isError()) {
         qWarning() << "get sign error";
-        nodejs.terminate();
+        return "";
     }
-
+    QString result = res.toString();
     return result;
 }
 
 QJsonObject BaiduTranslate::dictionary(QString query, QString dst, QString src, float timeLeft)
 {
-    QUrl url("https://fanyi.baidu.com/v2transapi");
+    // QUrl url("https://fanyi.baidu.com/v2transapi");
     if (src.isEmpty())
         src = langDetect(query);
     QUrlQuery data;

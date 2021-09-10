@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui x11extras network multimedia xml
+QT       += core gui x11extras network multimedia xml qml
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4.3): QT += widgets
 
 TARGET = CuteTranslation
 TEMPLATE = app
