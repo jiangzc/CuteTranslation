@@ -45,8 +45,8 @@ ConfigTool::ConfigTool()
 
     if (version != qApp->applicationVersion())
     {
-        if (version.startsWith("0.2") || version.startsWith("0.3") || version.startsWith("0.4"))
-            qInfo() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
+        if (version.startsWith("0.2") || version.startsWith("0.3") || version.startsWith("0.4") || version.startsWith("0.5.0"))
+            qInfo() << "程序和配置文件版本不匹配，自动开启兼容模式。\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version
                     << "\n  配置文件： ~/.local/share/CuteTranslation";
         else
             qWarning() << "程序和配置文件版本不匹配，\n程序版本：" << qApp->applicationVersion() << "，配置文件版本：" << version

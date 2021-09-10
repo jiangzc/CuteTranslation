@@ -1,7 +1,7 @@
 {
     "appid": "com.github.cute-translation",
     "name": "CuteTranslation",
-    "version": "0.4.3.0",
+    "version": "0.5.0.0",
     "arch": ["amd64", "mips64", "mips64el", "arm64"],
     "permissions": {
         "autostart": true,

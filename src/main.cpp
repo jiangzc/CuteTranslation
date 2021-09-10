@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     QApplication::setQuitOnLastWindowClosed(false); // 关闭窗口时，程序不退出
     QApplication a(argc, argv);
     a.setApplicationName("CuteTranslation");
-    a.setApplicationVersion("0.4.3");
+    a.setApplicationVersion("0.5.0");
 
     // 必须文件夹
     appDir.setPath(QCoreApplication::applicationDirPath());
@@ -154,12 +154,10 @@ int checkDependency()
     QVector<QString> depends;
     depends.push_back("config.ini");
     depends.push_back("screenshot.sh");
-    depends.push_back("baidu.js");
     depends.push_back("guide.txt");
     depends.push_back("common.qss");
     depends.push_back("dark.qss");
     depends.push_back("light.qss");
-
 
     bool filesExist = true;
     for (auto file : depends)

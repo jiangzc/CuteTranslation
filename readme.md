@@ -1,6 +1,6 @@
 # CuteTranslation
 
-<img src='https://img.shields.io/badge/system-Linux-yellowgreen' align='left'/>  <img src='https://img.shields.io/badge/arch-x86__64%20%7C%20arm64%20%7C%20mips64-blue' align='left' style='margin-left: 20px'/> <img src='https://img.shields.io/badge/support-deepin%20v20%20%2F%20UOS-orange' align='left' style='margin-left: 20px'/>  
+<img src='https://img.shields.io/badge/system-Linux%20X11-yellowgreen' align='left'/>  <img src='https://img.shields.io/badge/arch-amd64%20%7C%20arm64%20%7C%20mips64%20%7C%20loongarch64-blue' align='left' style='margin-left: 20px'/> <img src='https://img.shields.io/badge/support-Debian%20%2F%20%20Ubuntu%20%2F%20Deepin%20%2F%20UOS-orange' align='left' style='margin-left: 20px'/>  
 <br/>
 
 ## 简介

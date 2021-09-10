@@ -37,21 +37,11 @@ override_dh_auto_install:
 
 	cp $(CURDIR)/build/CuteTranslation $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/
 	cp $(CURDIR)/template/* $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/
-
-	# nodejs
-ifeq ($(TARGET_CPU),x86_64)
-	cp $(CURDIR)/nodejs_binary/node_amd64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
-else ifeq ($(TARGET_CPU),mips64)
-	cp $(CURDIR)/nodejs_binary/node_mips64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
-else ifeq ($(TARGET_CPU),aarch64)
-	cp $(CURDIR)/nodejs_binary/node_arm64 $(CURDIR)/debian/$(package)/opt/apps/$(package)/files/node
-endif
-
 	cp $(CURDIR)/debian/$(package).desktop $(CURDIR)/debian/$(package)/opt/apps/$(package)/entries/applications/
 
 # Debian Package
-#	mkdir -p $(CURDIR)/debian/$(package)/usr/share/applications/
-#	cp $(CURDIR)/debian/$(package).desktop  $(CURDIR)/debian/$(package)/usr/share/applications/
+	mkdir -p $(CURDIR)/debian/$(package)/usr/share/applications/
+	cp $(CURDIR)/debian/$(package).desktop  $(CURDIR)/debian/$(package)/usr/share/applications/
 
 override_dh_clean:
 	dh_clean
