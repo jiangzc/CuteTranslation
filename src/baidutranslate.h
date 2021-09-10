@@ -42,7 +42,7 @@ var token = function(r, _gtk) {
 )";
 
 
-class BaiduTranslate : QObject
+class BaiduTranslate : public QObject
 {
     Q_OBJECT
 
@@ -79,10 +79,6 @@ private:
     bool getAccessTokenFromURL(QString url);
     bool checkAccessToken();
 
-
 };
-
-
-
 
 #endif // BAIDUTRANSLATE_H

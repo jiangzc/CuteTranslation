@@ -22,18 +22,15 @@
 
 BaiduTranslate::BaiduTranslate()
 {
+    manager = new QNetworkAccessManager(this);
+
     timer.setSingleShot(true);
     timer.setInterval(3000);
     connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-    manager = new QNetworkAccessManager();
-    connect(qApp, &QCoreApplication::aboutToQuit, this, [=]{
-        delete manager;
-        manager = nullptr;
-    });
+
     // loadMainPage(); 如果开机自动启动，请求会在Wifi连接成功之前发送
     tokenURL = configTool->TokenURL;
     checkAccessToken();
-
 }
 
 int BaiduTranslate::ScreenShot()
