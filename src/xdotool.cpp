@@ -16,6 +16,7 @@ Xdotool::Xdotool()
     if (this->display == nullptr)
     {
         fprintf(stderr, "xdotool: fail to open display\n");
+        return ;
     }
     this->screen = XDefaultScreen(display);
     this->root_window = RootWindow(display, screen);
