@@ -1,0 +1,98 @@
+未来计划： 配置文档改为json格式，界面大改，重构翻译部分代码，能够适应不同的翻译器。改名 翻译星
+https://hanyu.baidu.com/  百度汉语
+https://hanyu.baidu.com/s?wd=%E9%BB%84&ptype=zici
+
+TODO:  get ocr 使用 token 验证，错误则返回403，确保请求是由客户端发出的
+文字缩放 没有效果 
+debian
+架构 uname -m    x86_64   aarch64   mips64
+
+BUG: 
+v20 浏览器中打字时FloatBtn闪烁
+人生如逆旅，我亦是行人。  BUG 没有翻译
+
+版本更新的时候需要修改： main.cpp  版本号，debian版本号，配置文件版本号，config.cpp兼容，changelog，guide
+
+
+v0.4.4
+优化代码的兼容性，适配 Qt 5.15
+修改screenshot函数，使用QProcess代替原来的system()，避免bash字符串转义问题引起的bug
+
+v0.4.3
+增加两套主题：浅色和深色，与deepin v20配色一致
+适配最新的deepin v20，禁用 High Dpi 缩放，解决最新版FloatBtn点不中的问题
+修复一个严重BUG： main.cpp 当依赖缺失时的报错提醒
+软件提供 amd64  mips64  arm64 架构的 nodejs v4.8.2
+软件支持并提供 amd64  mips64  arm64 的安装包
+取消外部的nodejs依赖
+
+
+v0.4.2
+在MainWindow中增加复制按钮
+多屏幕支持
+
+v0.4.1
+修复BUG：重复的getSign，使用旧版本的nodejs，加快速度。
+在guide中加入版本信息
+
+v0.4.0-1
+修复两个严重BUG：英语段落翻译失效，用汉语词典翻译英语
+
+
+v0.4.0
+增加百度汉语，汉语解释。
+wordPage中的QLabel设置为可选择的，方便用户复制内容。
+启动时验证 tidy软件
+
+v0.3.0
+使用QProcess获取nodejs生成的token，代替fork exec等函数
+使用自定义MessageBox类，代替QMessageBox类 （QMessageBox有bug可能会导致程序崩溃，show  exec）
+移除WebEngine依赖，用QWidget重写界面
+增加“记忆技巧”栏目
+调整头文件
+适配 deepin v20
+更新文档
+
+v0.2.8 (stable release)
+增加功能：文字识别
+
+v0.2.7 (stable release)
+修复QMessageBox卡死的问题，使用自定义的QDialog。
+增加getSign函数延时
+补充日志内容，翻译错误时打印obj
+
+v0.2.6
+修复X11相关函数导致的崩溃 (仍然不稳定)
+
+v0.2.5 
+增加错误处理，网络错误提示
+延迟百度loadMainPage函数调用，不在启动时调用。(重要)
+
+v0.2.4
+处理百度翻译998错误
+
+v0.2.3
+修改baidu.js，在翻译代码中以程序参数args的形式传递字符串参数，避免转义问题
+修复翻译文字包含+字符出错的问题，url编码 + -> %2B
+
+v0.2.2
+在UI线程中使用非阻塞的系统调用，防止出错时界面卡死，增强程序的稳定性
+
+
+v0.2.1
+解决构造JS代码字符串中的字符转义问题（v0.2.3用另一种方式解决了）
+
+v0.2.0
+移除对python3 和 pip3 的依赖，用C++ QT 重新实现了python脚本的功能
+更改默认数据文件夹路径 ~/.local/share/CuteTranslation
+改善稳定性
+优化代码结构
+更新 readme
+
+v0.1.1 (stable release)
+新增功能：
+配置界面 调整缩放大小和翻译界面宽度
+增加 preinst.sh 脚本，在安装之前补充说明软件依赖
+
+v0.1.0
+CuteTranslation 是Linux系统上基于X11的一款取词翻译软件。

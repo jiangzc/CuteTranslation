@@ -1,0 +1,8 @@
+# Qt5 运行库
+sudo apt install libqt5widgets5 libqt5x11extras5 libqt5network5 libqt5core5a libqt5gui5
+sudo apt install libqt5x11extras5 libqt5webengine5 libqt5webenginewidgets5
+
+
+# JS 运行库
+sudo apt install nodejs
+

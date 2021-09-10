@@ -1,0 +1,17 @@
+{
+    "appid": "com.github.cute-translation",
+    "name": "CuteTranslation",
+    "version": "0.4.3.0",
+    "arch": ["amd64", "mips64", "mips64el", "arm64"],
+    "permissions": {
+        "autostart": true,
+        "notification": false,
+        "trayicon": true,
+        "clipboard": true,
+        "account": true,
+        "bluetooth": false,
+        "camera": false,
+        "audio_record": false,
+        "installed_apps": false
+    }
+}

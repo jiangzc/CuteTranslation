@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pic/icon.png</file>
+        <file>pic/google-translate.png</file>
+        <file>pic/icons-search.svg</file>
+        <file>pic/icons-cancel.svg</file>
+        <file>pic/icons-x.png</file>
+        <file>pic/icons-pin.png</file>
+        <file>pic/icons-pin-grey.png</file>
+        <file>pic/icons-refresh.png</file>
+        <file>pic/icons-star.png</file>
+        <file>pic/icons-voice.png</file>
+        <file>pic/icons-n.png</file>
+        <file>pic/icon-grey.png</file>
+        <file>pic/handict.png</file>
+        <file>pic/copy.png</file>
+    </qresource>
+</RCC>
